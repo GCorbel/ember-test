@@ -7,7 +7,7 @@ define('tiny/adapters/application', ['exports', 'ember-data'], function (exports
 
 	'use strict';
 
-	exports['default'] = DS['default'].JSONAPIAdapter.extend({ host: 'http://localhost:5000' });
+	exports['default'] = DS['default'].JSONAPIAdapter.extend({ host: 'http://107.170.3.185:5000' });
 
 });
 define('tiny/admin/courses/controller', ['exports', 'ember'], function (exports, Ember) {
@@ -1967,9 +1967,6 @@ define('tiny/router', ['exports', 'ember', 'tiny/config/environment'], function 
   });
 
   Router.map(function () {
-    this.route('subscriptions', function () {
-      this.route('new');
-    });
     this.route('admin', function () {
       this.route('users', function () {
         this.route('new');
@@ -1979,7 +1976,6 @@ define('tiny/router', ['exports', 'ember', 'tiny/config/environment'], function 
         this.route('new');
         this.route('edit', { path: '/:id/edit' });
       });
-      this.route('subscriptions', {});
     });
     this.route('welcome', { path: '/' });
   });
@@ -2846,6 +2842,91 @@ define('tiny/templates/components/default-box', ['exports'], function (exports) 
   }()));
 
 });
+define('tiny/templates/welcome', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "topLevel": null,
+          "revision": "Ember@2.1.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 36
+            }
+          },
+          "moduleName": "tiny/templates/welcome.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("Admin Part");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "topLevel": null,
+        "revision": "Ember@2.1.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/templates/welcome.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["block","link-to",["admin.users"],[],0,null,["loc",[null,[1,0],[1,48]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
 define('tiny/tests/acceptances/subscription_test', ['mocha', 'ember-mocha', 'tiny/tests/helpers/start-app'], function (mocha, ember_mocha, startApp) {
 
   'use strict';
@@ -2877,7 +2958,7 @@ define('tiny/tests/adapters/application.jshint', function () {
 
   describe('JSHint - adapters/application.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'adapters/application.js should pass jshint.\nadapters/application.js: line 3, col 73, Missing semicolon.\n\n1 error').to.be.ok; 
+    expect(true, 'adapters/application.js should pass jshint.').to.be.ok; 
   })});
 
 });
@@ -3772,7 +3853,7 @@ define('tiny/tests/router.jshint', function () {
 
   describe('JSHint - router.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'router.js should pass jshint.\nrouter.js: line 22, col 5, Missing semicolon.\n\n1 error').to.be.ok; 
+    expect(true, 'router.js should pass jshint.').to.be.ok; 
   })});
 
 });
@@ -4076,7 +4157,7 @@ define('tiny/tests/unit/subscriptions/route-test.jshint', function () {
 /* jshint ignore:start */
 
 define('tiny/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"tiny","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"tiny","version":"0.0.0+"},"contentSecurityPolicy":{"default-src":"'self'","script-src":"'self' https://cdn.mxpnl.com","font-src":"'self' http://fonts.gstatic.com","connect-src":"'self' http://localhost:5000","img-src":"'self'","style-src":"'self' 'unsafe-inline' https://fonts.googleapis.com","media-src":"'self'"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","exportApplicationGlobal":true}};
+  return { 'default': {"modulePrefix":"tiny","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"tiny","version":"0.0.0+"},"contentSecurityPolicy":{"default-src":"'self'","script-src":"'self' https://cdn.mxpnl.com","font-src":"'self' http://fonts.gstatic.com","connect-src":"'self' http://localhost:5000 http://107.170.3.185:5000","img-src":"'self'","style-src":"'self' 'unsafe-inline' https://fonts.googleapis.com","media-src":"'self'"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","exportApplicationGlobal":true}};
 });
 
 if (runningTests) {
