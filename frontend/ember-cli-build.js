@@ -7,7 +7,6 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
   });
 
-  app.import('bower_components/jquery-steps/build/jquery.steps.js')
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
   app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', {
