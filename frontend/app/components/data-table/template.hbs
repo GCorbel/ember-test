@@ -1,0 +1,45 @@
+{{#default-box title=title}}
+<table class="table table-bordered table-hover" role="grid">
+  <thead>
+    <tr role="row">
+      <th>Id</th>
+      {{#each columns as |column|}}
+        <th>{{column}}</th>
+      {{/each}}
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |record|}}
+      <tr role="row" class="odd">
+        <td class="sorting_1">
+          {{record.id}}
+        </td>
+        {{#each columns as |column|}}
+          <td>
+            {{get record column}}
+          </td>
+        {{/each}}
+        <td>
+          {{#link-to editRoute record.id class="btn btn-success"}}
+            <span class="glyphicon glyphicon-pencil"/>
+          {{/link-to}}
+          <a href="#" {{action "delete" record preventDefault=true}}
+            class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"/>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>Id</th>
+      {{#each columns as |column|}}
+        <th>{{column}}</th>
+      {{/each}}
+      <th>Actions</th>
+    </tr>
+  </tfoot>
+</table>
+{{/default-box}}

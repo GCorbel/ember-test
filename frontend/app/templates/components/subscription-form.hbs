@@ -1,0 +1,24 @@
+<div id="subscription-form">
+<h3>
+  Personnal Information
+</h3>
+<section>
+  {{#em-form model=model.user}}
+    {{em-input property="email"}}
+  {{/em-form}}
+</section>
+<h3>
+  Course
+</h3>
+<section>
+  {{#em-form model=model.subscription}}
+    {{em-select property="course" content=courseOptions optionValuePath="id" optionLabelPath="name"}}
+  {{/em-form}}
+</section>
+<h3>
+  Payment
+</h3>
+<section>
+  Payment
+</section>
+</div>
