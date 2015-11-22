@@ -6,9 +6,6 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('subscriptions', function() {
-    this.route('new');
-  });
   this.route('admin', function() {
     this.route('users', function() {
       this.route('new');
@@ -18,8 +15,7 @@ Router.map(function() {
       this.route('new');
       this.route('edit', { path: '/:id/edit' });
     });
-    this.route('subscriptions', {});
-  })
+  });
   this.route('welcome', { path: '/'} );
 });
 

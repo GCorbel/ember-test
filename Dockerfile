@@ -14,10 +14,6 @@ WORKDIR /api
 
 ADD ./api/Gemfile* /api/
 
-ENV BUNDLE_GEMFILE/api/Gemfile \
-  BUNDLE_JOBS=20 \
-  BUNDLE_PATH=/bundle
-
 ADD ./api /api
 ADD ./frontend /frontend
 
@@ -28,6 +24,10 @@ RUN tar xvjf $PHANTOM_JS.tar.bz2
 RUN mv $PHANTOM_JS /usr/local/share
 RUN ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
 
-WORKDIR /api
+RUN bundle --jobs 20
+
+WORKDIR /frontend
+
+RUN npm install && npm install -g bower && bower install --allow-root
 
 EXPOSE "3000" "35729" "4200"
