@@ -1,0 +1,28 @@
+{{#em-form model=model submitButton=false}}
+  <div class="well">
+    {{em-input model=model.user label="Email" property="email" canShowErrors=true}}
+    {{em-select label="Course" property="course" content=courses canShowErrors=true prompt=" " propertyIsModel=true optionLabelPath="name"}}
+  </div>
+  <div class="well">
+    {{#each model.user.contacts as |contact|}}
+      <div class='row'>
+        <div class='col-md-3'>
+          {{em-input model=contact label="Name" property="fullname" canShowErrors=true}}
+        </div>
+        <div class='col-md-3'>
+          {{em-input model=contact label="Email" property="email" canShowErrors=true}}
+        </div>
+        <div class='col-md-3'>
+          {{em-input model=contact label="Phone" property="phone" canShowErrors=true}}
+        </div>
+        <div class='col-md-3'>
+          <a class='btn btn-danger' {{action 'removeContact' contact}}>Remove</a>
+        </div>
+      </div>
+    {{/each}}
+    <a class='btn btn-default' {{action 'addContact' }}>Add contact</a>
+  </div>
+  <div class="form-actions">
+    <input disabled={{model.isntValid}} type="submit" class="btn btn-primary" value="Continue">
+  </div>
+{{/em-form}}

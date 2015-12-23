@@ -1,3 +1,6 @@
 class SubscriptionSerializer < ActiveModel::Serializer
-  attributes :id
+  embed :ids, embed_in_root: true
+  attributes :id, :paid
+  belongs_to :user
+  belongs_to :course
 end

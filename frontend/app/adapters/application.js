@@ -1,3 +1,5 @@
-import DS from 'ember-data';
+import ActiveModelAdapter from 'active-model-adapter';
 
-export default DS.JSONAPIAdapter.extend({host: 'http://107.170.3.185:5000'});
+export default ActiveModelAdapter.extend({
+  host: 'http://localhost:5000'
+});

@@ -19,7 +19,8 @@ gem 'pg', '~> 0.18'
 # gem 'capistrano-rails', group: :development
 
 # Use ActiveModelSerializers to serialize JSON responses
-gem 'active_model_serializers', github: 'beauby/active_model_serializers', branch: 'jsonapi-parse'
+gem 'active_model_serializers'
+gem 'active-model-adapter-source'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -43,3 +44,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'responders'
 gem 'rack-cors', require: 'rack/cors'
+gem 'clearance', github: 'GCorbel/clearance'

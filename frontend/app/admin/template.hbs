@@ -21,7 +21,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <a href='#' data-toggle="control-sidebar" {{action 'invalidateSession'}}>Logout</a>
           </li>
         </ul>
       </div>
@@ -37,6 +37,7 @@
       <ul class="sidebar-menu">
         <li>{{#link-to 'admin.users'}}<i class="fa fa-link"></i> <span>Users</span>{{/link-to}}</li>
         <li>{{#link-to 'admin.courses'}}<i class="fa fa-link"></i> <span>Courses</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.subscriptions'}}<i class="fa fa-link"></i> <span>Subscription</span>{{/link-to}}</li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

@@ -1,13 +1,21 @@
 class ErrorSerializer
-  def self.serialize(errors)
-    result = errors.messages.map do |message|
-      message.last.map do |detail|
-        {
-          "source": { "pointer": "/data/attributes/#{message.first}" },
-          "detail": detail
-        }
+  def self.serialize(object, errors = {})
+    object.errors.each do |k|
+      key = k.to_s.split('.').first
+      attribute = object.send(key)
+      if attribute.kind_of?(ActiveRecord::Associations::CollectionProxy)
+        errors[key] = []
+        attribute.each_with_index do |item, index|
+          errors[key][index] ||= {}
+          serialize(item, errors[key][index])
+        end
+      elsif attribute.kind_of?(ActiveRecord::Base)
+        errors[key] = {}
+        serialize(attribute, errors[key])
+      else
+        errors[key] = object.errors[key]
       end
-    end.flatten
-    { errors: result }
+    end
+    return {errors: errors}
   end
 end

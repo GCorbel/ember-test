@@ -1,0 +1,12 @@
+<div class="well">
+  {{stripe-checkout
+    class='btn btn-primary'
+    email=model.user.email
+    image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    name="Demo Site"
+    description=model.course.name
+    amount=model.course.price
+    action="processStripeToken"
+  }}
+  {{#link-to 'subscriptions.success' class='btn btn-default'}}Pay later{{/link-to}}
+</div>

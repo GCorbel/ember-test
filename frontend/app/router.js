@@ -15,8 +15,17 @@ Router.map(function() {
       this.route('new');
       this.route('edit', { path: '/:id/edit' });
     });
+    this.route('subscriptions', function() {
+      this.route('new');
+      this.route('edit', { path: '/:id/edit' });
+    });
   });
-  this.route('welcome', { path: '/'} );
+  this.route('subscriptions', { path: '/'}, function() {
+    this.route('new', { path: '/' });
+    this.route('payment', { path: '/:id/payment' });
+    this.route('success', {});
+  });
+  this.route('login', {});
 });
 
 export default Router;

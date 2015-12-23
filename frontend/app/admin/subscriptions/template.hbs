@@ -1,0 +1,52 @@
+<div class="row">
+<div class="col-xs-12">
+{{#default-box title=title}}
+<table class="table table-bordered table-hover" role="grid">
+  <thead>
+    <tr role="row">
+      <th>Id</th>
+      <th>Course</th>
+      <th>User</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |record|}}
+      <tr role="row" class="odd">
+        <td class="sorting_1">
+          {{record.id}}
+        </td>
+          <td>
+            {{record.course.name}}
+          </td>
+          <td>
+            {{record.user.email}}
+          </td>
+        <td>
+          {{#link-to 'admin.subscriptions.edit' record.id class="btn btn-success"}}
+            <span class="glyphicon glyphicon-pencil"/>
+          {{/link-to}}
+          <a href="#" {{action "delete" record preventDefault=true}}
+            class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"/>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>Id</th>
+      <th>Course</th>
+      <th>User</th>
+      <th>Actions</th>
+    </tr>
+  </tfoot>
+</table>
+{{/default-box}}
+</div>
+</div>
+{{#link-to 'admin.subscriptions.new' class="btn btn-success"}}
+  <span class="glyphicon glyphicon-plus"/> Create new subscription
+{{/link-to}}
+{{outlet}}
