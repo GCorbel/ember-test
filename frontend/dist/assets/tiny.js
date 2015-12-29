@@ -3,13 +3,729 @@
 
 /* jshint ignore:end */
 
-define('tiny/adapters/application', ['exports', 'active-model-adapter'], function (exports, ActiveModelAdapter) {
+define('tiny/adapters/application', ['exports', 'active-model-adapter', 'ember-simple-auth/mixins/data-adapter-mixin'], function (exports, ActiveModelAdapter, DataAdapterMixin) {
 
   'use strict';
 
-  exports['default'] = ActiveModelAdapter['default'].extend({
-    host: 'http://localhost:5000'
+  exports['default'] = ActiveModelAdapter['default'].extend(DataAdapterMixin['default'], {
+    host: 'http://localhost:5000',
+    authorizer: 'authorizer:api'
   });
+
+});
+define('tiny/admin/admin_users/controller', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Controller.extend({
+    columns: [{ property: 'email', label: 'Email' }]
+  });
+
+});
+define('tiny/admin/admin_users/edit/controller', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Controller.extend({
+    columns: [{ property: 'email', label: 'Email' }, { property: 'password', label: 'Password', type: 'password' }, { property: 'password_confirmation', label: 'Password Confirmation',
+      type: 'password' }]
+  });
+
+});
+define('tiny/admin/admin_users/edit/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model(params) {
+      return this.store.findRecord('admin_user', params.id);
+    },
+    actions: {
+      submit: function submit() {
+        this.transitionTo('admin.admin_users');
+      },
+      cancel: function cancel() {
+        this.transitionTo('admin.admin_users');
+      }
+    }
+  });
+
+});
+define('tiny/admin/admin_users/edit/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "fragmentReason": {
+            "name": "missing-wrapper",
+            "problems": [
+              "wrong-type",
+              "multiple-nodes"
+            ]
+          },
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/admin_users/edit/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  Edit Admin ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["content","model.id",["loc",[null,[2,13],[2,25]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "wrong-type"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/admin_users/edit/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","data-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,19],[1,24]]]]],[],[]],"submit","submit","cancel","cancel","columns",["subexpr","@mut",[["get","columns",["loc",[null,[1,65],[1,72]]]]],[],[]]],0,null,["loc",[null,[1,0],[3,14]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
+define('tiny/admin/admin_users/new/controller', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Controller.extend({
+    columns: [{ property: 'email', label: 'Email' }, { property: 'password', label: 'Password', type: 'password' }, { property: 'password_confirmation', label: 'Password Confirmation',
+      type: 'password' }]
+  });
+
+});
+define('tiny/admin/admin_users/new/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model() {
+      return this.store.createRecord('admin_user');
+    },
+    actions: {
+      submit: function submit() {
+        this.transitionTo('admin.admin_users');
+      },
+      cancel: function cancel() {
+        this.transitionTo('admin.admin_users');
+      }
+    }
+  });
+
+});
+define('tiny/admin/admin_users/new/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "fragmentReason": {
+            "name": "missing-wrapper",
+            "problems": [
+              "wrong-type"
+            ]
+          },
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/admin_users/new/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  New Admin\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "wrong-type"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/admin_users/new/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","data-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,19],[1,24]]]]],[],[]],"submit","submit","cancel","cancel","columns",["subexpr","@mut",[["get","columns",["loc",[null,[1,65],[1,72]]]]],[],[]]],0,null,["loc",[null,[1,0],[3,14]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
+define('tiny/admin/admin_users/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model() {
+      return this.store.findAll('admin_user');
+    }
+  });
+
+});
+define('tiny/admin/admin_users/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 6,
+              "column": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/admin_users/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("span");
+          dom.setAttribute(el1,"class","glyphicon glyphicon-plus");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" Create new admin\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "multiple-nodes",
+            "wrong-type"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/admin_users/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-xs-12");
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]),1,1);
+        morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
+        morphs[2] = dom.createMorphAt(fragment,3,3,contextualElement);
+        return morphs;
+      },
+      statements: [
+        ["inline","data-table",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[3,21],[3,26]]]]],[],[]],"title","Administators","columns",["subexpr","@mut",[["get","columns",["loc",[null,[3,57],[3,64]]]]],[],[]],"editRoute","admin.admin_users.edit"],["loc",[null,[3,2],[3,101]]]],
+        ["block","link-to",["admin.admin_users.new"],["class","btn btn-success"],0,null,["loc",[null,[6,0],[8,12]]]],
+        ["content","outlet",["loc",[null,[9,0],[9,10]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
+define('tiny/admin/course/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model(params) {
+      return this.store.find('course', params.id);
+    }
+  });
+
+});
+define('tiny/admin/course/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.2.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 20,
+                  "column": 10
+                },
+                "end": {
+                  "line": 22,
+                  "column": 10
+                }
+              },
+              "moduleName": "tiny/admin/course/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("            ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+              return morphs;
+            },
+            statements: [
+              ["content","subscription.user.email",["loc",[null,[21,12],[21,39]]]]
+            ],
+            locals: [],
+            templates: []
+          };
+        }());
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 14,
+                "column": 4
+              },
+              "end": {
+                "line": 28,
+                "column": 4
+              }
+            },
+            "moduleName": "tiny/admin/course/template.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("tr");
+            dom.setAttribute(el1,"role","row");
+            dom.setAttribute(el1,"class","odd");
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            dom.setAttribute(el2,"class","sorting_1");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(3);
+            morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
+            morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+            morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
+            return morphs;
+          },
+          statements: [
+            ["content","subscription.id",["loc",[null,[17,10],[17,29]]]],
+            ["block","link-to",["admin.user",["get","subscription.user",["loc",[null,[20,34],[20,51]]]]],[],0,null,["loc",[null,[20,10],[22,22]]]],
+            ["content","subscription.paid",["loc",[null,[25,10],[25,31]]]]
+          ],
+          locals: ["subscription"],
+          templates: [child0]
+        };
+      }());
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 4,
+              "column": 0
+            },
+            "end": {
+              "line": 38,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/course/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("table");
+          dom.setAttribute(el1,"class","table table-bordered table-hover");
+          dom.setAttribute(el1,"role","grid");
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("thead");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          dom.setAttribute(el3,"role","row");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Email");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Paid");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tbody");
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tfoot");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Email");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Paid");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]),1,1);
+          return morphs;
+        },
+        statements: [
+          ["block","each",[["get","model.subscriptions",["loc",[null,[14,12],[14,31]]]]],[],0,null,["loc",[null,[14,4],[28,13]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "multiple-nodes",
+            "wrong-type"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 39,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/course/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]),1,1);
+        morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["content","model.name",["loc",[null,[2,2],[2,16]]]],
+        ["block","default-box",[],["title","Subscription"],0,null,["loc",[null,[4,0],[38,16]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
 
 });
 define('tiny/admin/courses/controller', ['exports', 'ember'], function (exports, Ember) {
@@ -17,7 +733,7 @@ define('tiny/admin/courses/controller', ['exports', 'ember'], function (exports,
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['name', 'price']
+    columns: [{ property: 'name', label: 'Name' }, { property: 'price', label: 'Price' }]
   });
 
 });
@@ -26,7 +742,7 @@ define('tiny/admin/courses/edit/controller', ['exports', 'ember'], function (exp
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['name', 'price']
+    columns: [{ property: 'name', label: 'Name' }, { property: 'price', label: 'Price' }]
   });
 
 });
@@ -157,7 +873,7 @@ define('tiny/admin/courses/new/controller', ['exports', 'ember'], function (expo
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['name', 'price']
+    columns: [{ property: 'name', label: 'Name' }, { property: 'price', label: 'Price' }]
   });
 
 });
@@ -394,12 +1110,251 @@ define('tiny/admin/courses/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["inline","data-table",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[3,21],[3,26]]]]],[],[]],"title","Courses","columns",["subexpr","@mut",[["get","columns",["loc",[null,[3,51],[3,58]]]]],[],[]],"editRoute","admin.courses.edit"],["loc",[null,[3,2],[3,91]]]],
+        ["inline","data-table",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[3,21],[3,26]]]]],[],[]],"title","Courses","columns",["subexpr","@mut",[["get","columns",["loc",[null,[3,51],[3,58]]]]],[],[]],"editRoute","admin.courses.edit","showRoute","admin.course"],["loc",[null,[3,2],[3,116]]]],
         ["block","link-to",["admin.courses.new"],["class","btn btn-success"],0,null,["loc",[null,[6,0],[8,12]]]],
         ["content","outlet",["loc",[null,[9,0],[9,10]]]]
       ],
       locals: [],
       templates: [child0]
+    };
+  }()));
+
+});
+define('tiny/admin/dashboard/route', ['exports', 'ember', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, Ember, AuthenticatedRouteMixin) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend(AuthenticatedRouteMixin['default'], {
+    model: function model() {
+      return Ember['default'].RSVP.hash({
+        subscriptions: this.store.findAll('subscription'),
+        courses: this.store.findAll('course'),
+        amount: this.amount()
+      });
+    }, amount: function amount() {
+      var _this = this;
+
+      return new Promise(function (resolve) {
+        var sum = 0;
+        _this.store.findAll('subscription').then(function (subscriptions) {
+          subscriptions.forEach(function (subscription) {
+            sum += parseInt(subscription.get('course.price'));
+          });
+          resolve(sum);
+        });
+      });
+    }
+  });
+
+});
+define('tiny/admin/dashboard/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 2,
+              "column": 2
+            },
+            "end": {
+              "line": 4,
+              "column": 2
+            }
+          },
+          "moduleName": "tiny/admin/dashboard/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    Total : ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["content","model.subscriptions.length",["loc",[null,[3,12],[3,42]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 2
+            },
+            "end": {
+              "line": 9,
+              "column": 2
+            }
+          },
+          "moduleName": "tiny/admin/dashboard/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    Total : ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["content","model.courses.length",["loc",[null,[8,12],[8,36]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child2 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 12,
+              "column": 2
+            },
+            "end": {
+              "line": 14,
+              "column": 2
+            }
+          },
+          "moduleName": "tiny/admin/dashboard/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    Total : ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["content","model.amount",["loc",[null,[13,12],[13,28]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "multiple-nodes"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 16,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/dashboard/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","col-sm-4");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","col-sm-4");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","col-sm-4");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]),1,1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
+        return morphs;
+      },
+      statements: [
+        ["block","default-box",[],["title","Subscription"],0,null,["loc",[null,[2,2],[4,18]]]],
+        ["block","default-box",[],["title","Courses"],1,null,["loc",[null,[7,2],[9,18]]]],
+        ["block","default-box",[],["title","Amount"],2,null,["loc",[null,[12,2],[14,18]]]]
+      ],
+      locals: [],
+      templates: [child0, child1, child2]
     };
   }()));
 
@@ -415,7 +1370,7 @@ define('tiny/admin/route', ['exports', 'ember', 'ember-simple-auth/mixins/authen
         var _this = this;
 
         this.get('session').invalidate().then(function () {
-          _this.transitionTo('login');
+          _this.transitionTo('registration.login');
         });
       }
     }
@@ -1383,6 +2338,92 @@ define('tiny/admin/template', ['exports'], function (exports) {
             },
             "end": {
               "line": 38,
+              "column": 91
+            }
+          },
+          "moduleName": "tiny/admin/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1,"class","fa fa-link");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("span");
+          var el2 = dom.createTextNode("Dashboard");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 39,
+              "column": 12
+            },
+            "end": {
+              "line": 39,
+              "column": 98
+            }
+          },
+          "moduleName": "tiny/admin/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1,"class","fa fa-link");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("span");
+          var el2 = dom.createTextNode("Administrators");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child2 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 40,
+              "column": 12
+            },
+            "end": {
+              "line": 40,
               "column": 83
             }
           },
@@ -1413,7 +2454,7 @@ define('tiny/admin/template', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child1 = (function() {
+    var child3 = (function() {
       return {
         meta: {
           "fragmentReason": false,
@@ -1421,11 +2462,11 @@ define('tiny/admin/template', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 39,
+              "line": 41,
               "column": 12
             },
             "end": {
-              "line": 39,
+              "line": 41,
               "column": 87
             }
           },
@@ -1456,7 +2497,7 @@ define('tiny/admin/template', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child2 = (function() {
+    var child4 = (function() {
       return {
         meta: {
           "fragmentReason": false,
@@ -1464,11 +2505,11 @@ define('tiny/admin/template', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 40,
+              "line": 42,
               "column": 12
             },
             "end": {
-              "line": 40,
+              "line": 42,
               "column": 98
             }
           },
@@ -1516,7 +2557,7 @@ define('tiny/admin/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 146,
+            "line": 148,
             "column": 0
           }
         },
@@ -1672,6 +2713,18 @@ define('tiny/admin/template', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("ul");
         dom.setAttribute(el4,"class","sidebar-menu");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("li");
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("li");
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("li");
@@ -2077,23 +3130,568 @@ define('tiny/admin/template', ['exports'], function (exports) {
         var element1 = dom.childAt(element0, [3, 7, 7, 1, 1, 1]);
         var element2 = dom.childAt(element0, [7, 3, 3]);
         if (this.cachedFragment) { dom.repairClonedNode(dom.childAt(element0, [21, 7, 15, 1, 3, 1, 1]),[],true); }
-        var morphs = new Array(5);
+        var morphs = new Array(7);
         morphs[0] = dom.createElementMorph(element1);
         morphs[1] = dom.createMorphAt(dom.childAt(element2, [1]),0,0);
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [3]),0,0);
         morphs[3] = dom.createMorphAt(dom.childAt(element2, [5]),0,0);
-        morphs[4] = dom.createMorphAt(dom.childAt(element0, [11, 3]),3,3);
+        morphs[4] = dom.createMorphAt(dom.childAt(element2, [7]),0,0);
+        morphs[5] = dom.createMorphAt(dom.childAt(element2, [9]),0,0);
+        morphs[6] = dom.createMorphAt(dom.childAt(element0, [11, 3]),3,3);
         return morphs;
       },
       statements: [
         ["element","action",["invalidateSession"],[],["loc",[null,[24,54],[24,84]]]],
-        ["block","link-to",["admin.users"],[],0,null,["loc",[null,[38,12],[38,95]]]],
-        ["block","link-to",["admin.courses"],[],1,null,["loc",[null,[39,12],[39,99]]]],
-        ["block","link-to",["admin.subscriptions"],[],2,null,["loc",[null,[40,12],[40,110]]]],
-        ["content","outlet",["loc",[null,[53,6],[53,16]]]]
+        ["block","link-to",["admin.dashboard"],[],0,null,["loc",[null,[38,12],[38,103]]]],
+        ["block","link-to",["admin.admin_users"],[],1,null,["loc",[null,[39,12],[39,110]]]],
+        ["block","link-to",["admin.users"],[],2,null,["loc",[null,[40,12],[40,95]]]],
+        ["block","link-to",["admin.courses"],[],3,null,["loc",[null,[41,12],[41,99]]]],
+        ["block","link-to",["admin.subscriptions"],[],4,null,["loc",[null,[42,12],[42,110]]]],
+        ["content","outlet",["loc",[null,[55,6],[55,16]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3, child4]
+    };
+  }()));
+
+});
+define('tiny/admin/user/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model(params) {
+      return this.store.find('user', params.id);
+    }
+  });
+
+});
+define('tiny/admin/user/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.2.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 17,
+                  "column": 10
+                },
+                "end": {
+                  "line": 19,
+                  "column": 10
+                }
+              },
+              "moduleName": "tiny/admin/user/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("            ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+              return morphs;
+            },
+            statements: [
+              ["content","subscription.course.name",["loc",[null,[18,12],[18,40]]]]
+            ],
+            locals: [],
+            templates: []
+          };
+        }());
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 11,
+                "column": 4
+              },
+              "end": {
+                "line": 25,
+                "column": 4
+              }
+            },
+            "moduleName": "tiny/admin/user/template.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("tr");
+            dom.setAttribute(el1,"role","row");
+            dom.setAttribute(el1,"class","odd");
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            dom.setAttribute(el2,"class","sorting_1");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element1 = dom.childAt(fragment, [1]);
+            var morphs = new Array(3);
+            morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
+            morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),1,1);
+            morphs[2] = dom.createMorphAt(dom.childAt(element1, [5]),1,1);
+            return morphs;
+          },
+          statements: [
+            ["content","subscription.id",["loc",[null,[14,10],[14,29]]]],
+            ["block","link-to",["admin.course",["get","subscription.course",["loc",[null,[17,36],[17,55]]]]],[],0,null,["loc",[null,[17,10],[19,22]]]],
+            ["content","subscription.paid",["loc",[null,[22,10],[22,31]]]]
+          ],
+          locals: ["subscription"],
+          templates: [child0]
+        };
+      }());
+      return {
+        meta: {
+          "fragmentReason": {
+            "name": "triple-curlies"
+          },
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 35,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/user/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("table");
+          dom.setAttribute(el1,"class","table table-bordered table-hover");
+          dom.setAttribute(el1,"role","grid");
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("thead");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          dom.setAttribute(el3,"role","row");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Course");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Paid");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tbody");
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tfoot");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Course");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Paid");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]),1,1);
+          return morphs;
+        },
+        statements: [
+          ["block","each",[["get","model.subscriptions",["loc",[null,[11,12],[11,31]]]]],[],0,null,["loc",[null,[11,4],[25,13]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    var child1 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 47,
+                "column": 4
+              },
+              "end": {
+                "line": 62,
+                "column": 4
+              }
+            },
+            "moduleName": "tiny/admin/user/template.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("tr");
+            dom.setAttribute(el1,"role","row");
+            dom.setAttribute(el1,"class","odd");
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            dom.setAttribute(el2,"class","sorting_1");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n          ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(4);
+            morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
+            morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+            morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
+            morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]),1,1);
+            return morphs;
+          },
+          statements: [
+            ["content","contact.id",["loc",[null,[50,10],[50,24]]]],
+            ["content","contact.fullname",["loc",[null,[53,10],[53,30]]]],
+            ["content","contact.phone",["loc",[null,[56,10],[56,27]]]],
+            ["content","contact.email",["loc",[null,[59,10],[59,27]]]]
+          ],
+          locals: ["contact"],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 36,
+              "column": 0
+            },
+            "end": {
+              "line": 73,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin/user/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("table");
+          dom.setAttribute(el1,"class","table table-bordered table-hover");
+          dom.setAttribute(el1,"role","grid");
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("thead");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          dom.setAttribute(el3,"role","row");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Fullname");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Phone");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Email");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tbody");
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("tfoot");
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tr");
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Id");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Fullname");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Phone");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("th");
+          var el5 = dom.createTextNode("Email");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n    ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]),1,1);
+          return morphs;
+        },
+        statements: [
+          ["block","each",[["get","model.contacts",["loc",[null,[47,12],[47,26]]]]],[],0,null,["loc",[null,[47,4],[62,13]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "wrong-type",
+            "multiple-nodes"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 74,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin/user/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        morphs[1] = dom.createMorphAt(fragment,1,1,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","default-box",[],["title",["subexpr","@mut",[["get","model.email",["loc",[null,[1,21],[1,32]]]]],[],[]]],0,null,["loc",[null,[1,0],[35,16]]]],
+        ["block","default-box",[],["title","Contacts"],1,null,["loc",[null,[36,0],[73,16]]]]
+      ],
+      locals: [],
+      templates: [child0, child1]
     };
   }()));
 
@@ -2103,7 +3701,7 @@ define('tiny/admin/users/controller', ['exports', 'ember'], function (exports, E
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['email']
+    columns: [{ property: 'email', label: 'Email' }]
   });
 
 });
@@ -2112,7 +3710,7 @@ define('tiny/admin/users/edit/controller', ['exports', 'ember'], function (expor
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['email']
+    columns: [{ property: 'email', label: 'Email' }]
   });
 
 });
@@ -2243,7 +3841,7 @@ define('tiny/admin/users/new/controller', ['exports', 'ember'], function (export
   'use strict';
 
   exports['default'] = Ember['default'].Controller.extend({
-    columns: ['email']
+    columns: [{ property: 'email', label: 'Email' }]
   });
 
 });
@@ -2480,9 +4078,264 @@ define('tiny/admin/users/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["inline","data-table",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[3,21],[3,26]]]]],[],[]],"title","Users","columns",["subexpr","@mut",[["get","columns",["loc",[null,[3,49],[3,56]]]]],[],[]],"editRoute","admin.users.edit"],["loc",[null,[3,2],[3,87]]]],
+        ["inline","data-table",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[3,21],[3,26]]]]],[],[]],"title","Users","columns",["subexpr","@mut",[["get","columns",["loc",[null,[3,49],[3,56]]]]],[],[]],"editRoute","admin.users.edit","showRoute","admin.user"],["loc",[null,[3,2],[3,110]]]],
         ["block","link-to",["admin.users.new"],["class","btn btn-success"],0,null,["loc",[null,[6,0],[8,12]]]],
         ["content","outlet",["loc",[null,[9,0],[9,10]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
+define('tiny/admin_users/edit_password/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    session: Ember['default'].inject.service('session'),
+    model: function model(params, transition) {
+      return Ember['default'].Object.create({ token: params.token,
+        id: transition.params.admin_users.id });
+    },
+    actions: {
+      submit: function submit() {
+        var _this = this;
+
+        var model = this.controller.model;
+        Ember['default'].$.ajax({
+          url: Tiny.API_ADDRESS + '/passwords/',
+          type: 'PATCH',
+          data: {
+            password: {
+              id: model.get('id'),
+              token: model.get('token'),
+              password_reset: {
+                password: model.get('password') || '',
+                password_confirmation: model.get('password_confirmation') || ''
+              }
+            }
+          }
+        }).then(function (data) {
+          _this.get('session').authenticate('authenticator:force', model.email, model.password).then(function () {
+            _this.transitionTo('admin');
+          });
+        }, function (response) {
+          model.set('errors', response.responseJSON.errors);
+        });
+      }
+    }
+  });
+
+});
+define('tiny/admin_users/edit_password/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.2.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 4,
+                  "column": 4
+                },
+                "end": {
+                  "line": 6,
+                  "column": 4
+                }
+              },
+              "moduleName": "tiny/admin_users/edit_password/template.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("      ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+              return morphs;
+            },
+            statements: [
+              ["content","error",["loc",[null,[5,6],[5,15]]]]
+            ],
+            locals: ["error"],
+            templates: []
+          };
+        }());
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 3,
+                "column": 2
+              },
+              "end": {
+                "line": 7,
+                "column": 2
+              }
+            },
+            "moduleName": "tiny/admin_users/edit_password/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [
+            ["block","each",[["get","model.errors",["loc",[null,[4,12],[4,24]]]]],[],0,null,["loc",[null,[4,4],[6,13]]]]
+          ],
+          locals: [],
+          templates: [child0]
+        };
+      }());
+      return {
+        meta: {
+          "fragmentReason": {
+            "name": "missing-wrapper",
+            "problems": [
+              "wrong-type",
+              "multiple-nodes"
+            ]
+          },
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/admin_users/edit_password/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1,"class","well");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [5]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
+          morphs[2] = dom.createMorphAt(element0,1,1);
+          morphs[3] = dom.createMorphAt(element0,3,3);
+          return morphs;
+        },
+        statements: [
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[2,19],[2,24]]]]],[],[]],"property","token"],["loc",[null,[2,2],[2,43]]]],
+          ["block","if",[["get","model.errors.length",["loc",[null,[3,8],[3,27]]]]],[],0,null,["loc",[null,[3,2],[7,9]]]],
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,21],[9,26]]]]],[],[]],"label","Password","property","password","type","password"],["loc",[null,[9,4],[9,81]]]],
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[10,21],[10,26]]]]],[],[]],"label","Confirmation","property","password_confirmation","type","password"],["loc",[null,[10,4],[10,98]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "wrong-type"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/admin_users/edit_password/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]]],0,null,["loc",[null,[1,0],[12,12]]]]
       ],
       locals: [],
       templates: [child0]
@@ -2509,14 +4362,14 @@ define('tiny/app', ['exports', 'ember', 'ember/resolver', 'ember/load-initialize
   exports['default'] = App;
 
 });
-define('tiny/authenticators/custom', ['exports', 'ember-simple-auth/authenticators/base'], function (exports, Base) {
+define('tiny/authenticators/api', ['exports', 'ember-simple-auth/authenticators/base'], function (exports, Base) {
 
   'use strict';
 
   exports['default'] = Base['default'].extend({
     restore: function restore(data) {
       return new Ember.RSVP.Promise(function (resolve, reject) {
-        if (!Ember.isEmpty(data.user.id)) {
+        if (!Ember.isEmpty(data.admin_user.id)) {
           resolve(data);
         } else {
           reject();
@@ -2548,12 +4401,30 @@ define('tiny/authenticators/custom', ['exports', 'ember-simple-auth/authenticato
     invalidate: function invalidate(data) {
       return new Ember.RSVP.Promise(function (resolve) {
         Ember.$.ajax({
-          url: 'sessions',
+          url: Tiny.API_ADDRESS + '/session',
           type: 'DELETE'
         }).always(function () {
           resolve();
         });
       });
+    }
+  });
+
+});
+define('tiny/authorizers/api', ['exports', 'ember-simple-auth/authorizers/base'], function (exports, Base) {
+
+  'use strict';
+
+  var _Ember = Ember;
+  var isEmpty = _Ember.isEmpty;
+
+  exports['default'] = Base['default'].extend({
+    authorize: function authorize(data, block) {
+      var token = data.admin_user.access_token;
+      if (!isEmpty(token)) {
+        var authData = 'token="' + token + '"';
+        block('Authorization', 'Token ' + authData);
+      }
     }
   });
 
@@ -2625,7 +4496,7 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
                 "column": 8
               },
               "end": {
-                "line": 18,
+                "line": 20,
                 "column": 8
               }
             },
@@ -2651,7 +4522,7 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["inline","em-input",[],["property",["subexpr","@mut",[["get","column",["loc",[null,[17,30],[17,36]]]]],[],[]],"canShowErrors",true],["loc",[null,[17,10],[17,57]]]]
+            ["inline","em-input",[],["property",["subexpr","@mut",[["get","column.property",["loc",[null,[17,30],[17,45]]]]],[],[]],"type",["subexpr","@mut",[["get","column.type",["loc",[null,[18,17],[18,28]]]]],[],[]],"label",["subexpr","@mut",[["get","column.label",["loc",[null,[19,18],[19,30]]]]],[],[]],"canShowErrors",true],["loc",[null,[17,10],[19,51]]]]
           ],
           locals: ["column"],
           templates: []
@@ -2668,7 +4539,7 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
               "column": 6
             },
             "end": {
-              "line": 19,
+              "line": 21,
               "column": 6
             }
           },
@@ -2692,7 +4563,7 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["block","each",[["get","columns",["loc",[null,[16,16],[16,23]]]]],[],0,null,["loc",[null,[16,8],[18,17]]]]
+          ["block","each",[["get","columns",["loc",[null,[16,16],[16,23]]]]],[],0,null,["loc",[null,[16,8],[20,17]]]]
         ],
         locals: [],
         templates: [child0]
@@ -2715,7 +4586,7 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 36,
+            "line": 38,
             "column": 0
           }
         },
@@ -2848,9 +4719,9 @@ define('tiny/components/data-form/template', ['exports'], function (exports) {
       statements: [
         ["element","action",["cancel"],[],["loc",[null,[8,14],[8,33]]]],
         ["content","yield",["loc",[null,[11,8],[11,17]]]],
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[19,18]]]],
-        ["element","action",["cancel"],[],["loc",[null,[24,14],[24,33]]]],
-        ["element","action",["submit"],[],["loc",[null,[28,14],[28,33]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[21,18]]]],
+        ["element","action",["cancel"],[],["loc",[null,[26,14],[26,33]]]],
+        ["element","action",["submit"],[],["loc",[null,[30,14],[30,33]]]]
       ],
       locals: [],
       templates: [child0]
@@ -2917,7 +4788,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["content","column",["loc",[null,[7,12],[7,22]]]]
+            ["content","column.label",["loc",[null,[7,12],[7,28]]]]
           ],
           locals: ["column"],
           templates: []
@@ -2968,13 +4839,54 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
               return morphs;
             },
             statements: [
-              ["inline","get",[["get","record",["loc",[null,[20,18],[20,24]]]],["get","column",["loc",[null,[20,25],[20,31]]]]],[],["loc",[null,[20,12],[20,33]]]]
+              ["inline","get",[["get","record",["loc",[null,[20,18],[20,24]]]],["get","column.property",["loc",[null,[20,25],[20,40]]]]],[],["loc",[null,[20,12],[20,42]]]]
             ],
             locals: ["column"],
             templates: []
           };
         }());
         var child1 = (function() {
+          var child0 = (function() {
+            return {
+              meta: {
+                "fragmentReason": false,
+                "revision": "Ember@2.2.0",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 25,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 12
+                  }
+                },
+                "moduleName": "tiny/components/data-table/template.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("              ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("span");
+                dom.setAttribute(el1,"class","glyphicon glyphicon-eye-open");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() { return []; },
+              statements: [
+
+              ],
+              locals: [],
+              templates: []
+            };
+          }());
           return {
             meta: {
               "fragmentReason": false,
@@ -2986,7 +4898,49 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
                   "column": 10
                 },
                 "end": {
-                  "line": 26,
+                  "line": 28,
+                  "column": 10
+                }
+              },
+              "moduleName": "tiny/components/data-table/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [
+              ["block","link-to",[["get","showRoute",["loc",[null,[25,23],[25,32]]]],["get","record.id",["loc",[null,[25,33],[25,42]]]]],["class","btn btn-primary"],0,null,["loc",[null,[25,12],[27,24]]]]
+            ],
+            locals: [],
+            templates: [child0]
+          };
+        }());
+        var child2 = (function() {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.2.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 29,
+                  "column": 10
+                },
+                "end": {
+                  "line": 31,
                   "column": 10
                 }
               },
@@ -3026,7 +4980,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
                 "column": 4
               },
               "end": {
-                "line": 33,
+                "line": 38,
                 "column": 4
               }
             },
@@ -3065,6 +5019,8 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
             dom.appendChild(el2, el3);
             var el3 = dom.createComment("");
             dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
             var el3 = dom.createTextNode("          ");
             dom.appendChild(el2, el3);
             var el3 = dom.createElement("a");
@@ -3091,22 +5047,24 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var element0 = dom.childAt(fragment, [1]);
             var element1 = dom.childAt(element0, [5]);
-            var element2 = dom.childAt(element1, [3]);
-            var morphs = new Array(4);
+            var element2 = dom.childAt(element1, [4]);
+            var morphs = new Array(5);
             morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
             morphs[1] = dom.createMorphAt(element0,3,3);
             morphs[2] = dom.createMorphAt(element1,1,1);
-            morphs[3] = dom.createElementMorph(element2);
+            morphs[3] = dom.createMorphAt(element1,2,2);
+            morphs[4] = dom.createElementMorph(element2);
             return morphs;
           },
           statements: [
             ["content","record.id",["loc",[null,[16,10],[16,23]]]],
             ["block","each",[["get","columns",["loc",[null,[18,16],[18,23]]]]],[],0,null,["loc",[null,[18,8],[22,17]]]],
-            ["block","link-to",[["get","editRoute",["loc",[null,[24,21],[24,30]]]],["get","record.id",["loc",[null,[24,31],[24,40]]]]],["class","btn btn-success"],1,null,["loc",[null,[24,10],[26,22]]]],
-            ["element","action",["delete",["get","record",["loc",[null,[27,40],[27,46]]]]],["preventDefault",true],["loc",[null,[27,22],[27,68]]]]
+            ["block","if",[["get","showRoute",["loc",[null,[24,16],[24,25]]]]],[],1,null,["loc",[null,[24,10],[28,17]]]],
+            ["block","link-to",[["get","editRoute",["loc",[null,[29,21],[29,30]]]],["get","record.id",["loc",[null,[29,31],[29,40]]]]],["class","btn btn-success"],2,null,["loc",[null,[29,10],[31,22]]]],
+            ["element","action",["delete",["get","record",["loc",[null,[32,40],[32,46]]]]],["preventDefault",true],["loc",[null,[32,22],[32,68]]]]
           ],
           locals: ["record"],
-          templates: [child0, child1]
+          templates: [child0, child1, child2]
         };
       }());
       var child2 = (function() {
@@ -3117,11 +5075,11 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 38,
+                "line": 43,
                 "column": 6
               },
               "end": {
-                "line": 40,
+                "line": 45,
                 "column": 6
               }
             },
@@ -3149,7 +5107,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["content","column",["loc",[null,[39,12],[39,22]]]]
+            ["content","column.label",["loc",[null,[44,12],[44,28]]]]
           ],
           locals: ["column"],
           templates: []
@@ -3168,7 +5126,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 45,
+              "line": 50,
               "column": 0
             }
           },
@@ -3267,8 +5225,8 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
         },
         statements: [
           ["block","each",[["get","columns",["loc",[null,[6,14],[6,21]]]]],[],0,null,["loc",[null,[6,6],[8,15]]]],
-          ["block","each",[["get","model",["loc",[null,[13,12],[13,17]]]]],[],1,null,["loc",[null,[13,4],[33,13]]]],
-          ["block","each",[["get","columns",["loc",[null,[38,14],[38,21]]]]],[],2,null,["loc",[null,[38,6],[40,15]]]]
+          ["block","each",[["get","model",["loc",[null,[13,12],[13,17]]]]],[],1,null,["loc",[null,[13,4],[38,13]]]],
+          ["block","each",[["get","columns",["loc",[null,[43,14],[43,21]]]]],[],2,null,["loc",[null,[43,6],[45,15]]]]
         ],
         locals: [],
         templates: [child0, child1, child2]
@@ -3290,7 +5248,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 46,
+            "line": 51,
             "column": 0
           }
         },
@@ -3314,7 +5272,7 @@ define('tiny/components/data-table/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","default-box",[],["title",["subexpr","@mut",[["get","title",["loc",[null,[1,21],[1,26]]]]],[],[]]],0,null,["loc",[null,[1,0],[45,16]]]]
+        ["block","default-box",[],["title",["subexpr","@mut",[["get","title",["loc",[null,[1,21],[1,26]]]]],[],[]]],0,null,["loc",[null,[1,0],[50,16]]]]
       ],
       locals: [],
       templates: [child0]
@@ -4110,7 +6068,66 @@ define('tiny/instance-initializers/ember-simple-auth', ['exports', 'ember-simple
   };
 
 });
-define('tiny/login/route', ['exports', 'ember'], function (exports, Ember) {
+define('tiny/models/admin_user', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  exports['default'] = DS['default'].Model.extend({
+    email: DS['default'].attr('string', { defaultValue: '' }),
+    password: DS['default'].attr('string'),
+    password_confirmation: DS['default'].attr('string')
+  });
+
+});
+define('tiny/models/contact', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  exports['default'] = DS['default'].Model.extend({
+    fullname: DS['default'].attr('string', { defaultValue: '' }),
+    phone: DS['default'].attr('string', { defaultValue: '' }),
+    email: DS['default'].attr('string', { defaultValue: '' }),
+    user: DS['default'].belongsTo('user')
+  });
+
+});
+define('tiny/models/course', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  exports['default'] = DS['default'].Model.extend({
+    name: DS['default'].attr(),
+    price: DS['default'].attr('number'),
+    subscriptions: DS['default'].hasMany('subscription')
+  });
+
+});
+define('tiny/models/subscription', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  exports['default'] = DS['default'].Model.extend({
+    userId: DS['default'].attr(),
+    user: DS['default'].belongsTo('user'),
+    courseId: DS['default'].attr(),
+    course: DS['default'].belongsTo('course'),
+    paid: DS['default'].attr('boolean', { defaultValue: false })
+  });
+
+});
+define('tiny/models/user', ['exports', 'ember-data'], function (exports, DS) {
+
+  'use strict';
+
+  exports['default'] = DS['default'].Model.extend({
+    email: DS['default'].attr('string', { defaultValue: '' }),
+    subscriptions: DS['default'].hasMany('subscription'),
+    courses: DS['default'].hasMany('course'),
+    contacts: DS['default'].hasMany('contact')
+  });
+
+});
+define('tiny/registration/login/route', ['exports', 'ember'], function (exports, Ember) {
 
   'use strict';
 
@@ -4123,8 +6140,9 @@ define('tiny/login/route', ['exports', 'ember'], function (exports, Ember) {
       submit: function submit() {
         var _this = this;
 
+        var session = this.get('session');
         var model = this.controller.model;
-        this.get('session').authenticate('authenticator:custom', model.email, model.password).then(function (response) {
+        session.authenticate('authenticator:api', model.email, model.password).then(function (response) {
           _this.transitionTo('/admin');
         }, function (response) {
           model.errors.pushObject(response.errors);
@@ -4134,7 +6152,7 @@ define('tiny/login/route', ['exports', 'ember'], function (exports, Ember) {
   });
 
 });
-define('tiny/login/template', ['exports'], function (exports) {
+define('tiny/registration/login/template', ['exports'], function (exports) {
 
   'use strict';
 
@@ -4157,7 +6175,7 @@ define('tiny/login/template', ['exports'], function (exports) {
                   "column": 4
                 }
               },
-              "moduleName": "tiny/login/template.hbs"
+              "moduleName": "tiny/registration/login/template.hbs"
             },
             isEmpty: false,
             arity: 1,
@@ -4200,7 +6218,7 @@ define('tiny/login/template', ['exports'], function (exports) {
                 "column": 2
               }
             },
-            "moduleName": "tiny/login/template.hbs"
+            "moduleName": "tiny/registration/login/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -4247,7 +6265,7 @@ define('tiny/login/template', ['exports'], function (exports) {
               "column": 0
             }
           },
-          "moduleName": "tiny/login/template.hbs"
+          "moduleName": "tiny/registration/login/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -4288,7 +6306,281 @@ define('tiny/login/template', ['exports'], function (exports) {
         statements: [
           ["block","if",[["get","model.errors.length",["loc",[null,[2,8],[2,27]]]]],[],0,null,["loc",[null,[2,2],[6,9]]]],
           ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[8,21],[8,26]]]]],[],[]],"label","Email","property","email"],["loc",[null,[8,4],[8,59]]]],
-          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,21],[9,26]]]]],[],[]],"label","Password","property","password"],["loc",[null,[9,4],[9,65]]]]
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,21],[9,26]]]]],[],[]],"label","Password","property","password","type","password"],["loc",[null,[9,4],[9,81]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    var child1 = (function() {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 12,
+              "column": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 60
+            }
+          },
+          "moduleName": "tiny/registration/login/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("Password forgotten");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": [
+            "wrong-type",
+            "multiple-nodes"
+          ]
+        },
+        "revision": "Ember@2.2.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
+        "moduleName": "tiny/registration/login/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        morphs[1] = dom.createMorphAt(fragment,1,1,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]]],0,null,["loc",[null,[1,0],[11,12]]]],
+        ["block","link-to",["registration.reset_password"],[],1,null,["loc",[null,[12,0],[12,72]]]]
+      ],
+      locals: [],
+      templates: [child0, child1]
+    };
+  }()));
+
+});
+define('tiny/registration/reset_password/new/route', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    model: function model() {
+      return Ember['default'].Object.create();
+    },
+    actions: {
+      submit: function submit() {
+        var _this = this;
+
+        var model = this.controller.model;
+        Ember['default'].$.ajax({
+          url: Tiny.API_ADDRESS + '/passwords/',
+          type: 'POST',
+          data: {
+            password: {
+              email: model.get('email') || ''
+            }
+          }
+        }).then(function (data) {
+          _this.transitionTo('registration.login');
+        }, function (response) {
+          model.set('errors', [response.responseJSON.errors]);
+        });
+      }
+    }
+  });
+
+});
+define('tiny/registration/reset_password/new/template', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.2.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 3,
+                  "column": 4
+                },
+                "end": {
+                  "line": 5,
+                  "column": 4
+                }
+              },
+              "moduleName": "tiny/registration/reset_password/new/template.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("      ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+              return morphs;
+            },
+            statements: [
+              ["content","error",["loc",[null,[4,6],[4,15]]]]
+            ],
+            locals: ["error"],
+            templates: []
+          };
+        }());
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.2.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 2,
+                "column": 2
+              },
+              "end": {
+                "line": 6,
+                "column": 2
+              }
+            },
+            "moduleName": "tiny/registration/reset_password/new/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [
+            ["block","each",[["get","model.errors",["loc",[null,[3,12],[3,24]]]]],[],0,null,["loc",[null,[3,4],[5,13]]]]
+          ],
+          locals: [],
+          templates: [child0]
+        };
+      }());
+      return {
+        meta: {
+          "fragmentReason": {
+            "name": "missing-wrapper",
+            "problems": [
+              "wrong-type",
+              "multiple-nodes"
+            ]
+          },
+          "revision": "Ember@2.2.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 0
+            }
+          },
+          "moduleName": "tiny/registration/reset_password/new/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1,"class","well");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
+          dom.insertBoundary(fragment, 0);
+          return morphs;
+        },
+        statements: [
+          ["block","if",[["get","model.errors.length",["loc",[null,[2,8],[2,27]]]]],[],0,null,["loc",[null,[2,2],[6,9]]]],
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[8,21],[8,26]]]]],[],[]],"label","Email","property","email"],["loc",[null,[8,4],[8,59]]]]
         ],
         locals: [],
         templates: [child0]
@@ -4310,11 +6602,11 @@ define('tiny/login/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 12,
+            "line": 11,
             "column": 0
           }
         },
-        "moduleName": "tiny/login/template.hbs"
+        "moduleName": "tiny/registration/reset_password/new/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -4334,60 +6626,12 @@ define('tiny/login/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]]],0,null,["loc",[null,[1,0],[11,12]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]]],0,null,["loc",[null,[1,0],[10,12]]]]
       ],
       locals: [],
       templates: [child0]
     };
   }()));
-
-});
-define('tiny/models/contact', ['exports', 'ember-data'], function (exports, DS) {
-
-  'use strict';
-
-  exports['default'] = DS['default'].Model.extend({
-    fullname: DS['default'].attr('sting', { defaultValue: '' }),
-    phone: DS['default'].attr('sting', { defaultValue: '' }),
-    email: DS['default'].attr('sting', { defaultValue: '' }),
-    user: DS['default'].belongsTo('user')
-  });
-
-});
-define('tiny/models/course', ['exports', 'ember-data'], function (exports, DS) {
-
-  'use strict';
-
-  exports['default'] = DS['default'].Model.extend({
-    name: DS['default'].attr(),
-    price: DS['default'].attr('number'),
-    subscriptions: DS['default'].hasMany('subscription')
-  });
-
-});
-define('tiny/models/subscription', ['exports', 'ember-data'], function (exports, DS) {
-
-  'use strict';
-
-  exports['default'] = DS['default'].Model.extend({
-    userId: DS['default'].attr(),
-    user: DS['default'].belongsTo('user'),
-    courseId: DS['default'].attr(),
-    course: DS['default'].belongsTo('course'),
-    paid: DS['default'].attr('boolean', { defaultValue: false })
-  });
-
-});
-define('tiny/models/user', ['exports', 'ember-data'], function (exports, DS) {
-
-  'use strict';
-
-  exports['default'] = DS['default'].Model.extend({
-    email: DS['default'].attr('string', { defaultValue: '' }),
-    subscriptions: DS['default'].hasMany('subscription'),
-    course: DS['default'].hasMany('course'),
-    contacts: DS['default'].hasMany('contact')
-  });
 
 });
 define('tiny/router', ['exports', 'ember', 'tiny/config/environment'], function (exports, Ember, config) {
@@ -4400,10 +6644,17 @@ define('tiny/router', ['exports', 'ember', 'tiny/config/environment'], function 
 
   Router.map(function () {
     this.route('admin', function () {
+      this.route('dashboard', { path: '/' });
+      this.route('user', { path: '/users/:id/' });
+      this.route('admin_users', function () {
+        this.route('new');
+        this.route('edit', { path: '/:id/edit' });
+      });
       this.route('users', function () {
         this.route('new');
         this.route('edit', { path: '/:id/edit' });
       });
+      this.route('course', { path: '/course/:id/' });
       this.route('courses', function () {
         this.route('new');
         this.route('edit', { path: '/:id/edit' });
@@ -4418,7 +6669,15 @@ define('tiny/router', ['exports', 'ember', 'tiny/config/environment'], function 
       this.route('payment', { path: '/:id/payment' });
       this.route('success', {});
     });
-    this.route('login', {});
+    this.route('admin_users', { path: '/admin_users/:id' }, function () {
+      this.route('edit_password', { path: '/edit_password/:token' });
+    });
+    this.route('registration', function () {
+      this.route('login', {});
+      this.route('reset_password', function () {
+        this.route('new');
+      });
+    });
   });
 
   exports['default'] = Router;
@@ -4519,7 +6778,6 @@ define('tiny/subscriptions/new/route', ['exports', 'ember', 'tiny/utils/array_al
               subscription: {
                 user_attributes: {
                   email: user.get('email'),
-                  password: 'dummy',
                   contacts_attributes: contacts_json
                 },
                 course_id: subscription.get('course.id')
@@ -5961,6 +8219,76 @@ define('tiny/tests/adapters/application.jshint', function () {
   })});
 
 });
+define('tiny/tests/admin/admin_users/controller.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/controller.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/controller.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/admin_users/edit/controller.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/edit/controller.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/edit/controller.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/admin_users/edit/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/edit/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/edit/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/admin_users/new/controller.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/new/controller.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/new/controller.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/admin_users/new/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/new/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/new/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/admin_users/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/admin_users/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/admin_users/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/course/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/course/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/course/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
 define('tiny/tests/admin/courses/controller.jshint', function () {
 
   'use strict';
@@ -6018,6 +8346,16 @@ define('tiny/tests/admin/courses/route.jshint', function () {
   describe('JSHint - admin/courses/route.js', function(){
   it('should pass jshint', function() { 
     expect(true, 'admin/courses/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/admin/dashboard/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/dashboard/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(false, 'admin/dashboard/route.js should pass jshint.\nadmin/dashboard/route.js: line 17, col 11, Missing semicolon.\n\n1 error').to.be.ok; 
   })});
 
 });
@@ -6091,6 +8429,16 @@ define('tiny/tests/admin/subscriptions/route.jshint', function () {
   })});
 
 });
+define('tiny/tests/admin/user/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin/user/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin/user/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
 define('tiny/tests/admin/users/controller.jshint', function () {
 
   'use strict';
@@ -6151,6 +8499,16 @@ define('tiny/tests/admin/users/route.jshint', function () {
   })});
 
 });
+define('tiny/tests/admin_users/edit_password/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - admin_users/edit_password/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'admin_users/edit_password/route.js should pass jshint.').to.be.ok; 
+  })});
+
+});
 define('tiny/tests/app.jshint', function () {
 
   'use strict';
@@ -6161,13 +8519,23 @@ define('tiny/tests/app.jshint', function () {
   })});
 
 });
-define('tiny/tests/authenticators/custom.jshint', function () {
+define('tiny/tests/authenticators/api.jshint', function () {
 
   'use strict';
 
-  describe('JSHint - authenticators/custom.js', function(){
+  describe('JSHint - authenticators/api.js', function(){
   it('should pass jshint', function() { 
-    expect(true, 'authenticators/custom.js should pass jshint.').to.be.ok; 
+    expect(true, 'authenticators/api.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/authorizers/api.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - authorizers/api.js', function(){
+  it('should pass jshint', function() { 
+    expect(false, 'authorizers/api.js should pass jshint.\nauthorizers/api.js: line 6, col 45, Missing semicolon.\n\n1 error').to.be.ok; 
   })});
 
 });
@@ -6968,13 +9336,13 @@ define('tiny/tests/integration/user-table/component-test.jshint', function () {
   })});
 
 });
-define('tiny/tests/login/route.jshint', function () {
+define('tiny/tests/models/admin_user.jshint', function () {
 
   'use strict';
 
-  describe('JSHint - login/route.js', function(){
+  describe('JSHint - models/admin_user.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'login/route.js should pass jshint.\nlogin/route.js: line 6, col 24, Missing semicolon.\n\n1 error').to.be.ok; 
+    expect(true, 'models/admin_user.js should pass jshint.').to.be.ok; 
   })});
 
 });
@@ -7015,6 +9383,26 @@ define('tiny/tests/models/user.jshint', function () {
   describe('JSHint - models/user.js', function(){
   it('should pass jshint', function() { 
     expect(true, 'models/user.js should pass jshint.').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/registration/login/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - registration/login/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(false, 'registration/login/route.js should pass jshint.\nregistration/login/route.js: line 6, col 24, Missing semicolon.\n\n1 error').to.be.ok; 
+  })});
+
+});
+define('tiny/tests/registration/reset_password/new/route.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - registration/reset_password/new/route.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'registration/reset_password/new/route.js should pass jshint.').to.be.ok; 
   })});
 
 });
@@ -7064,7 +9452,7 @@ define('tiny/tests/subscriptions/new/route.jshint', function () {
 
   describe('JSHint - subscriptions/new/route.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 30, col 12, Missing semicolon.\nsubscriptions/new/route.js: line 39, col 50, Missing semicolon.\nsubscriptions/new/route.js: line 58, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 64, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
+    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 29, col 12, Missing semicolon.\nsubscriptions/new/route.js: line 38, col 50, Missing semicolon.\nsubscriptions/new/route.js: line 57, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 63, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
   })});
 
 });

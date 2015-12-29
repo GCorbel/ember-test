@@ -1,10 +1,11 @@
 class SessionsController < Clearance::BaseController
+  include Clearance::Authentication
   def create
-    @user = authenticate(params)
+    admin = authenticate(params)
 
-    sign_in(@user) do |status|
+    sign_in(admin) do |status|
       if status.success?
-        render json: @user, root: 'user'
+        render json: AdminUserSerializer.new(admin)
       else
         render json: { errors: status.failure_message }, status: :unauthorized
       end
@@ -12,6 +13,6 @@ class SessionsController < Clearance::BaseController
   end
 
   def destroy
-    sign_out
+    current_admin_user.reset_access_token!
   end
 end

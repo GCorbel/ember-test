@@ -11,33 +11,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223123745) do
+ActiveRecord::Schema.define(version: 20151228123056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "encrypted_password", limit: 128
+    t.string   "confirmation_token", limit: 128
+    t.string   "remember_token",     limit: 128
+    t.string   "access_token"
+    t.index ["email"], name: "index_admin_users_on_email", using: :btree
+    t.index ["remember_token"], name: "index_admin_users_on_remember_token", using: :btree
+  end
 
   create_table "contacts", force: :cascade do |t|
     t.string   "fullname"
     t.string   "email"
     t.string   "phone"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
   end
 
   create_table "courses", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.decimal  "price",      precision: 8, scale: 2
   end
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "paid"
     t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
@@ -45,15 +58,8 @@ ActiveRecord::Schema.define(version: 20151223123745) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.string   "password"
-    t.string   "password_confirmation"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "encrypted_password",    limit: 128
-    t.string   "confirmation_token",    limit: 128
-    t.string   "remember_token",        limit: 128
-    t.index ["email"], name: "index_users_on_email", using: :btree
-    t.index ["remember_token"], name: "index_users_on_remember_token", using: :btree
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_foreign_key "contacts", "users"

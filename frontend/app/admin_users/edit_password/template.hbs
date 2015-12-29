@@ -1,0 +1,12 @@
+{{#em-form model=model}}
+  {{em-input model=model property="token"}}
+  {{#if model.errors.length}}
+    {{#each model.errors as |error|}}
+      {{error}}
+    {{/each}}
+  {{/if}}
+  <div class="well">
+    {{em-input model=model label="Password" property="password" type="password"}}
+    {{em-input model=model label="Confirmation" property="password_confirmation" type="password"}}
+  </div>
+{{/em-form}}

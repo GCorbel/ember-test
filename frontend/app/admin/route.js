@@ -6,7 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   actions: {
     invalidateSession: function() {
       this.get('session').invalidate().then(() => {
-        this.transitionTo('login');
+        this.transitionTo('registration.login');
       });
     }
   }

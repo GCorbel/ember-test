@@ -3,7 +3,7 @@ import Base from 'ember-simple-auth/authenticators/base';
 export default Base.extend({
   restore: function(data) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (!Ember.isEmpty(data.user.id)) {
+      if (!Ember.isEmpty(data.admin_user.id)) {
         resolve(data);
       } else {
         reject();
@@ -35,7 +35,7 @@ export default Base.extend({
   invalidate: function(data) {
     return new Ember.RSVP.Promise(function(resolve) {
       Ember.$.ajax({
-        url: 'sessions',
+        url: `${Tiny.API_ADDRESS}/session`,
         type: 'DELETE'
       }).always(function() {
         resolve();

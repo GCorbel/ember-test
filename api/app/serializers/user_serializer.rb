@@ -1,4 +1,3 @@
 class UserSerializer < ActiveModel::Serializer
-  embed :ids, embed_in_root: true
-  attributes :id, :email
+  attributes :id, :email, :subscription_ids, :contact_ids
 end

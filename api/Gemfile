@@ -19,7 +19,7 @@ gem 'pg', '~> 0.18'
 # gem 'capistrano-rails', group: :development
 
 # Use ActiveModelSerializers to serialize JSON responses
-gem 'active_model_serializers'
+gem 'active_model_serializers', '0.9.3'
 gem 'active-model-adapter-source'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
@@ -27,7 +27,7 @@ gem 'active-model-adapter-source'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'pry-byebug'
 end
 
 group :development do

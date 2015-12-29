@@ -14,7 +14,9 @@
     <div class="modal-body">
       {{#em-form model=model submitButton=false}}
         {{#each columns as |column|}}
-          {{em-input property=column canShowErrors=true}}
+          {{em-input property=column.property
+            type=column.type
+            label=column.label canShowErrors=true}}
         {{/each}}
       {{/em-form}}
     </div>

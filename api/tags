@@ -1,0 +1,62 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ActiveModel	app/serializers/active_model/errors_serializer.rb	/^class ActiveModel::ErrorsSerializer < ActiveModel::Serializer$/;"	c
+AddClearanceToAdminUsers	db/migrate/20151226193531_add_clearance_to_admin_users.rb	/^class AddClearanceToAdminUsers < ActiveRecord::Migration$/;"	c
+AddPaidToSubscriptions	db/migrate/20151222132548_add_paid_to_subscriptions.rb	/^class AddPaidToSubscriptions < ActiveRecord::Migration[5.0]$/;"	c
+AddPriceToCourses	db/migrate/20151223123745_add_price_to_courses.rb	/^class AddPriceToCourses < ActiveRecord::Migration[5.0]$/;"	c
+AdminUser	app/models/admin_user.rb	/^class AdminUser < ActiveRecord::Base$/;"	c
+Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:Tiny
+ApplicationController	app/controllers/application_controller.rb	/^class ApplicationController < ActionController::API$/;"	c
+ApplicationJob	app/jobs/application_job.rb	/^class ApplicationJob < ActiveJob::Base$/;"	c
+Contact	app/models/contact.rb	/^class Contact < ActiveRecord::Base$/;"	c
+ContactSerializer	app/serializers/contact_serializer.rb	/^class ContactSerializer < ActiveModel::Serializer$/;"	c
+ContactsController	app/controllers/contacts_controller.rb	/^class ContactsController < ApplicationController$/;"	c
+Course	app/models/course.rb	/^class Course < ActiveRecord::Base$/;"	c
+CourseSerializer	app/serializers/course_serializer.rb	/^class CourseSerializer < ActiveModel::Serializer$/;"	c
+CoursesController	app/controllers/courses_controller.rb	/^class CoursesController < ApplicationController$/;"	c
+CreateAdminUsers	db/migrate/20151226193530_create_admin_users.rb	/^class CreateAdminUsers < ActiveRecord::Migration[5.0]$/;"	c
+CreateContacts	db/migrate/20151216095734_create_contacts.rb	/^class CreateContacts < ActiveRecord::Migration$/;"	c
+CreateCourses	db/migrate/20151114210009_create_courses.rb	/^class CreateCourses < ActiveRecord::Migration$/;"	c
+CreateSubscriptions	db/migrate/20151114210046_create_subscriptions.rb	/^class CreateSubscriptions < ActiveRecord::Migration$/;"	c
+CreateUsers	db/migrate/20151114205947_create_users.rb	/^class CreateUsers < ActiveRecord::Migration$/;"	c
+CrudConcern	app/controllers/concerns/crud_concern.rb	/^module CrudConcern$/;"	m
+ErrorSerializer	app/serializers/error_serializer.rb	/^class ErrorSerializer$/;"	c
+SessionsController	app/controllers/sessions_controller.rb	/^class SessionsController < Clearance::BaseController$/;"	c
+Subscription	app/models/subscription.rb	/^class Subscription < ActiveRecord::Base$/;"	c
+SubscriptionSerializer	app/serializers/subscription_serializer.rb	/^class SubscriptionSerializer < ActiveModel::Serializer$/;"	c
+SubscriptionsController	app/controllers/subscriptions_controller.rb	/^class SubscriptionsController < ApplicationController$/;"	c
+Tiny	config/application.rb	/^module Tiny$/;"	m
+User	app/models/user.rb	/^class User < ActiveRecord::Base$/;"	c
+UserSerializer	app/serializers/user_serializer.rb	/^class UserSerializer < ActiveModel::Serializer$/;"	c
+UsersController	app/controllers/users_controller.rb	/^class UsersController < ApplicationController$/;"	c
+attributes	app/controllers/concerns/crud_concern.rb	/^  def attributes$/;"	f	class:CrudConcern
+change	db/migrate/20151114205947_create_users.rb	/^  def change$/;"	f	class:CreateUsers
+change	db/migrate/20151114210009_create_courses.rb	/^  def change$/;"	f	class:CreateCourses
+change	db/migrate/20151114210046_create_subscriptions.rb	/^  def change$/;"	f	class:CreateSubscriptions
+change	db/migrate/20151216095734_create_contacts.rb	/^  def change$/;"	f	class:CreateContacts
+change	db/migrate/20151222132548_add_paid_to_subscriptions.rb	/^  def change$/;"	f	class:AddPaidToSubscriptions
+change	db/migrate/20151223123745_add_price_to_courses.rb	/^  def change$/;"	f	class:AddPriceToCourses
+change	db/migrate/20151226193530_create_admin_users.rb	/^  def change$/;"	f	class:CreateAdminUsers
+create	app/controllers/concerns/crud_concern.rb	/^  def create$/;"	f	class:CrudConcern
+create	app/controllers/sessions_controller.rb	/^  def create$/;"	f	class:SessionsController
+destroy	app/controllers/concerns/crud_concern.rb	/^  def destroy$/;"	f	class:CrudConcern
+destroy	app/controllers/sessions_controller.rb	/^  def destroy$/;"	f	class:SessionsController
+down	db/migrate/20151226193531_add_clearance_to_admin_users.rb	/^  def self.down$/;"	F	class:AddClearanceToAdminUsers
+helper_method	app/controllers/application_controller.rb	/^  def self.helper_method(*args)$/;"	F	class:ApplicationController
+hide_action	app/controllers/application_controller.rb	/^  def self.hide_action(*args)$/;"	F	class:ApplicationController
+index	app/controllers/concerns/crud_concern.rb	/^  def index$/;"	f	class:CrudConcern
+klass	app/controllers/concerns/crud_concern.rb	/^  def klass$/;"	f	class:CrudConcern
+resource_name	app/controllers/concerns/crud_concern.rb	/^  def resource_name$/;"	f	class:CrudConcern
+resource_symbol	app/controllers/concerns/crud_concern.rb	/^  def resource_symbol$/;"	f	class:CrudConcern
+serialize	app/controllers/concerns/crud_concern.rb	/^  def serialize(resource)$/;"	f	class:CrudConcern
+serialize	app/serializers/active_model/errors_serializer.rb	/^  def self.serialize$/;"	F	class:ActiveModel
+serialize	app/serializers/error_serializer.rb	/^  def self.serialize(object, errors = {})$/;"	F	class:ErrorSerializer
+show	app/controllers/concerns/crud_concern.rb	/^  def show$/;"	f	class:CrudConcern
+system!	bin/setup	/^def system!(*args)$/;"	f
+system!	bin/update	/^def system!(*args)$/;"	f
+up	db/migrate/20151226193531_add_clearance_to_admin_users.rb	/^  def self.up$/;"	F	class:AddClearanceToAdminUsers
+update	app/controllers/concerns/crud_concern.rb	/^  def update$/;"	f	class:CrudConcern

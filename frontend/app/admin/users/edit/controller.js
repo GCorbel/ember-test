@@ -1,5 +1,5 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  columns: ['email']
+  columns: [{ property: 'email', label: 'Email' }]
 });

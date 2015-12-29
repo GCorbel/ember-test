@@ -2,11 +2,13 @@ module CrudConcern
   extend ActiveSupport::Concern
 
   def index
-    render json: { resource_name => klass.all}
+    hash = serialize(klass.all)
+    render json: { resource_name => hash }
   end
 
   def show
-    render json: klass.find(params[:id]), root: resource_name
+    resource = klass.find(params[:id])
+    render json: serialize(resource), root: resource_name
   end
 
   def create
@@ -48,10 +50,14 @@ module CrudConcern
   end
 
   def resource_name
-    klass.name.downcase
+    klass.name.underscore
   end
 
   def klass
     self.class.name.gsub('Controller','').singularize.constantize
+  end
+
+  def serialize(resource)
+    ActiveModel::Serializer.serializer_for(resource).new(resource)
   end
 end

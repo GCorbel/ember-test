@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  fullname: DS.attr('sting', { defaultValue: '' }),
-  phone: DS.attr('sting', { defaultValue: '' }),
-  email: DS.attr('sting', { defaultValue: '' }),
+  fullname: DS.attr('string', { defaultValue: '' }),
+  phone: DS.attr('string', { defaultValue: '' }),
+  email: DS.attr('string', { defaultValue: '' }),
   user: DS.belongsTo('user')
 });

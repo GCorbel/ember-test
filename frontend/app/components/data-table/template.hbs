@@ -4,7 +4,7 @@
     <tr role="row">
       <th>Id</th>
       {{#each columns as |column|}}
-        <th>{{column}}</th>
+        <th>{{column.label}}</th>
       {{/each}}
       <th>Actions</th>
     </tr>
@@ -17,10 +17,15 @@
         </td>
         {{#each columns as |column|}}
           <td>
-            {{get record column}}
+            {{get record column.property}}
           </td>
         {{/each}}
         <td>
+          {{#if showRoute}}
+            {{#link-to showRoute record.id class="btn btn-primary"}}
+              <span class="glyphicon glyphicon-eye-open"/>
+            {{/link-to}}
+          {{/if}}
           {{#link-to editRoute record.id class="btn btn-success"}}
             <span class="glyphicon glyphicon-pencil"/>
           {{/link-to}}
@@ -36,7 +41,7 @@
     <tr>
       <th>Id</th>
       {{#each columns as |column|}}
-        <th>{{column}}</th>
+        <th>{{column.label}}</th>
       {{/each}}
       <th>Actions</th>
     </tr>

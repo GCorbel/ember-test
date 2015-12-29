@@ -22,7 +22,6 @@ export default Ember.Route.extend({
             subscription: {
               user_attributes: {
                 email: user.get('email'),
-                password: 'dummy',
                 contacts_attributes: contacts_json
               },
               course_id: subscription.get('course.id')
