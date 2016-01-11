@@ -1,0 +1,20 @@
+source 'https://rubygems.org'
+
+eval_gemfile File.join("/api/Gemfile")
+gem 'rails', github: "rails/rails"
+gem 'exhaust'
+
+group :test do
+  gem 'database_cleaner'
+  gem 'factory_girl_rails', require: false
+end
+
+group :test, :development do
+  gem 'rspec'
+  gem 'capybara'
+  gem 'poltergeist'
+end
+
+group :development do
+  gem 'spring-commands-rspec'
+end
