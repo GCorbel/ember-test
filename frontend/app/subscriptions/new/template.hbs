@@ -1,29 +1,45 @@
-{{#em-form model=model submitButton=false}}
-  <div class="well">
-    {{em-input model=model.user label="Email" property="email" canShowErrors=true}}
-    {{em-select label="Course" property="course" content=courses canShowErrors=true prompt=" " propertyIsModel=true optionLabelPath="name"}}
+<div class="container">
+  <div class="login-logo">
+    <b>Admin</b>LTE
   </div>
-  <div class="well">
-    {{#each model.user.contacts as |contact i|}}
-      <div class='row'>
-        <div class='col-md-3'>
-          {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname" canShowErrors=true}}
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+
+      {{#em-form model=model submitButton=false}}
+        <div class="row">
+          <div class='col-md-12'>
+            {{em-input model=model.user label="Email" property="email" canShowErrors=true}}
+            {{em-select label="Course" property="course" content=courses canShowErrors=true prompt=" " propertyIsModel=true optionLabelPath="name"}}
+          </div>
         </div>
-        <div class='col-md-3'>
-          {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email" canShowErrors=true}}
+        {{#each model.user.contacts as |contact i|}}
+          <div class='row'>
+            <div class='col-md-3'>
+              {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname" canShowErrors=true}}
+            </div>
+            <div class='col-md-3'>
+              {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email" canShowErrors=true}}
+            </div>
+            <div class='col-md-3'>
+              {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone" canShowErrors=true}}
+            </div>
+            <div class='col-md-3 pull-bottom'>
+              <a class='btn btn-danger btn-flat pull-bottom' {{action 'removeContact' contact}}>Remove</a>
+            </div>
+          </div>
+        {{/each}}
+        <a class='btn btn-default btn-flat' {{action 'addContact' }}>Add contact</a>
+        <br/>
+        <br/>
+        <div class="row">
+          <div class="col-xs-6">
+            <input disabled={{model.isntValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay">
+          </div>
+          <div class="col-xs-6">
+            <a disabled={{model.isntValid}} class="btn btn-default btn-block btn-flat" href="#" {{action 'payLater' }}>Submit and pay later</a>
+          </div>
         </div>
-        <div class='col-md-3'>
-          {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone" canShowErrors=true}}
-        </div>
-        <div class='col-md-3'>
-          <a class='btn btn-danger' {{action 'removeContact' contact}}>Remove</a>
-        </div>
-      </div>
-    {{/each}}
-    <a class='btn btn-default' {{action 'addContact' }}>Add contact</a>
+      {{/em-form}}
   </div>
-  <div class="form-actions">
-    <input disabled={{model.isntValid}} type="submit" class="btn btn-primary" value="Submit and pay">
-    <a disabled={{model.isntValid}} class="btn btn-default" href="#" {{action 'payLater' }}>Submit and pay later</a>
-  </div>
-{{/em-form}}
+</div>
