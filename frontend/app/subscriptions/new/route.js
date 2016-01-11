@@ -8,8 +8,7 @@ export default Ember.Route.extend({
     subscription.set('user', user);
     return subscription;
   },
-  actions: {
-    submit: function() {
+  saveSubscription: function(callback) {
       var subscription = this.controller.model;
       subscription.get('user').then((user) => {
         user.get('contacts').then((contacts) => {
@@ -29,11 +28,11 @@ export default Ember.Route.extend({
           }
 
           Ember.$.ajax({
-            url: `${Tiny.API_ADDRESS}/subscriptions/`,
+            url: `${Tiny.API_HOST}/subscriptions/`,
             type: 'POST',
             data: data
           }).then((data) => {
-            this.transitionTo('subscriptions.payment', data.subscription.id);
+            callback(subscription);
           }, (data) => {
             var errors = data.responseJSON.errors
             subscription.get('errors').add('course', errors.course);
@@ -45,6 +44,29 @@ export default Ember.Route.extend({
               contact.get('errors').add('phone', error.phone);
             });
           });
+        });
+      });
+  },
+  actions: {
+    payLater: function() {
+      this.controller.model.set('paid', false);
+      this.saveSubscription((subscription) => {
+        this.transitionTo('subscriptions.success');
+      });
+    },
+    submit: function() {
+      this.controller.model.set('paid', true);
+      this.saveSubscription((subscription) => {
+        var checkout = StripeCheckout.configure({
+          key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D",
+          locale: 'fr'
+        }).open({
+          email: subscription.get('user.email'),
+          description: subscription.course.name,
+          amount: subscription.course.price,
+          token: () => {
+            this.transitionTo('subscriptions.success');
+          }
         });
       });
     },

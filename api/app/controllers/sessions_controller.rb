@@ -2,7 +2,6 @@ class SessionsController < Clearance::BaseController
   include Clearance::Authentication
   def create
     admin = authenticate(params)
-
     sign_in(admin) do |status|
       if status.success?
         render json: AdminUserSerializer.new(admin)

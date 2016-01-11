@@ -8,7 +8,7 @@ define('tiny/adapters/application', ['exports', 'active-model-adapter', 'ember-s
   'use strict';
 
   exports['default'] = ActiveModelAdapter['default'].extend(DataAdapterMixin['default'], {
-    host: 'http://localhost:5000',
+    host: Tiny.API_HOST,
     authorizer: 'authorizer:api'
   });
 
@@ -1134,7 +1134,7 @@ define('tiny/admin/dashboard/route', ['exports', 'ember', 'ember-simple-auth/mix
     }, amount: function amount() {
       var _this = this;
 
-      return new Promise(function (resolve) {
+      return new Ember['default'].RSVP.Promise(function (resolve) {
         var sum = 0;
         _this.store.findAll('subscription').then(function (subscriptions) {
           subscriptions.forEach(function (subscription) {
@@ -4104,7 +4104,7 @@ define('tiny/admin_users/edit_password/route', ['exports', 'ember'], function (e
 
         var model = this.controller.model;
         Ember['default'].$.ajax({
-          url: Tiny.API_ADDRESS + '/passwords/',
+          url: Tiny.API_HOST + '/passwords/',
           type: 'PATCH',
           data: {
             password: {
@@ -4379,7 +4379,7 @@ define('tiny/authenticators/api', ['exports', 'ember-simple-auth/authenticators/
     authenticate: function authenticate(email, password) {
       return new Ember.RSVP.Promise(function (resolve, reject) {
         Ember.$.ajax({
-          url: Tiny.API_ADDRESS + '/session',
+          url: Tiny.API_HOST + '/session',
           type: 'POST',
           data: {
             session: {
@@ -4393,6 +4393,7 @@ define('tiny/authenticators/api', ['exports', 'ember-simple-auth/authenticators/
           });
         }, function (xhr, status, error) {
           Ember.run(function () {
+            console.log(JSON.stringify(xhr));
             reject(xhr.responseJSON);
           });
         });
@@ -4401,7 +4402,7 @@ define('tiny/authenticators/api', ['exports', 'ember-simple-auth/authenticators/
     invalidate: function invalidate(data) {
       return new Ember.RSVP.Promise(function (resolve) {
         Ember.$.ajax({
-          url: Tiny.API_ADDRESS + '/session',
+          url: Tiny.API_HOST + '/session',
           type: 'DELETE'
         }).always(function () {
           resolve();
@@ -5467,15 +5468,6 @@ define('tiny/components/form-group', ['exports', 'ember-rapid-forms/components/f
 	exports['default'] = FormGroupComponent['default'];
 
 });
-define('tiny/components/form-select', ['exports', 'ember-easy-form/components/form-select'], function (exports, form_select) {
-
-	'use strict';
-
-
-
-	exports['default'] = form_select['default'];
-
-});
 define('tiny/components/form-submit', ['exports', 'ember-easy-form/components/form-submit'], function (exports, form_submit) {
 
 	'use strict';
@@ -5957,6 +5949,24 @@ define('tiny/initializers/app-version', ['exports', 'ember-cli-app-version/initi
   };
 
 });
+define('tiny/initializers/ember-cli-rails-addon-csrf', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  var $ = Ember['default'].$;
+
+  exports['default'] = {
+    name: 'ember-cli-rails-addon-csrf',
+
+    initialize: function initialize() {
+      $.ajaxPrefilter(function (options, originalOptions, xhr) {
+        var token = $('meta[name="csrf-token"]').attr('content');
+        xhr.setRequestHeader('X-CSRF-Token', token);
+      });
+    }
+  };
+
+});
 define('tiny/initializers/ember-easy-form', ['exports', 'ember-easy-form/setup'], function (exports, setup) {
 
   'use strict';
@@ -6305,8 +6315,8 @@ define('tiny/registration/login/template', ['exports'], function (exports) {
         },
         statements: [
           ["block","if",[["get","model.errors.length",["loc",[null,[2,8],[2,27]]]]],[],0,null,["loc",[null,[2,2],[6,9]]]],
-          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[8,21],[8,26]]]]],[],[]],"label","Email","property","email"],["loc",[null,[8,4],[8,59]]]],
-          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,21],[9,26]]]]],[],[]],"label","Password","property","password","type","password"],["loc",[null,[9,4],[9,81]]]]
+          ["inline","em-input",[],["label","Email","cid","email","property","email"],["loc",[null,[8,4],[8,59]]]],
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,21],[9,26]]]]],[],[]],"label","Password","cid","password","property","password","type","password"],["loc",[null,[9,4],[9,96]]]]
         ],
         locals: [],
         templates: [child0]
@@ -6416,7 +6426,7 @@ define('tiny/registration/reset_password/new/route', ['exports', 'ember'], funct
 
         var model = this.controller.model;
         Ember['default'].$.ajax({
-          url: Tiny.API_ADDRESS + '/passwords/',
+          url: Tiny.API_HOST + '/passwords/',
           type: 'POST',
           data: {
             password: {
@@ -6721,7 +6731,7 @@ define('tiny/services/validations', ['exports', 'ember'], function (exports, Emb
 
   var set = Ember['default'].set;
 
-  exports['default'] = Ember['default'].Object.extend({
+  exports['default'] = Ember['default'].Service.extend({
     init: function init() {
       set(this, 'cache', {});
     }
@@ -6762,54 +6772,78 @@ define('tiny/subscriptions/new/route', ['exports', 'ember', 'tiny/utils/array_al
       subscription.set('user', user);
       return subscription;
     },
+    saveSubscription: function saveSubscription(callback) {
+      var subscription = this.controller.model;
+      subscription.get('user').then(function (user) {
+        user.get('contacts').then(function (contacts) {
+          var contacts_json = [];
+          contacts.forEach(function (contact) {
+            contacts_json.push(contact.getProperties('fullname', 'phone', 'email'));
+          });
+
+          var data = {
+            subscription: {
+              user_attributes: {
+                email: user.get('email'),
+                contacts_attributes: contacts_json
+              },
+              course_id: subscription.get('course.id')
+            }
+          };
+
+          Ember['default'].$.ajax({
+            url: Tiny.API_HOST + '/subscriptions/',
+            type: 'POST',
+            data: data
+          }).then(function (data) {
+            callback(subscription);
+          }, function (data) {
+            var errors = data.responseJSON.errors;
+            subscription.get('errors').add('course', errors.course);
+            user.get('errors').add('email', errors.user.email);
+            user.get('contacts').forEach(function (contact, index) {
+              var error = errors.user.contacts[index];
+              contact.get('errors').add('email', error.email);
+              contact.get('errors').add('fullname', error.fullname);
+              contact.get('errors').add('phone', error.phone);
+            });
+          });
+        });
+      });
+    },
     actions: {
-      submit: function submit() {
+      payLater: function payLater() {
         var _this = this;
 
-        var subscription = this.controller.model;
-        subscription.get('user').then(function (user) {
-          user.get('contacts').then(function (contacts) {
-            var contacts_json = [];
-            contacts.forEach(function (contact) {
-              contacts_json.push(contact.getProperties('fullname', 'phone', 'email'));
-            });
+        this.controller.model.set('paid', false);
+        this.saveSubscription(function (subscription) {
+          _this.transitionTo('subscriptions.success');
+        });
+      },
+      submit: function submit() {
+        var _this2 = this;
 
-            var data = {
-              subscription: {
-                user_attributes: {
-                  email: user.get('email'),
-                  contacts_attributes: contacts_json
-                },
-                course_id: subscription.get('course.id')
-              }
-            };
-
-            Ember['default'].$.ajax({
-              url: Tiny.API_ADDRESS + '/subscriptions/',
-              type: 'POST',
-              data: data
-            }).then(function (data) {
-              _this.transitionTo('subscriptions.payment', data.subscription.id);
-            }, function (data) {
-              var errors = data.responseJSON.errors;
-              subscription.get('errors').add('course', errors.course);
-              user.get('errors').add('email', errors.user.email);
-              user.get('contacts').forEach(function (contact, index) {
-                var error = errors.user.contacts[index];
-                contact.get('errors').add('email', error.email);
-                contact.get('errors').add('fullname', error.fullname);
-                contact.get('errors').add('phone', error.phone);
-              });
-            });
+        this.controller.model.set('paid', true);
+        this.saveSubscription(function (subscription) {
+          var checkout = StripeCheckout.configure({
+            key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D",
+            locale: 'fr'
+          }).open({
+            email: subscription.get('user.email'),
+            description: subscription.course.name,
+            amount: subscription.course.price,
+            token: function token() {
+              _this2.transitionTo('subscriptions.success');
+            }
           });
         });
       },
       addContact: function addContact() {
-        var _this2 = this;
+        var _this3 = this;
 
         var subscription = this.controller.model;
         subscription.get('user').then(function (user) {
-          var contact = _this2.store.createRecord('contact');
+          var contact = _this3.store.createRecord('contact');
           user.get('contacts').pushObject(contact);
           contact.set('user', user);
         });
@@ -6849,7 +6883,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             "moduleName": "tiny/subscriptions/new/template.hbs"
           },
           isEmpty: false,
-          arity: 1,
+          arity: 2,
           cachedFragment: null,
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
@@ -6923,12 +6957,12 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[10,27],[10,34]]]]],[],[]],"label","Name","property","fullname","canShowErrors",true],["loc",[null,[10,10],[10,88]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[13,27],[13,34]]]]],[],[]],"label","Email","property","email","canShowErrors",true],["loc",[null,[13,10],[13,86]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[16,27],[16,34]]]]],[],[]],"label","Phone","property","phone","canShowErrors",true],["loc",[null,[16,10],[16,86]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[10,27],[10,34]]]]],[],[]],"label","Name","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[10,71],[10,72]]]],"_name"],[],["loc",[null,[10,52],[10,81]]]],"property","fullname","canShowErrors",true],["loc",[null,[10,10],[10,122]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[13,27],[13,34]]]]],[],[]],"label","Email","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[13,72],[13,73]]]],"_email"],[],["loc",[null,[13,53],[13,83]]]],"property","email","canShowErrors",true],["loc",[null,[13,10],[13,121]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[16,27],[16,34]]]]],[],[]],"label","Phone","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[16,72],[16,73]]]],"_phone"],[],["loc",[null,[16,53],[16,83]]]],"property","phone","canShowErrors",true],["loc",[null,[16,10],[16,121]]]],
             ["element","action",["removeContact",["get","contact",["loc",[null,[19,61],[19,68]]]]],[],["loc",[null,[19,36],[19,70]]]]
           ],
-          locals: ["contact"],
+          locals: ["contact","i"],
           templates: []
         };
       }());
@@ -6948,7 +6982,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 28,
+              "line": 29,
               "column": 0
             }
           },
@@ -7002,7 +7036,15 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           var el2 = dom.createElement("input");
           dom.setAttribute(el2,"type","submit");
           dom.setAttribute(el2,"class","btn btn-primary");
-          dom.setAttribute(el2,"value","Continue");
+          dom.setAttribute(el2,"value","Submit and pay");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          dom.setAttribute(el2,"class","btn btn-default");
+          dom.setAttribute(el2,"href","#");
+          var el3 = dom.createTextNode("Submit and pay later");
+          dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
@@ -7015,13 +7057,17 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           var element2 = dom.childAt(fragment, [1]);
           var element3 = dom.childAt(fragment, [3]);
           var element4 = dom.childAt(element3, [3]);
-          var element5 = dom.childAt(fragment, [5, 1]);
-          var morphs = new Array(5);
+          var element5 = dom.childAt(fragment, [5]);
+          var element6 = dom.childAt(element5, [1]);
+          var element7 = dom.childAt(element5, [3]);
+          var morphs = new Array(7);
           morphs[0] = dom.createMorphAt(element2,1,1);
           morphs[1] = dom.createMorphAt(element2,3,3);
           morphs[2] = dom.createMorphAt(element3,1,1);
           morphs[3] = dom.createElementMorph(element4);
-          morphs[4] = dom.createAttrMorph(element5, 'disabled');
+          morphs[4] = dom.createAttrMorph(element6, 'disabled');
+          morphs[5] = dom.createAttrMorph(element7, 'disabled');
+          morphs[6] = dom.createElementMorph(element7);
           return morphs;
         },
         statements: [
@@ -7029,7 +7075,9 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[4,57],[4,64]]]]],[],[]],"canShowErrors",true,"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[4,4],[4,140]]]],
           ["block","each",[["get","model.user.contacts",["loc",[null,[7,12],[7,31]]]]],[],0,null,["loc",[null,[7,4],[22,13]]]],
           ["element","action",["addContact"],[],["loc",[null,[23,31],[23,55]]]],
-          ["attribute","disabled",["get","model.isntValid",["loc",[null,[26,22],[26,37]]]]]
+          ["attribute","disabled",["get","model.isntValid",["loc",[null,[26,22],[26,37]]]]],
+          ["attribute","disabled",["get","model.isntValid",["loc",[null,[27,18],[27,33]]]]],
+          ["element","action",["payLater"],[],["loc",[null,[27,69],[27,91]]]]
         ],
         locals: [],
         templates: [child0]
@@ -7051,7 +7099,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 29,
+            "line": 30,
             "column": 0
           }
         },
@@ -7075,129 +7123,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[1,0],[28,12]]]]
-      ],
-      locals: [],
-      templates: [child0]
-    };
-  }()));
-
-});
-define('tiny/subscriptions/payment/route', ['exports', 'ember'], function (exports, Ember) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: function model(params) {
-      return this.store.find('subscription', params.id);
-    },
-    actions: {
-      processStripeToken: function processStripeToken() {
-        var _this = this;
-
-        var subscription = this.controller.model;
-        subscription.set('paid', true);
-        subscription.save().then(function () {
-          _this.transitionTo('subscriptions.success');
-        });
-      }
-    }
-  });
-
-});
-define('tiny/subscriptions/payment/template', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    var child0 = (function() {
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.2.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 11,
-              "column": 2
-            },
-            "end": {
-              "line": 11,
-              "column": 71
-            }
-          },
-          "moduleName": "tiny/subscriptions/payment/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Pay later");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() { return []; },
-        statements: [
-
-        ],
-        locals: [],
-        templates: []
-      };
-    }());
-    return {
-      meta: {
-        "fragmentReason": {
-          "name": "triple-curlies"
-        },
-        "revision": "Ember@2.2.0",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 13,
-            "column": 0
-          }
-        },
-        "moduleName": "tiny/subscriptions/payment/template.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","well");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(element0,1,1);
-        morphs[1] = dom.createMorphAt(element0,3,3);
-        return morphs;
-      },
-      statements: [
-        ["inline","stripe-checkout",[],["class","btn btn-primary","email",["subexpr","@mut",[["get","model.user.email",["loc",[null,[4,10],[4,26]]]]],[],[]],"image","https://stripe.com/img/documentation/checkout/marketplace.png","name","Demo Site","description",["subexpr","@mut",[["get","model.course.name",["loc",[null,[7,16],[7,33]]]]],[],[]],"amount",["subexpr","@mut",[["get","model.course.price",["loc",[null,[8,11],[8,29]]]]],[],[]],"action","processStripeToken"],["loc",[null,[2,2],[10,4]]]],
-        ["block","link-to",["subscriptions.success"],["class","btn btn-default"],0,null,["loc",[null,[11,2],[11,83]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[1,17],[1,22]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[1,0],[29,12]]]]
       ],
       locals: [],
       templates: [child0]
@@ -7586,51 +7512,6 @@ define('tiny/templates/components/easy-form/error-field', ['exports'], function 
   }()));
 
 });
-define('tiny/templates/components/easy-form/form-select', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "fragmentReason": {
-          "name": "missing-wrapper",
-          "problems": [
-            "empty-body"
-          ]
-        },
-        "revision": "Ember@2.2.0",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 0
-          }
-        },
-        "moduleName": "tiny/templates/components/easy-form/form-select.hbs"
-      },
-      isEmpty: true,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
 define('tiny/templates/components/easy-form/hint-field', ['exports'], function (exports) {
 
   'use strict';
@@ -7718,17 +7599,15 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("  ");
-          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
           return morphs;
         },
         statements: [
@@ -7752,7 +7631,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
               },
               "end": {
                 "line": 6,
-                "column": 56
+                "column": 57
               }
             },
             "moduleName": "tiny/templates/components/easy-form/input-for.hbs"
@@ -7775,7 +7654,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
             return morphs;
           },
           statements: [
-            ["inline","error-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[6,42],[6,54]]]]],[],[]]],["loc",[null,[6,19],[6,56]]]]
+            ["inline","error-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[6,43],[6,55]]]]],[],[]]],["loc",[null,[6,20],[6,57]]]]
           ],
           locals: [],
           templates: []
@@ -7794,7 +7673,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
               },
               "end": {
                 "line": 7,
-                "column": 64
+                "column": 69
               }
             },
             "moduleName": "tiny/templates/components/easy-form/input-for.hbs"
@@ -7817,7 +7696,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
             return morphs;
           },
           statements: [
-            ["inline","hint-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[7,36],[7,48]]]]],[],[]],"text",["subexpr","@mut",[["get","hintText",["loc",[null,[7,54],[7,62]]]]],[],[]]],["loc",[null,[7,14],[7,64]]]]
+            ["inline","hint-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[7,41],[7,53]]]]],[],[]],"text",["subexpr","@mut",[["get","hintText",["loc",[null,[7,59],[7,67]]]]],[],[]]],["loc",[null,[7,19],[7,69]]]]
           ],
           locals: [],
           templates: []
@@ -7846,39 +7725,31 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("  ");
+          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
-          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
-          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(4);
-          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
-          morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
-          morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
-          morphs[3] = dom.createMorphAt(fragment,7,7,contextualElement);
+          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          morphs[1] = dom.createMorphAt(fragment,1,1,contextualElement);
+          morphs[2] = dom.createMorphAt(fragment,2,2,contextualElement);
+          morphs[3] = dom.createMorphAt(fragment,3,3,contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
           return morphs;
         },
         statements: [
-          ["inline","label-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[4,25],[4,37]]]]],[],[]],"text",["subexpr","@mut",[["get","labelText",["loc",[null,[4,43],[4,52]]]]],[],[]]],["loc",[null,[4,2],[4,54]]]],
-          ["inline","input-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[5,25],[5,37]]]]],[],[]],"inputOptions",["subexpr","@mut",[["get","inputOptions",["loc",[null,[5,51],[5,63]]]]],[],[]]],["loc",[null,[5,2],[5,65]]]],
-          ["block","if",[["get","showError",["loc",[null,[6,8],[6,17]]]]],[],0,null,["loc",[null,[6,2],[6,63]]]],
-          ["block","if",[["get","hint",["loc",[null,[7,8],[7,12]]]]],[],1,null,["loc",[null,[7,2],[7,71]]]]
+          ["inline","label-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[4,26],[4,38]]]]],[],[]],"text",["subexpr","@mut",[["get","labelText",["loc",[null,[4,44],[4,53]]]]],[],[]]],["loc",[null,[4,2],[4,57]]]],
+          ["inline","input-field",[],["property",["subexpr","@mut",[["get","propertyName",["loc",[null,[5,26],[5,38]]]]],[],[]],"inputOptions",["subexpr","@mut",[["get","inputOptions",["loc",[null,[5,52],[5,64]]]]],[],[]]],["loc",[null,[5,2],[5,68]]]],
+          ["block","if",[["get","showError",["loc",[null,[6,9],[6,18]]]]],[],0,null,["loc",[null,[6,2],[6,65]]]],
+          ["block","if",[["get","hintText",["loc",[null,[7,9],[7,17]]]]],[],1,null,["loc",[null,[7,2],[7,77]]]]
         ],
         locals: [],
         templates: [child0, child1]
@@ -7901,7 +7772,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
           },
           "end": {
             "line": 8,
-            "column": 7
+            "column": 9
           }
         },
         "moduleName": "tiny/templates/components/easy-form/input-for.hbs"
@@ -7924,7 +7795,7 @@ define('tiny/templates/components/easy-form/input-for', ['exports'], function (e
         return morphs;
       },
       statements: [
-        ["block","if",[["get","hasBlock",["loc",[null,[1,6],[1,14]]]]],[],0,1,["loc",[null,[1,0],[8,7]]]]
+        ["block","if",[["get","hasBlock",["loc",[null,[1,7],[1,15]]]]],[],0,1,["loc",[null,[1,0],[8,9]]]]
       ],
       locals: [],
       templates: [child0, child1]
@@ -8659,6 +8530,76 @@ define('tiny/tests/helpers/start-app.jshint', function () {
   it('should pass jshint', function() { 
     expect(true, 'helpers/start-app.js should pass jshint.').to.be.ok; 
   })});
+
+});
+define('tiny/tests/helpers/validate-properties', ['exports', 'ember', 'ember-qunit'], function (exports, Ember, ember_qunit) {
+
+  'use strict';
+
+  exports.testValidPropertyValues = testValidPropertyValues;
+  exports.testInvalidPropertyValues = testInvalidPropertyValues;
+
+  var run = Ember['default'].run;
+
+  function validateValues(object, propertyName, values, isTestForValid) {
+    var promise = null;
+    var validatedValues = [];
+
+    values.forEach(function (value) {
+      function handleValidation(errors) {
+        var hasErrors = object.get('errors.' + propertyName + '.firstObject');
+        if (hasErrors && !isTestForValid || !hasErrors && isTestForValid) {
+          validatedValues.push(value);
+        }
+      }
+
+      run(object, 'set', propertyName, value);
+
+      var objectPromise = null;
+      run(function () {
+        objectPromise = object.validate().then(handleValidation, handleValidation);
+      });
+
+      // Since we are setting the values in a different run loop as we are validating them,
+      // we need to chain the promises so that they run sequentially. The wrong value will
+      // be validated if the promises execute concurrently
+      promise = promise ? promise.then(objectPromise) : objectPromise;
+    });
+
+    return promise.then(function () {
+      return validatedValues;
+    });
+  }
+
+  function testPropertyValues(propertyName, values, isTestForValid, context) {
+    var validOrInvalid = isTestForValid ? 'Valid' : 'Invalid';
+    var testName = validOrInvalid + ' ' + propertyName;
+
+    ember_qunit.test(testName, function (assert) {
+      var object = this.subject();
+
+      if (context && typeof context === 'function') {
+        context(object);
+      }
+
+      // Use QUnit.dump.parse so null and undefined can be printed as literal 'null' and
+      // 'undefined' strings in the assert message.
+      var valuesString = QUnit.dump.parse(values).replace(/\n(\s+)?/g, '').replace(/,/g, ', ');
+      var assertMessage = 'Expected ' + propertyName + ' to have ' + validOrInvalid.toLowerCase() + ' values: ' + valuesString;
+
+      return validateValues(object, propertyName, values, isTestForValid).then(function (validatedValues) {
+        assert.deepEqual(validatedValues, values, assertMessage);
+      });
+    });
+  }
+
+  function testValidPropertyValues(propertyName, values, context) {
+    testPropertyValues(propertyName, values, true, context);
+  }
+
+  function testInvalidPropertyValues(propertyName, values, context) {
+    testPropertyValues(propertyName, values, false, context);
+  }
 
 });
 define('tiny/tests/integration/components/admin-courses-index-test', ['chai', 'ember-mocha'], function (chai, ember_mocha) {
@@ -9452,17 +9393,7 @@ define('tiny/tests/subscriptions/new/route.jshint', function () {
 
   describe('JSHint - subscriptions/new/route.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 29, col 12, Missing semicolon.\nsubscriptions/new/route.js: line 38, col 50, Missing semicolon.\nsubscriptions/new/route.js: line 57, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 63, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
-  })});
-
-});
-define('tiny/tests/subscriptions/payment/route.jshint', function () {
-
-  'use strict';
-
-  describe('JSHint - subscriptions/payment/route.js', function(){
-  it('should pass jshint', function() { 
-    expect(true, 'subscriptions/payment/route.js should pass jshint.').to.be.ok; 
+    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 28, col 12, Missing semicolon.\nsubscriptions/new/route.js: line 37, col 50, Missing semicolon.\nsubscriptions/new/route.js: line 79, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 85, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
   })});
 
 });
@@ -9845,13 +9776,13 @@ define('tiny/utils/array_all_succeeded', ['exports'], function (exports) {
 /* jshint ignore:start */
 
 define('tiny/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"tiny","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"API_ADDRESS":"http://localhost:5000","name":"tiny","version":"0.0.0+"},"contentSecurityPolicy":{"default-src":"'self' https://checkout.stripe.com","script-src":"'self' https://cdn.mxpnl.com https://checkout.stripe.com","font-src":"'self' http://fonts.gstatic.com","connect-src":"'self' http://localhost:5000 http://107.170.3.185:5000","img-src":"'self' https://q.stripe.com","style-src":"'self' 'unsafe-inline' https://fonts.googleapis.com","media-src":"'self'"},"stripe":{"key":"pk_test_sQlqVzfDGPAeGYhYcxWKga2D"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","exportApplicationGlobal":true,"browserify":{"tests":true}}};
+  return { 'default': {"modulePrefix":"tiny","environment":"development","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"API_HOST":"http://localhost:5000","name":"tiny","version":"0.0.0+"},"contentSecurityPolicy":{"default-src":"'self' https://checkout.stripe.com","script-src":"'self' https://cdn.mxpnl.com https://checkout.stripe.com","font-src":"'self' http://fonts.gstatic.com","connect-src":"'self' http://localhost:3001 http://localhost:5000 http://107.170.3.185:5000","img-src":"'self' https://q.stripe.com","style-src":"'self' 'unsafe-inline' https://fonts.googleapis.com","media-src":"'self'"},"stripe":{"key":"pk_test_sQlqVzfDGPAeGYhYcxWKga2D"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","exportApplicationGlobal":true,"browserify":{"tests":true}}};
 });
 
 if (runningTests) {
   require("tiny/tests/test-helper");
 } else {
-  require("tiny/app")["default"].create({"API_ADDRESS":"http://localhost:5000","name":"tiny","version":"0.0.0+"});
+  require("tiny/app")["default"].create({"API_HOST":"http://localhost:5000","name":"tiny","version":"0.0.0+"});
 }
 
 /* jshint ignore:end */

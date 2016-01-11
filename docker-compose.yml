@@ -13,7 +13,7 @@ api:
     BUNDLE_JOBS: 20
 
 frontend:
-  build: .
+  image: tiny_api
   command: ./node_modules/ember-cli/bin/ember serve -p 4200 --live-reload-port 35729
   working_dir: /frontend
   volumes:
@@ -22,6 +22,20 @@ frontend:
   ports:
     - "4200:4200"
     - "35729:35729"
+
+tests:
+  image: tiny_api
+  command: rake
+  working_dir: /tests
+  volumes:
+    - ./api:/api
+    - ./frontend:/frontend
+    - ./tests:/tests
+  links:
+    - postgres
+  ports:
+    - "4201:4201"
+    - "3001:3001"
 
 postgres:
   image: postgres:9.5

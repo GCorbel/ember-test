@@ -5,8 +5,8 @@
     {{/each}}
   {{/if}}
   <div class="well">
-    {{em-input model=model label="Email" property="email"}}
-    {{em-input model=model label="Password" property="password" type="password"}}
+    {{em-input label="Email" cid="email" property="email"}}
+    {{em-input model=model label="Password" cid="password" property="password" type="password"}}
   </div>
 {{/em-form}}
 {{#link-to 'registration.reset_password'}}Password forgotten{{/link-to}}

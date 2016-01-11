@@ -9,7 +9,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       amount: this.amount()
     });
   }, amount: function() {
-    return new Promise((resolve) => {
+    return new Ember.RSVP.Promise((resolve) => {
       var sum = 0;
       this.store.findAll('subscription').then((subscriptions) => {
         subscriptions.forEach((subscription) => {

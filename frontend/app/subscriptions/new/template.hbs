@@ -4,16 +4,16 @@
     {{em-select label="Course" property="course" content=courses canShowErrors=true prompt=" " propertyIsModel=true optionLabelPath="name"}}
   </div>
   <div class="well">
-    {{#each model.user.contacts as |contact|}}
+    {{#each model.user.contacts as |contact i|}}
       <div class='row'>
         <div class='col-md-3'>
-          {{em-input model=contact label="Name" property="fullname" canShowErrors=true}}
+          {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname" canShowErrors=true}}
         </div>
         <div class='col-md-3'>
-          {{em-input model=contact label="Email" property="email" canShowErrors=true}}
+          {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email" canShowErrors=true}}
         </div>
         <div class='col-md-3'>
-          {{em-input model=contact label="Phone" property="phone" canShowErrors=true}}
+          {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone" canShowErrors=true}}
         </div>
         <div class='col-md-3'>
           <a class='btn btn-danger' {{action 'removeContact' contact}}>Remove</a>
@@ -23,6 +23,7 @@
     <a class='btn btn-default' {{action 'addContact' }}>Add contact</a>
   </div>
   <div class="form-actions">
-    <input disabled={{model.isntValid}} type="submit" class="btn btn-primary" value="Continue">
+    <input disabled={{model.isntValid}} type="submit" class="btn btn-primary" value="Submit and pay">
+    <a disabled={{model.isntValid}} class="btn btn-default" href="#" {{action 'payLater' }}>Submit and pay later</a>
   </div>
 {{/em-form}}
