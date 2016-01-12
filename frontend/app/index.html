@@ -21,12 +21,5 @@
     <script src="assets/tiny.js"></script>
 
     {{content-for 'body-footer'}}
-    <script type="text/javascript" charset="utf-8">
-      $(document).ready(function() {
-        Ember.run.scheduleOnce('afterRender', this, function(){
-          $.AdminLTE.layout.activate();
-        })
-      })
-    </script>
   </body>
 </html>

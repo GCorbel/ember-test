@@ -8,6 +8,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       this.get('session').invalidate().then(() => {
         this.transitionTo('registration.login');
       });
+    },
+    didTransition: function() {
+      Ember.run.scheduleOnce('afterRender', this, function(){
+        $.AdminLTE.layout.activate();
+      });
     }
   }
 });
