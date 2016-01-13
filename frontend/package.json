@@ -43,6 +43,7 @@
     "ember-easy-form": "diogomafra/ember-easy-form#ember113",
     "ember-export-application-global": "^1.0.3",
     "ember-rapid-forms": "GCorbel/ember-rapid-forms#default_cid",
+    "ember-validations": "dockyard/ember-validations",
     "ember-simple-auth": "1.0.1",
     "ember-truth-helpers": "1.2.0",
     "mocha": "^2.3.3"

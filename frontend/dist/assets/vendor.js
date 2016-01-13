@@ -90369,7 +90369,7 @@ define('ember-validations/mixin', ['exports', 'ember', 'ember-validations/errors
               errors.addObjects(validator.errors);
             }
           }, this);
-          set(this, 'errors.' + sender.property, errors);
+          set(this, 'errors.' + sender.property, errors, true);
         });
       }, this);
     },
@@ -90471,6 +90471,16 @@ define('ember-validations/validators/base', ['exports', 'ember'], function (expo
       this.dependentValidationKeys.forEach(function (key) {
         this.model.addObserver(key, this, this._validate);
       }, this);
+    }),
+    pushConditionalDependentValidationKeys: Ember['default'].on('init', function () {
+      var _this = this;
+
+      Ember['default'].A(['if', 'unless']).forEach(function (conditionalKind) {
+        var conditional = _this.conditionals[conditionalKind];
+        if (typeof conditional === 'string' && typeof _this.model[conditional] !== 'function') {
+          _this.dependentValidationKeys.pushObject(conditional);
+        }
+      });
     }),
     pushDependentValidationKeyToModel: Ember['default'].on('init', function () {
       var model = get(this, 'model');
@@ -90907,7 +90917,7 @@ define('ember-validations/validators/local/numericality', ['exports', 'ember', '
         }
 
         if (prop !== undefined && this.options.messages[key] === undefined) {
-          if (Ember['default'].$.inArray(key, Ember['default'].keys(this.CHECKS)) !== -1) {
+          if (Ember['default'].$.inArray(key, Object.keys(this.CHECKS)) !== -1) {
             this.options.count = prop;
           }
           this.options.messages[key] = Messages['default'].render(key, this.options);

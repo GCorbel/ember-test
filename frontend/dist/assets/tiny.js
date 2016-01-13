@@ -1372,6 +1372,11 @@ define('tiny/admin/route', ['exports', 'ember', 'ember-simple-auth/mixins/authen
         this.get('session').invalidate().then(function () {
           _this.transitionTo('registration.login');
         });
+      },
+      didTransition: function didTransition() {
+        Ember['default'].run.scheduleOnce('afterRender', this, function () {
+          $.AdminLTE.layout.activate();
+        });
       }
     }
   });
@@ -6089,15 +6094,20 @@ define('tiny/models/admin_user', ['exports', 'ember-data'], function (exports, D
   });
 
 });
-define('tiny/models/contact', ['exports', 'ember-data'], function (exports, DS) {
+define('tiny/models/contact', ['exports', 'ember-data', 'ember-validations'], function (exports, DS, EmberValidations) {
 
   'use strict';
 
-  exports['default'] = DS['default'].Model.extend({
+  exports['default'] = DS['default'].Model.extend(EmberValidations['default'], {
     fullname: DS['default'].attr('string', { defaultValue: '' }),
     phone: DS['default'].attr('string', { defaultValue: '' }),
     email: DS['default'].attr('string', { defaultValue: '' }),
-    user: DS['default'].belongsTo('user')
+    user: DS['default'].belongsTo('user'),
+    validations: {
+      fullname: { presence: true },
+      phone: { presence: true },
+      email: { presence: true }
+    }
   });
 
 });
@@ -6112,28 +6122,52 @@ define('tiny/models/course', ['exports', 'ember-data'], function (exports, DS) {
   });
 
 });
-define('tiny/models/subscription', ['exports', 'ember-data'], function (exports, DS) {
+define('tiny/models/subscription', ['exports', 'ember-data', 'ember-validations'], function (exports, DS, ember_validations) {
 
   'use strict';
 
-  exports['default'] = DS['default'].Model.extend({
+  exports['default'] = DS['default'].Model.extend(ember_validations['default'], {
     userId: DS['default'].attr(),
     user: DS['default'].belongsTo('user'),
     courseId: DS['default'].attr(),
     course: DS['default'].belongsTo('course'),
-    paid: DS['default'].attr('boolean', { defaultValue: false })
+    paid: DS['default'].attr('boolean', { defaultValue: false }),
+    validations: {
+      'course': ember_validations.validator(function () {
+        if (Ember.isBlank(this.get('course.id'))) {
+          return 'you have to choose a course';
+        }
+      }),
+      'user.email': { email: true },
+      'contacts': {
+        inline: ember_validations.validator(function () {
+          var _this = this;
+
+          var contacts = this.get('user.contacts') || [];
+
+          contacts.forEach(function (contact) {
+            if (!contact.get('isValid')) {
+              _this.errors.pushObject('one contact or more is invalid');
+            }
+          });
+        })
+      }
+    }
   });
 
 });
-define('tiny/models/user', ['exports', 'ember-data'], function (exports, DS) {
+define('tiny/models/user', ['exports', 'ember-data', 'ember-validations'], function (exports, DS, EmberValidations) {
 
   'use strict';
 
-  exports['default'] = DS['default'].Model.extend({
+  exports['default'] = DS['default'].Model.extend(EmberValidations['default'], {
     email: DS['default'].attr('string', { defaultValue: '' }),
     subscriptions: DS['default'].hasMany('subscription'),
     courses: DS['default'].hasMany('course'),
-    contacts: DS['default'].hasMany('contact')
+    contacts: DS['default'].hasMany('contact'),
+    validations: {
+      email: { email: true }
+    }
   });
 
 });
@@ -6745,17 +6779,22 @@ define('tiny/session-stores/application', ['exports', 'ember-simple-auth/session
 	exports['default'] = Adaptive['default'].extend();
 
 });
-define('tiny/subscriptions/new/controller', ['exports', 'ember'], function (exports, Ember) {
+define('tiny/subscriptions/new/controller', ['exports', 'ember', 'ember-validations'], function (exports, Ember, EmberValidations) {
 
   'use strict';
 
-  exports['default'] = Ember['default'].Controller.extend({
+  exports['default'] = Ember['default'].Controller.extend(EmberValidations['default'], {
     courses: (function () {
       return this.store.findAll('course');
     }).property('courses'),
     actions: {
       selectCourse: function selectCourse(course) {
         this.model.set('course', course);
+      }
+    },
+    validations: {
+      'model.course.id': {
+        presence: true
       }
     }
   });
@@ -6876,7 +6915,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
                 "column": 8
               },
               "end": {
-                "line": 31,
+                "line": 32,
                 "column": 8
               }
             },
@@ -6914,7 +6953,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             var el3 = dom.createTextNode("\n            ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n            ");
+            var el2 = dom.createTextNode("\n\n            ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("div");
             dom.setAttribute(el2,"class","col-md-3");
@@ -6957,10 +6996,10 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[19,31],[19,38]]]]],[],[]],"label","Name","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[19,75],[19,76]]]],"_name"],[],["loc",[null,[19,56],[19,85]]]],"property","fullname","canShowErrors",true],["loc",[null,[19,14],[19,126]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[22,31],[22,38]]]]],[],[]],"label","Email","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[22,76],[22,77]]]],"_email"],[],["loc",[null,[22,57],[22,87]]]],"property","email","canShowErrors",true],["loc",[null,[22,14],[22,125]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[25,31],[25,38]]]]],[],[]],"label","Phone","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[25,76],[25,77]]]],"_phone"],[],["loc",[null,[25,57],[25,87]]]],"property","phone","canShowErrors",true],["loc",[null,[25,14],[25,125]]]],
-            ["element","action",["removeContact",["get","contact",["loc",[null,[28,86],[28,93]]]]],[],["loc",[null,[28,61],[28,95]]]]
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[19,31],[19,38]]]]],[],[]],"label","Name","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[19,75],[19,76]]]],"_name"],[],["loc",[null,[19,56],[19,85]]]],"property","fullname"],["loc",[null,[19,14],[19,107]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[22,31],[22,38]]]]],[],[]],"label","Email","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[22,76],[22,77]]]],"_email"],[],["loc",[null,[22,57],[22,87]]]],"property","email"],["loc",[null,[22,14],[22,106]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[26,31],[26,38]]]]],[],[]],"label","Phone","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[26,76],[26,77]]]],"_phone"],[],["loc",[null,[26,57],[26,87]]]],"property","phone"],["loc",[null,[26,14],[26,106]]]],
+            ["element","action",["removeContact",["get","contact",["loc",[null,[29,86],[29,93]]]]],[],["loc",[null,[29,61],[29,95]]]]
           ],
           locals: ["contact","i"],
           templates: []
@@ -6977,7 +7016,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
               "column": 6
             },
             "end": {
-              "line": 43,
+              "line": 44,
               "column": 6
             }
           },
@@ -7054,11 +7093,10 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           dom.setAttribute(el2,"class","col-xs-6");
           var el3 = dom.createTextNode("\n            ");
           dom.appendChild(el2, el3);
-          var el3 = dom.createElement("a");
+          var el3 = dom.createElement("input");
+          dom.setAttribute(el3,"type","button");
           dom.setAttribute(el3,"class","btn btn-default btn-block btn-flat");
-          dom.setAttribute(el3,"href","#");
-          var el4 = dom.createTextNode("Submit and pay later");
-          dom.appendChild(el3, el4);
+          dom.setAttribute(el3,"value","Submit and pay later");
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
@@ -7087,13 +7125,13 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model.user",["loc",[null,[12,29],[12,39]]]]],[],[]],"label","Email","property","email","canShowErrors",true],["loc",[null,[12,12],[12,91]]]],
-          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[13,65],[13,72]]]]],[],[]],"canShowErrors",true,"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[13,12],[13,148]]]],
-          ["block","each",[["get","model.user.contacts",["loc",[null,[16,16],[16,35]]]]],[],0,null,["loc",[null,[16,8],[31,17]]]],
-          ["element","action",["addContact"],[],["loc",[null,[32,44],[32,68]]]],
-          ["attribute","disabled",["get","model.isntValid",["loc",[null,[37,30],[37,45]]]]],
-          ["attribute","disabled",["get","model.isntValid",["loc",[null,[40,26],[40,41]]]]],
-          ["element","action",["payLater"],[],["loc",[null,[40,96],[40,118]]]]
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model.user",["loc",[null,[12,29],[12,39]]]]],[],[]],"label","Email","property","email"],["loc",[null,[12,12],[12,72]]]],
+          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[13,65],[13,72]]]]],[],[]],"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[13,12],[13,129]]]],
+          ["block","each",[["get","model.user.contacts",["loc",[null,[16,16],[16,35]]]]],[],0,null,["loc",[null,[16,8],[32,17]]]],
+          ["element","action",["addContact"],[],["loc",[null,[33,44],[33,68]]]],
+          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[38,34],[38,47]]]]],[],["loc",[null,[38,28],[38,49]]]]],
+          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[41,34],[41,47]]]]],[],["loc",[null,[41,28],[41,49]]]]],
+          ["element","action",["payLater"],[],["loc",[null,[41,136],[41,158]]]]
         ],
         locals: [],
         templates: [child0]
@@ -7112,7 +7150,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 46,
+            "line": 47,
             "column": 0
           }
         },
@@ -7174,7 +7212,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,23],[9,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[9,6],[43,18]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,23],[9,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[9,6],[44,18]]]]
       ],
       locals: [],
       templates: [child0]
@@ -9444,7 +9482,7 @@ define('tiny/tests/subscriptions/new/route.jshint', function () {
 
   describe('JSHint - subscriptions/new/route.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 28, col 12, Missing semicolon.\nsubscriptions/new/route.js: line 37, col 50, Missing semicolon.\nsubscriptions/new/route.js: line 79, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 85, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
+    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 28, col 10, Missing semicolon.\nsubscriptions/new/route.js: line 37, col 48, Missing semicolon.\nsubscriptions/new/route.js: line 79, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 85, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
   })});
 
 });
@@ -9803,6 +9841,16 @@ define('tiny/tests/utils/array_all_succeeded.jshint', function () {
   })});
 
 });
+define('tiny/tests/validators/email.jshint', function () {
+
+  'use strict';
+
+  describe('JSHint - validators/email.js', function(){
+  it('should pass jshint', function() { 
+    expect(true, 'validators/email.js should pass jshint.').to.be.ok; 
+  })});
+
+});
 define('tiny/utils/array_all_succeeded', ['exports'], function (exports) {
 
   'use strict';
@@ -9818,6 +9866,22 @@ define('tiny/utils/array_all_succeeded', ['exports'], function (exports) {
     });
     return success;
   }
+
+});
+define('tiny/validators/email', ['exports', 'ember-validations/validators/base'], function (exports, Base) {
+
+  'use strict';
+
+  exports['default'] = Base['default'].extend({
+    call: function call() {
+      var email = this.model.get(this.property);
+      if (!email) {
+        this.errors.pushObject("must include an email");
+      } else if (!email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)) {
+        this.errors.pushObject("must be formatted like an email");
+      }
+    }
+  });
 
 });
 /* jshint ignore:start */

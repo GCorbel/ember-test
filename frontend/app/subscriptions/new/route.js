@@ -9,43 +9,43 @@ export default Ember.Route.extend({
     return subscription;
   },
   saveSubscription: function(callback) {
-      var subscription = this.controller.model;
-      subscription.get('user').then((user) => {
-        user.get('contacts').then((contacts) => {
-          var contacts_json = [];
-          contacts.forEach((contact) => {
-            contacts_json.push(contact.getProperties('fullname', 'phone', 'email'));
-          });
+    var subscription = this.controller.model;
+    subscription.get('user').then((user) => {
+      user.get('contacts').then((contacts) => {
+        var contacts_json = [];
+        contacts.forEach((contact) => {
+          contacts_json.push(contact.getProperties('fullname', 'phone', 'email'));
+        });
 
-          var data = {
-            subscription: {
-              user_attributes: {
-                email: user.get('email'),
-                contacts_attributes: contacts_json
-              },
-              course_id: subscription.get('course.id')
-            }
+        var data = {
+          subscription: {
+            user_attributes: {
+              email: user.get('email'),
+              contacts_attributes: contacts_json
+            },
+            course_id: subscription.get('course.id')
           }
+        }
 
-          Ember.$.ajax({
-            url: `${Tiny.API_HOST}/subscriptions/`,
-            type: 'POST',
-            data: data
-          }).then((data) => {
-            callback(subscription);
-          }, (data) => {
-            var errors = data.responseJSON.errors
+        Ember.$.ajax({
+          url: `${Tiny.API_HOST}/subscriptions/`,
+          type: 'POST',
+          data: data
+        }).then((data) => {
+          callback(subscription);
+        }, (data) => {
+          var errors = data.responseJSON.errors
             subscription.get('errors').add('course', errors.course);
-            user.get('errors').add('email', errors.user.email);
-            user.get('contacts').forEach((contact, index) => {
-              var error = errors.user.contacts[index];
-              contact.get('errors').add('email', error.email);
-              contact.get('errors').add('fullname', error.fullname);
-              contact.get('errors').add('phone', error.phone);
-            });
+          user.get('errors').add('email', errors.user.email);
+          user.get('contacts').forEach((contact, index) => {
+            var error = errors.user.contacts[index];
+            contact.get('errors').add('email', error.email);
+            contact.get('errors').add('fullname', error.fullname);
+            contact.get('errors').add('phone', error.phone);
           });
         });
       });
+    });
   },
   actions: {
     payLater: function() {

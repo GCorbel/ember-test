@@ -9,20 +9,21 @@
       {{#em-form model=model submitButton=false}}
         <div class="row">
           <div class='col-md-12'>
-            {{em-input model=model.user label="Email" property="email" canShowErrors=true}}
-            {{em-select label="Course" property="course" content=courses canShowErrors=true prompt=" " propertyIsModel=true optionLabelPath="name"}}
+            {{em-input model=model.user label="Email" property="email"}}
+            {{em-select label="Course" property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
           </div>
         </div>
         {{#each model.user.contacts as |contact i|}}
           <div class='row'>
             <div class='col-md-3'>
-              {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname" canShowErrors=true}}
+              {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname"}}
             </div>
             <div class='col-md-3'>
-              {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email" canShowErrors=true}}
+              {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email"}}
             </div>
+
             <div class='col-md-3'>
-              {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone" canShowErrors=true}}
+              {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone"}}
             </div>
             <div class='col-md-3 pull-bottom'>
               <a class='btn btn-danger btn-flat pull-bottom' {{action 'removeContact' contact}}>Remove</a>
@@ -34,10 +35,10 @@
         <br/>
         <div class="row">
           <div class="col-xs-6">
-            <input disabled={{model.isntValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay">
+            <input disabled={{not model.isValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay">
           </div>
           <div class="col-xs-6">
-            <a disabled={{model.isntValid}} class="btn btn-default btn-block btn-flat" href="#" {{action 'payLater' }}>Submit and pay later</a>
+            <input disabled={{not model.isValid}} type="button" class="btn btn-default btn-block btn-flat" value="Submit and pay later" {{action 'payLater' }}>
           </div>
         </div>
       {{/em-form}}
