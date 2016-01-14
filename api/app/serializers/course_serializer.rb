@@ -1,3 +1,3 @@
 class CourseSerializer < ActiveModel::Serializer
-  attributes :id, :name, :subscription_ids
+  attributes :id, :name, :price, :subscription_ids
 end
