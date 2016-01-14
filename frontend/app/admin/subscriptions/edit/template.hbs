@@ -13,6 +13,10 @@
     </div>
     <div class="modal-body">
       {{#em-form model=model submitButton=false}}
+        {{em-input label="First Name" property="firstName"}}
+        {{em-input label="Last Name" property="lastName"}}
+        {{em-input label="Phone" property="phone"}}
+        {{em-text label="Comments" property="comments"}}
         {{em-select label="User" property="user" content=users
             propertyIsModel=true prompt=" " optionLabelPath="email"}}
         {{em-select label="Course" property="course" content=courses

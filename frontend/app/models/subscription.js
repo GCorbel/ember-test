@@ -6,6 +6,10 @@ export default DS.Model.extend(EmberValidations, {
   user: DS.belongsTo('user'),
   courseId: DS.attr(),
   course: DS.belongsTo('course'),
+  firstName: DS.attr('string'),
+  lastName: DS.attr('string'),
+  comments: DS.attr('string'),
+  phone: DS.attr('string'),
   paid: DS.attr('boolean', { defaultValue: false }),
   validations: {
     'course': validator(function() {

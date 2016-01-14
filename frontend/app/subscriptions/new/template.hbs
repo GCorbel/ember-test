@@ -9,8 +9,12 @@
       {{#em-form model=model submitButton=false}}
         <div class="row">
           <div class='col-md-12'>
-            {{em-input model=model.user label="Email" property="email"}}
+            {{em-input label="First Name" property="firstName"}}
+            {{em-input label="Last Name" property="lastName"}}
+            {{em-input label="Phone" property="phone"}}
+            {{em-input model=model.user label="Email *" property="email"}}
             {{em-select label="Course" property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+            {{em-text label="Comments" property="comments"}}
           </div>
         </div>
         {{#each model.user.contacts as |contact i|}}

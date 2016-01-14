@@ -19,6 +19,10 @@ export default Ember.Route.extend({
 
         var data = {
           subscription: {
+            first_name: subscription.get('firstName'),
+            last_name: subscription.get('lastName'),
+            phone: subscription.get('phone'),
+            comments: subscription.get('comments'),
             user_attributes: {
               email: user.get('email'),
               contacts_attributes: contacts_json

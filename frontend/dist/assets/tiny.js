@@ -1457,7 +1457,7 @@ define('tiny/admin/subscriptions/edit/template', ['exports'], function (exports)
               "column": 6
             },
             "end": {
-              "line": 20,
+              "line": 24,
               "column": 6
             }
           },
@@ -1477,19 +1477,43 @@ define('tiny/admin/subscriptions/edit/template', ['exports'], function (exports)
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(2);
+          var morphs = new Array(6);
           morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
           morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
+          morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
+          morphs[3] = dom.createMorphAt(fragment,7,7,contextualElement);
+          morphs[4] = dom.createMorphAt(fragment,9,9,contextualElement);
+          morphs[5] = dom.createMorphAt(fragment,11,11,contextualElement);
           return morphs;
         },
         statements: [
-          ["inline","em-select",[],["label","User","property","user","content",["subexpr","@mut",[["get","users",["loc",[null,[16,57],[16,62]]]]],[],[]],"propertyIsModel",true,"prompt"," ","optionLabelPath","email"],["loc",[null,[16,8],[17,69]]]],
-          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[18,61],[18,68]]]]],[],[]],"propertyIsModel",true,"prompt"," ","optionLabelPath","name"],["loc",[null,[18,8],[19,68]]]]
+          ["inline","em-input",[],["label","First Name","property","firstName"],["loc",[null,[16,8],[16,60]]]],
+          ["inline","em-input",[],["label","Last Name","property","lastName"],["loc",[null,[17,8],[17,58]]]],
+          ["inline","em-input",[],["label","Phone","property","phone"],["loc",[null,[18,8],[18,51]]]],
+          ["inline","em-text",[],["label","Comments","property","comments"],["loc",[null,[19,8],[19,56]]]],
+          ["inline","em-select",[],["label","User","property","user","content",["subexpr","@mut",[["get","users",["loc",[null,[20,57],[20,62]]]]],[],[]],"propertyIsModel",true,"prompt"," ","optionLabelPath","email"],["loc",[null,[20,8],[21,69]]]],
+          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[22,61],[22,68]]]]],[],[]],"propertyIsModel",true,"prompt"," ","optionLabelPath","name"],["loc",[null,[22,8],[23,68]]]]
         ],
         locals: [],
         templates: []
@@ -1512,7 +1536,7 @@ define('tiny/admin/subscriptions/edit/template', ['exports'], function (exports)
             "column": 0
           },
           "end": {
-            "line": 37,
+            "line": 41,
             "column": 0
           }
         },
@@ -1645,9 +1669,9 @@ define('tiny/admin/subscriptions/edit/template', ['exports'], function (exports)
       statements: [
         ["element","action",["cancel"],[],["loc",[null,[8,14],[8,33]]]],
         ["content","yield",["loc",[null,[11,8],[11,17]]]],
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[20,18]]]],
-        ["element","action",["cancel"],[],["loc",[null,[25,14],[25,33]]]],
-        ["element","action",["submit"],[],["loc",[null,[29,14],[29,33]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[24,18]]]],
+        ["element","action",["cancel"],[],["loc",[null,[29,14],[29,33]]]],
+        ["element","action",["submit"],[],["loc",[null,[33,14],[33,33]]]]
       ],
       locals: [],
       templates: [child0]
@@ -1716,7 +1740,7 @@ define('tiny/admin/subscriptions/new/template', ['exports'], function (exports) 
               "column": 6
             },
             "end": {
-              "line": 22,
+              "line": 24,
               "column": 6
             }
           },
@@ -1736,19 +1760,43 @@ define('tiny/admin/subscriptions/new/template', ['exports'], function (exports) 
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(2);
+          var morphs = new Array(6);
           morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
           morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
+          morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
+          morphs[3] = dom.createMorphAt(fragment,7,7,contextualElement);
+          morphs[4] = dom.createMorphAt(fragment,9,9,contextualElement);
+          morphs[5] = dom.createMorphAt(fragment,11,11,contextualElement);
           return morphs;
         },
         statements: [
-          ["inline","em-select",[],["label","User","property","user","content",["subexpr","@mut",[["get","users",["loc",[null,[16,57],[16,62]]]]],[],[]],"canShowErrors",true,"prompt"," ","propertyIsModel",true,"optionLabelPath","email"],["loc",[null,[16,8],[18,67]]]],
-          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[19,61],[19,68]]]]],[],[]],"canShowErrors",true,"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[19,8],[21,66]]]]
+          ["inline","em-input",[],["label","First Name","property","firstName"],["loc",[null,[16,8],[16,60]]]],
+          ["inline","em-input",[],["label","Last Name","property","lastName"],["loc",[null,[17,8],[17,58]]]],
+          ["inline","em-input",[],["label","Phone","property","phone"],["loc",[null,[18,8],[18,51]]]],
+          ["inline","em-text",[],["label","Comments","property","comments"],["loc",[null,[19,8],[19,56]]]],
+          ["inline","em-select",[],["label","User","property","user","content",["subexpr","@mut",[["get","users",["loc",[null,[20,57],[20,62]]]]],[],[]],"prompt"," ","propertyIsModel",true,"optionLabelPath","email"],["loc",[null,[20,8],[21,67]]]],
+          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[22,61],[22,68]]]]],[],[]],"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[22,8],[23,66]]]]
         ],
         locals: [],
         templates: []
@@ -1771,7 +1819,7 @@ define('tiny/admin/subscriptions/new/template', ['exports'], function (exports) 
             "column": 0
           },
           "end": {
-            "line": 39,
+            "line": 41,
             "column": 0
           }
         },
@@ -1904,9 +1952,9 @@ define('tiny/admin/subscriptions/new/template', ['exports'], function (exports) 
       statements: [
         ["element","action",["cancel"],[],["loc",[null,[8,14],[8,33]]]],
         ["content","yield",["loc",[null,[11,8],[11,17]]]],
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[22,18]]]],
-        ["element","action",["cancel"],[],["loc",[null,[27,14],[27,33]]]],
-        ["element","action",["submit"],[],["loc",[null,[31,14],[31,33]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[15,23],[15,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[15,6],[24,18]]]],
+        ["element","action",["cancel"],[],["loc",[null,[29,14],[29,33]]]],
+        ["element","action",["submit"],[],["loc",[null,[33,14],[33,33]]]]
       ],
       locals: [],
       templates: [child0]
@@ -6131,6 +6179,10 @@ define('tiny/models/subscription', ['exports', 'ember-data', 'ember-validations'
     user: DS['default'].belongsTo('user'),
     courseId: DS['default'].attr(),
     course: DS['default'].belongsTo('course'),
+    firstName: DS['default'].attr('string'),
+    lastName: DS['default'].attr('string'),
+    comments: DS['default'].attr('string'),
+    phone: DS['default'].attr('string'),
     paid: DS['default'].attr('boolean', { defaultValue: false }),
     validations: {
       'course': ember_validations.validator(function () {
@@ -6822,6 +6874,10 @@ define('tiny/subscriptions/new/route', ['exports', 'ember', 'tiny/utils/array_al
 
           var data = {
             subscription: {
+              first_name: subscription.get('firstName'),
+              last_name: subscription.get('lastName'),
+              phone: subscription.get('phone'),
+              comments: subscription.get('comments'),
               user_attributes: {
                 email: user.get('email'),
                 contacts_attributes: contacts_json
@@ -6911,11 +6967,11 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 16,
+                "line": 20,
                 "column": 8
               },
               "end": {
-                "line": 32,
+                "line": 36,
                 "column": 8
               }
             },
@@ -6996,10 +7052,10 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             return morphs;
           },
           statements: [
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[19,31],[19,38]]]]],[],[]],"label","Name","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[19,75],[19,76]]]],"_name"],[],["loc",[null,[19,56],[19,85]]]],"property","fullname"],["loc",[null,[19,14],[19,107]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[22,31],[22,38]]]]],[],[]],"label","Email","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[22,76],[22,77]]]],"_email"],[],["loc",[null,[22,57],[22,87]]]],"property","email"],["loc",[null,[22,14],[22,106]]]],
-            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[26,31],[26,38]]]]],[],[]],"label","Phone","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[26,76],[26,77]]]],"_phone"],[],["loc",[null,[26,57],[26,87]]]],"property","phone"],["loc",[null,[26,14],[26,106]]]],
-            ["element","action",["removeContact",["get","contact",["loc",[null,[29,86],[29,93]]]]],[],["loc",[null,[29,61],[29,95]]]]
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[23,31],[23,38]]]]],[],[]],"label","Name","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[23,75],[23,76]]]],"_name"],[],["loc",[null,[23,56],[23,85]]]],"property","fullname"],["loc",[null,[23,14],[23,107]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[26,31],[26,38]]]]],[],[]],"label","Email","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[26,76],[26,77]]]],"_email"],[],["loc",[null,[26,57],[26,87]]]],"property","email"],["loc",[null,[26,14],[26,106]]]],
+            ["inline","em-input",[],["model",["subexpr","@mut",[["get","contact",["loc",[null,[30,31],[30,38]]]]],[],[]],"label","Phone","cid",["subexpr","concat",["contact_",["get","i",["loc",[null,[30,76],[30,77]]]],"_phone"],[],["loc",[null,[30,57],[30,87]]]],"property","phone"],["loc",[null,[30,14],[30,106]]]],
+            ["element","action",["removeContact",["get","contact",["loc",[null,[33,86],[33,93]]]]],[],["loc",[null,[33,61],[33,95]]]]
           ],
           locals: ["contact","i"],
           templates: []
@@ -7016,7 +7072,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
               "column": 6
             },
             "end": {
-              "line": 44,
+              "line": 48,
               "column": 6
             }
           },
@@ -7036,6 +7092,22 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2,"class","col-md-12");
+          var el3 = dom.createTextNode("\n            ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n            ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n            ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n            ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n            ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
@@ -7114,24 +7186,32 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
           var element4 = dom.childAt(fragment, [11]);
           var element5 = dom.childAt(element4, [1, 1]);
           var element6 = dom.childAt(element4, [3, 1]);
-          var morphs = new Array(7);
+          var morphs = new Array(11);
           morphs[0] = dom.createMorphAt(element2,1,1);
           morphs[1] = dom.createMorphAt(element2,3,3);
-          morphs[2] = dom.createMorphAt(fragment,3,3,contextualElement);
-          morphs[3] = dom.createElementMorph(element3);
-          morphs[4] = dom.createAttrMorph(element5, 'disabled');
-          morphs[5] = dom.createAttrMorph(element6, 'disabled');
-          morphs[6] = dom.createElementMorph(element6);
+          morphs[2] = dom.createMorphAt(element2,5,5);
+          morphs[3] = dom.createMorphAt(element2,7,7);
+          morphs[4] = dom.createMorphAt(element2,9,9);
+          morphs[5] = dom.createMorphAt(element2,11,11);
+          morphs[6] = dom.createMorphAt(fragment,3,3,contextualElement);
+          morphs[7] = dom.createElementMorph(element3);
+          morphs[8] = dom.createAttrMorph(element5, 'disabled');
+          morphs[9] = dom.createAttrMorph(element6, 'disabled');
+          morphs[10] = dom.createElementMorph(element6);
           return morphs;
         },
         statements: [
-          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model.user",["loc",[null,[12,29],[12,39]]]]],[],[]],"label","Email","property","email"],["loc",[null,[12,12],[12,72]]]],
-          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[13,65],[13,72]]]]],[],[]],"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[13,12],[13,129]]]],
-          ["block","each",[["get","model.user.contacts",["loc",[null,[16,16],[16,35]]]]],[],0,null,["loc",[null,[16,8],[32,17]]]],
-          ["element","action",["addContact"],[],["loc",[null,[33,44],[33,68]]]],
-          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[38,34],[38,47]]]]],[],["loc",[null,[38,28],[38,49]]]]],
-          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[41,34],[41,47]]]]],[],["loc",[null,[41,28],[41,49]]]]],
-          ["element","action",["payLater"],[],["loc",[null,[41,136],[41,158]]]]
+          ["inline","em-input",[],["label","First Name","property","firstName"],["loc",[null,[12,12],[12,64]]]],
+          ["inline","em-input",[],["label","Last Name","property","lastName"],["loc",[null,[13,12],[13,62]]]],
+          ["inline","em-input",[],["label","Phone","property","phone"],["loc",[null,[14,12],[14,55]]]],
+          ["inline","em-input",[],["model",["subexpr","@mut",[["get","model.user",["loc",[null,[15,29],[15,39]]]]],[],[]],"label","Email *","property","email"],["loc",[null,[15,12],[15,74]]]],
+          ["inline","em-select",[],["label","Course","property","course","content",["subexpr","@mut",[["get","courses",["loc",[null,[16,65],[16,72]]]]],[],[]],"prompt"," ","propertyIsModel",true,"optionLabelPath","name"],["loc",[null,[16,12],[16,129]]]],
+          ["inline","em-text",[],["label","Comments","property","comments"],["loc",[null,[17,12],[17,60]]]],
+          ["block","each",[["get","model.user.contacts",["loc",[null,[20,16],[20,35]]]]],[],0,null,["loc",[null,[20,8],[36,17]]]],
+          ["element","action",["addContact"],[],["loc",[null,[37,44],[37,68]]]],
+          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[42,34],[42,47]]]]],[],["loc",[null,[42,28],[42,49]]]]],
+          ["attribute","disabled",["subexpr","not",[["get","model.isValid",["loc",[null,[45,34],[45,47]]]]],[],["loc",[null,[45,28],[45,49]]]]],
+          ["element","action",["payLater"],[],["loc",[null,[45,136],[45,158]]]]
         ],
         locals: [],
         templates: [child0]
@@ -7150,7 +7230,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 47,
+            "line": 51,
             "column": 0
           }
         },
@@ -7212,7 +7292,7 @@ define('tiny/subscriptions/new/template', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,23],[9,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[9,6],[44,18]]]]
+        ["block","em-form",[],["model",["subexpr","@mut",[["get","model",["loc",[null,[9,23],[9,28]]]]],[],[]],"submitButton",false],0,null,["loc",[null,[9,6],[48,18]]]]
       ],
       locals: [],
       templates: [child0]
@@ -9482,7 +9562,7 @@ define('tiny/tests/subscriptions/new/route.jshint', function () {
 
   describe('JSHint - subscriptions/new/route.js', function(){
   it('should pass jshint', function() { 
-    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 28, col 10, Missing semicolon.\nsubscriptions/new/route.js: line 37, col 48, Missing semicolon.\nsubscriptions/new/route.js: line 79, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 85, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
+    expect(false, 'subscriptions/new/route.js should pass jshint.\nsubscriptions/new/route.js: line 32, col 10, Missing semicolon.\nsubscriptions/new/route.js: line 41, col 48, Missing semicolon.\nsubscriptions/new/route.js: line 83, col 9, Missing semicolon.\nsubscriptions/new/route.js: line 89, col 9, Missing semicolon.\n\n4 errors').to.be.ok; 
   })});
 
 });
