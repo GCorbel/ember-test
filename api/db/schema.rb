@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114004837) do
+ActiveRecord::Schema.define(version: 20160114012024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 20160114004837) do
     t.string   "fullname"
     t.string   "email"
     t.string   "phone"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
+    t.integer  "subscription_id"
+    t.index ["subscription_id"], name: "index_contacts_on_subscription_id", using: :btree
   end
 
   create_table "courses", force: :cascade do |t|
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 20160114004837) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "user_id"
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -56,17 +55,9 @@ ActiveRecord::Schema.define(version: 20160114004837) do
     t.string   "last_name"
     t.text     "comments"
     t.string   "phone"
-    t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
-    t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
-  end
-
-  create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
   end
 
-  add_foreign_key "contacts", "users"
   add_foreign_key "subscriptions", "courses"
-  add_foreign_key "subscriptions", "users"
 end

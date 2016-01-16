@@ -1,12 +1,28 @@
-{{#em-form model=model}}
-  {{em-input model=model property="token"}}
-  {{#if model.errors.length}}
-    {{#each model.errors as |error|}}
-      {{error}}
-    {{/each}}
-  {{/if}}
-  <div class="well">
-    {{em-input model=model label="Password" property="password" type="password"}}
-    {{em-input model=model label="Confirmation" property="password_confirmation" type="password"}}
+<div class="login-box">
+  <div class="login-logo">
+    <b>Admin</b>LTE
   </div>
-{{/em-form}}
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+
+    {{#em-form model=model submitButton=false}}
+      {{#if model.errors.length}}
+        {{#each model.errors as |error|}}
+          {{error}}
+        {{/each}}
+      {{/if}}
+      {{em-input model=model label="Password" property="password" type="password"}}
+      {{em-input model=model label="Confirmation" property="password_confirmation" type="password"}}
+      <div class="row">
+        <div class="col-xs-6">
+          {{#link-to 'login'}}Sign in{{/link-to}}
+        </div>
+        <div class="col-xs-6 pull-right">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Change Password</button>
+        </div>
+      </div>
+    {{/em-form}}
+  </div>
+  <!-- /.login-box-body -->
+</div>

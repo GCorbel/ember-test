@@ -1,0 +1,35 @@
+{{#em-form model=model submitButton=false}}
+  <div class="row">
+    <div class='col-md-12'>
+      {{em-input label="First Name" property="firstName"}}
+      {{em-input label="Last Name" property="lastName"}}
+      {{em-input label="Phone" property="phone"}}
+      {{em-input label="Email" property="email"}}
+      {{em-select label="Course" property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+      {{em-text label="Comments" property="comments"}}
+    </div>
+  </div>
+  {{#each model.contacts as |contact i|}}
+    {{#unless contact._destroy}}
+      <div class='row'>
+        <div class='col-md-3'>
+          {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname"}}
+        </div>
+        <div class='col-md-3'>
+          {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email"}}
+        </div>
+
+        <div class='col-md-3'>
+          {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone"}}
+        </div>
+        <div class='col-md-3 pull-bottom'>
+          <a class='btn btn-danger btn-flat pull-bottom' {{action 'removeContact' contact}}>Remove</a>
+        </div>
+      </div>
+    {{/unless}}
+  {{/each}}
+  <a class='btn btn-default btn-flat' {{action 'addContact' }}>Add contact</a>
+  <br/>
+  <br/>
+  {{yield}}
+{{/em-form}}

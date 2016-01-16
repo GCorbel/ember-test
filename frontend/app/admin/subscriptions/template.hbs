@@ -6,12 +6,13 @@
     <tr role="row">
       <th>Id</th>
       <th>Course</th>
-      <th>User</th>
+      <th>Email</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     {{#each model as |record|}}
+      {{#unless record.isNew}}
       <tr role="row" class="odd">
         <td class="sorting_1">
           {{record.id}}
@@ -20,9 +21,12 @@
             {{record.course.name}}
           </td>
           <td>
-            {{record.user.email}}
+            {{record.email}}
           </td>
         <td>
+          {{#link-to 'admin.subscription' record.id class="btn btn-primary"}}
+            <span class="glyphicon glyphicon-eye-open"/>
+          {{/link-to}}
           {{#link-to 'admin.subscriptions.edit' record.id class="btn btn-success"}}
             <span class="glyphicon glyphicon-pencil"/>
           {{/link-to}}
@@ -32,13 +36,14 @@
           </a>
         </td>
       </tr>
+      {{/unless}}
     {{/each}}
   </tbody>
   <tfoot>
     <tr>
       <th>Id</th>
       <th>Course</th>
-      <th>User</th>
+      <th>Email</th>
       <th>Actions</th>
     </tr>
   </tfoot>

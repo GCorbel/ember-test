@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
+    exportApplicationGlobal: true,
     modulePrefix: 'tiny',
     environment: environment,
     baseURL: '/',
@@ -28,6 +29,7 @@ module.exports = function(environment) {
     }
   };
 
+  ENV.APP.API_HOST = (process.env.API_HOST || 'http://localhost:5000')
   if (environment === 'development') {
     ENV.APP.API_HOST = (process.env.API_HOST || 'http://localhost:5000')
     // ENV.APP.LOG_RESOLVER = true;

@@ -6,6 +6,8 @@
   <thead>
     <tr role="row">
       <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
       <th>Email</th>
       <th>Paid</th>
     </tr>
@@ -17,8 +19,18 @@
           {{subscription.id}}
         </td>
         <td>
-          {{#link-to 'admin.user' subscription.user}}
-            {{subscription.user.email}}
+          {{#link-to 'admin.subscriptions.edit' subscription}}
+            {{subscription.firstName}}
+          {{/link-to}}
+        </td>
+        <td>
+          {{#link-to 'admin.subscriptions.edit' subscription}}
+            {{subscription.lastName}}
+          {{/link-to}}
+        </td>
+        <td>
+          {{#link-to 'admin.subscriptions.edit' subscription}}
+            {{subscription.email}}
           {{/link-to}}
         </td>
         <td>
@@ -30,6 +42,8 @@
   <tfoot>
     <tr>
       <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
       <th>Email</th>
       <th>Paid</th>
     </tr>

@@ -4,5 +4,6 @@ class AddInfoToSubscriptions < ActiveRecord::Migration[5.0]
     add_column :subscriptions, :last_name, :string
     add_column :subscriptions, :comments, :text
     add_column :subscriptions, :phone, :string
+    add_column :subscriptions, :email, :string
   end
 end

@@ -2,49 +2,17 @@
   <div class="login-logo">
     <b>Admin</b>LTE
   </div>
-  <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
-
-      {{#em-form model=model submitButton=false}}
-        <div class="row">
-          <div class='col-md-12'>
-            {{em-input label="First Name" property="firstName"}}
-            {{em-input label="Last Name" property="lastName"}}
-            {{em-input label="Phone" property="phone"}}
-            {{em-input model=model.user label="Email *" property="email"}}
-            {{em-select label="Course" property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
-            {{em-text label="Comments" property="comments"}}
-          </div>
+    <p class="login-box-msg">Complete the registration form and choose a course</p>
+    {{#subscription-form model=model}}
+      <div class="row">
+        <div class="col-xs-6">
+          <input disabled={{not model.isValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay" {{action 'submit'}}>
         </div>
-        {{#each model.user.contacts as |contact i|}}
-          <div class='row'>
-            <div class='col-md-3'>
-              {{em-input model=contact label="Name" cid=(concat "contact_" i "_name") property="fullname"}}
-            </div>
-            <div class='col-md-3'>
-              {{em-input model=contact label="Email" cid=(concat "contact_" i "_email") property="email"}}
-            </div>
-
-            <div class='col-md-3'>
-              {{em-input model=contact label="Phone" cid=(concat "contact_" i "_phone") property="phone"}}
-            </div>
-            <div class='col-md-3 pull-bottom'>
-              <a class='btn btn-danger btn-flat pull-bottom' {{action 'removeContact' contact}}>Remove</a>
-            </div>
-          </div>
-        {{/each}}
-        <a class='btn btn-default btn-flat' {{action 'addContact' }}>Add contact</a>
-        <br/>
-        <br/>
-        <div class="row">
-          <div class="col-xs-6">
-            <input disabled={{not model.isValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay">
-          </div>
-          <div class="col-xs-6">
-            <input disabled={{not model.isValid}} type="button" class="btn btn-default btn-block btn-flat" value="Submit and pay later" {{action 'payLater' }}>
-          </div>
+        <div class="col-xs-6">
+          <input disabled={{not model.isValid}} type="button" class="btn btn-default btn-block btn-flat" value="Submit and pay later" {{action 'payLater' }}>
         </div>
-      {{/em-form}}
+      </div>
+    {{/subscription-form}}
   </div>
 </div>

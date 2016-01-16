@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   },
   actions: {
     submit: function() {
-      this.controller.model.save().then(() => {
+      this.saveSubscription((subscription) => {
         $('.modal').modal('hide');
         this.transitionTo('admin.subscriptions');
       }, function() {});
@@ -16,9 +16,17 @@ export default Ember.Route.extend({
       this.transitionTo('admin.subscriptions');
     }
   },
+  saveSubscription: function(callback) {
+    this.controller.model.saveWithContacts(callback);
+  },
   trigger: function() {
     Ember.run.schedule('afterRender', () => {
-      $('.modal').modal();
+      $('.modal').modal().on('hidden.bs.modal', () => {
+        this.send('cancel');
+      });
     });
-  }.on('init')
+  }.on('init'),
+  courses: function() {
+    return this.store.findAll('course');
+  }.property('courses')
 });

@@ -32,7 +32,6 @@ class PasswordsController < Clearance::BaseController
   end
 
   def password_reset_params
-    p params
     params[:password][:password_reset]
   end
 

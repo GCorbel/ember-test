@@ -1,0 +1,64 @@
+{{#default-box title=model.fullname}}
+  <div class="form-group">
+    <label class="control-label">Phone</label>
+    <div>{{model.phone}}</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Email</label>
+    <div>{{model.email}}</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Phone</label>
+    <div>{{model.phone}}</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Paid</label>
+    <div>{{model.paid}}</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Comments</label>
+    <div>{{model.comments}}</div>
+  </div>
+  <table class="table table-bordered table-hover" role="grid">
+    <thead>
+      <tr role="row">
+        <th>Id</th>
+        <th>Fullname</th>
+        <th>Phone</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.contacts as |contact|}}
+        <tr role="row">
+          <td>
+            {{record.id}}
+          </td>
+          <td>
+            {{record.fullname}}
+          </td>
+          <td>
+            {{record.phone}}
+          </td>
+          <td>
+            {{record.email}}
+          </td>
+        </tr>
+      {{else}}
+        <tr role="row">
+          <td colspan=4>
+            No contacts
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Id</th>
+        <th>Fullname</th>
+        <th>Phone</th>
+        <th>Email</th>
+      </tr>
+    </tfoot>
+  </table>
+{{/default-box}}

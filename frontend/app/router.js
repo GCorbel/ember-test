@@ -8,12 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.route('admin', function() {
     this.route('dashboard', { path: '/' });
-    this.route('user', { path: '/users/:id/' });
     this.route('admin_users', function() {
-      this.route('new');
-      this.route('edit', { path: '/:id/edit' });
-    });
-    this.route('users', function() {
       this.route('new');
       this.route('edit', { path: '/:id/edit' });
     });
@@ -22,6 +17,7 @@ Router.map(function() {
       this.route('new');
       this.route('edit', { path: '/:id/edit' });
     });
+    this.route('subscription', { path: '/subscription/:id/' });
     this.route('subscriptions', function() {
       this.route('new');
       this.route('edit', { path: '/:id/edit' });
@@ -41,6 +37,8 @@ Router.map(function() {
       this.route('new');
     });
   });
+  this.route('reset_password', {});
+  this.route('login', {});
 });
 
 export default Router;

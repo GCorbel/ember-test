@@ -1,5 +1,5 @@
 <div class="modal">
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button"
@@ -12,16 +12,15 @@
       </h4>
     </div>
     <div class="modal-body">
-      {{#em-form model=model submitButton=false}}
-        {{em-input label="First Name" property="firstName"}}
-        {{em-input label="Last Name" property="lastName"}}
-        {{em-input label="Phone" property="phone"}}
-        {{em-text label="Comments" property="comments"}}
-        {{em-select label="User" property="user" content=users
-          prompt=" " propertyIsModel=true optionLabelPath="email"}}
-        {{em-select label="Course" property="course" content=courses
-          prompt=" " propertyIsModel=true optionLabelPath="name"}}
-      {{/em-form}}
+      {{subscription-form model=model}}
+      {{#subscription-form model=model}}
+        <div class="form-group">
+          <label for="paid" class="control-label">Paid</label>
+          <div>
+            {{em-checkbox label="Paid" property="paid"}}
+          </div>
+        </div>
+      {{/subscription-form}}
     </div>
     <div class="modal-footer">
       <button type="button"

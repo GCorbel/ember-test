@@ -1,7 +1,9 @@
 class Subscription < ActiveRecord::Base
-  belongs_to :user
+  has_many :contacts
   belongs_to :course
-  accepts_nested_attributes_for :user
 
   validates :course, presence: true
+  validates :email, presence: true
+
+  accepts_nested_attributes_for :contacts, allow_destroy: true
 end

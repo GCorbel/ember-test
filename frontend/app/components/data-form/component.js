@@ -16,7 +16,9 @@ export default Ember.Component.extend(EmberValidations, {
   },
   trigger: function() {
     Ember.run.schedule('afterRender', () => {
-      $('.modal').modal();
+      $('.modal').modal().on('hidden.bs.modal', () => {
+        this.send('cancel');
+      });
     });
   }.on('init')
 });

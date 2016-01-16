@@ -14,7 +14,8 @@ module CrudConcern
   def create
     resource = klass.new(attributes)
     if resource.save
-      render json: resource, root: resource_name
+      render json: serialize(resource), root: resource_name
+
     else
       render json: ErrorSerializer.serialize(resource),
         status: :unprocessable_entity
@@ -24,7 +25,7 @@ module CrudConcern
   def update
     resource = klass.find(params[:id])
     if resource.update_attributes(attributes)
-      render json: resource, root: resource_name
+      render json: serialize(resource), root: resource_name
     else
       render json: ErrorSerializer.serialize(resource.errors),
         status: :unprocessable_entity
@@ -32,7 +33,7 @@ module CrudConcern
   end
 
   def destroy
-    render json: klass.find(params[:id]).delete
+    render json: serialize(klass.find(params[:id]).delete), root: resource_name
   end
 
   private

@@ -11,6 +11,7 @@
   </thead>
   <tbody>
     {{#each model as |record|}}
+      {{#unless record.isNew }}
       <tr role="row" class="odd">
         <td class="sorting_1">
           {{record.id}}
@@ -35,6 +36,7 @@
           </a>
         </td>
       </tr>
+      {{/unless}}
     {{/each}}
   </tbody>
   <tfoot>

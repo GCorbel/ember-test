@@ -23,7 +23,7 @@ export default Ember.Route.extend({
           }
         }
       }).then((data) => {
-        this.get('session').authenticate('authenticator:force', model.email, model.password).then(() => {
+        this.get('session').authenticate('authenticator:api', data.email, data.password).then(() => {
           this.transitionTo('admin');
         });
       }, (response) => {

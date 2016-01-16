@@ -23,6 +23,17 @@ frontend:
     - "4200:4200"
     - "35729:35729"
 
+frontendprod:
+  image: tiny_api
+  command: ./node_modules/ember-cli/bin/ember serve -p 9000 --live-reload-port 35729 --environment production
+  working_dir: /frontend
+  volumes:
+    - ./api:/api
+    - ./frontend:/frontend
+  ports:
+    - "9000:9000"
+    - "35729:35729"
+
 tests:
   image: tiny_api
   command: rake
