@@ -42,7 +42,7 @@ apiprod:
 
 frontendprod:
   image: tiny_api
-  command: ./node_modules/ember-cli/bin/ember serve -p 9000 --environment production
+  command: ./node_modules/ember-cli/bin/ember serve -p 9000 --environment production --live-reload false
   working_dir: /frontend
   volumes:
     - ./api:/api
