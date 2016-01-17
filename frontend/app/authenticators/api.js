@@ -13,7 +13,7 @@ export default Base.extend({
   authenticate: function(email, password) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
       Ember.$.ajax({
-        url: `${Tiny.API_HOST}/session`,
+        url: `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/session`,
         type: 'POST',
         data: {
           session: {
@@ -36,7 +36,7 @@ export default Base.extend({
   invalidate: function(data) {
     return new Ember.RSVP.Promise(function(resolve) {
       Ember.$.ajax({
-        url: `${Tiny.API_HOST}/session`,
+        url: `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/session`,
         type: 'DELETE'
       }).always(function() {
         resolve();

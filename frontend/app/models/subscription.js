@@ -48,10 +48,10 @@ export default DS.Model.extend(EmberValidations, {
       var type;
 
       if (this.id) {
-        url = `${Tiny.API_HOST}/subscriptions/${this.id}`;
+        url = `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/subscriptions/${this.id}`;
         type = 'PATCH';
       } else {
-        url = `${Tiny.API_HOST}/subscriptions/`;
+        url = `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/subscriptions/`;
         type = 'POST';
       }
 

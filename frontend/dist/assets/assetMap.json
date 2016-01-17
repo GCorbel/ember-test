@@ -1,9 +1,0 @@
-{
-  "assets": {
-    "assets/tiny.css": "assets/tiny-d41d8cd98f00b204e9800998ecf8427e.css",
-    "assets/tiny.js": "assets/tiny-ef23eb39e302c97d6322fc4c24debca4.js",
-    "assets/vendor.css": "assets/vendor-c0df5624d760b03850e61540a0ca977c.css",
-    "assets/vendor.js": "assets/vendor-087f341e4e6007aaa077c8cca7a70a42.js"
-  },
-  "prepend": ""
-}

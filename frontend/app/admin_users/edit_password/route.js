@@ -10,7 +10,7 @@ export default Ember.Route.extend({
     submit: function() {
       var model = this.controller.model;
       Ember.$.ajax({
-        url: `${Tiny.API_HOST}/passwords/`,
+        url: `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/passwords/`,
         type: 'PATCH',
         data: {
           password: {

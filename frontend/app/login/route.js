@@ -10,7 +10,7 @@ export default Ember.Route.extend({
       var session = this.get('session');
       var model = this.controller.model;
       session.authenticate('authenticator:api', model.email, model.password).then((response) => {
-        this.transitionTo('/admin');
+        this.transitionTo('admin');
       }, function(response) {
         model.errors.pushObject(response.errors);
       });
