@@ -3,8 +3,12 @@ import arrayAllSucceeded from '../../utils/array_all_succeeded';
 
 export default Ember.Route.extend({
   model() {
-    var subscription = this.store.createRecord('subscription');
-    return subscription;
+    var sessionSubscriptionId = localStorage.getItem('subscription');
+    if (sessionSubscriptionId == undefined) {
+      return this.store.createRecord('subscription');
+    } else {
+      return this.store.findRecord('subscription', sessionSubscriptionId);
+    }
   },
   saveSubscription: function(callback) {
     this.controller.model.saveWithContacts(callback);
@@ -13,6 +17,7 @@ export default Ember.Route.extend({
     payLater: function() {
       this.controller.model.set('paid', false);
       this.saveSubscription((subscription) => {
+        localStorage.setItem('subscription', subscription.id);
         this.transitionTo('subscriptions.success');
       });
     },
@@ -27,6 +32,7 @@ export default Ember.Route.extend({
           description: subscription.course.name,
           amount: subscription.course.price,
           token: () => {
+            localStorage.setItem('subscription', subscription.id);
             this.transitionTo('subscriptions.success');
           }
         });
