@@ -16,18 +16,30 @@ export default Ember.Component.extend({
     var options = this.get('store').findAll('paymentOption')
     this.controller.set('paymentOptions', options);
   }.on('init'),
+  scrollTo: function(item) {
+    Ember.run.scheduleOnce('afterRender', () => {
+      var position = item.get('position');
+      var scrollTo = $(`#item-${position}`).position().top;
+      $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+    });
+  },
+  scrollToBottom: function() {
+    var scrollTo = $(document).height();
+    $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+  },
+  createItem: function(type, values = {}) {
+    var item = this.get('store').createRecord(type, values);
+    item.set('objectType', type);
+    item.set('position', this.get('items.length'));
+    this.get('items').pushObject(item);
+    this.get(`${type}s`).pushObject(item);
+    return item;
+  },
   actions: {
     addContact: function() {
-      var contact = this.get('store').createRecord('contact');
-      contact.set('objectType', 'contact');
-      contact.set('position', this.get('items.length'));
-      this.get('items').pushObject(contact);
-      this.get('contacts').pushObject(contact);
+      var contact = this.createItem('contact');
       this.controller.set('showPaymentOptions', false);
-
-      var position = contact.get('position') - 1;
-      var scrollTo = $(`#item-${position}`).position().top + $(`#item-${position}`).height();
-      $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+      this.scrollTo(contact);
     },
     subscribeMyself: function(subscription, value) {
       subscription.set('creator', value);
@@ -35,35 +47,25 @@ export default Ember.Component.extend({
         this.controller.set('myselfSubscribed', true);
       }
       this.controller.set('showFinalOptions', true);
-
-      var position = subscription.get('position');
-      var scrollTo = $(`#item-${position}`).position().top;
-      $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+      this.scrollTo(subscription);
     },
     addSubscription: function() {
       var subscriptions = this.get('subscriptions');
       var lastSubscription = subscriptions[subscriptions.length - 1]
-      console.log(lastSubscription.toJSON());
-      var subscription = this.get('store').createRecord('subscription', lastSubscription.toJSON());
-      subscription.set('objectType', 'subscription');
+
+      var subscription = this.createItem('subscription', lastSubscription.toJSON());
       if(this.controller.get('myselfSubscribed')) {
         subscription.set('creator', false);
       }
-      subscription.set('position', this.get('items.length'));
-      this.get('items').pushObject(subscription);
-      this.get('subscriptions').pushObject(subscription);
+
       this.controller.set('showFinalOptions', true);
       this.controller.set('showPaymentOptions', false);
 
-      var position = subscription.get('position') - 1;
-      var scrollTo = $(`#item-${position}`).position().top + $(`#item-${position}`).height();
-      $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+      this.scrollTo(subscription);
     },
     doShowPaymentOptions: function() {
       this.controller.set('showPaymentOptions', true);
-
-      var scrollTo = $(document).height();
-      $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+      this.scrollToBottom();
     },
     choosePaymentOption: function() {
       this.controller.set('showPaymentOptions', true);

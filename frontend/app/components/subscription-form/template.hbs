@@ -4,6 +4,7 @@
       <div id="item-{{item.position}}">
       {{#if (eq item.objectType 'subscription')}}
         {{#if (and (not-eq item.creator false) (not-eq item.creator true)) class="choose-subscriber"}}
+
           {{#default-box title=(t 'who-do-you-subscribe') }}
             <div class="col-md-6">
               <input type="button" class='btn btn-default btn-block btn-flat' {{action 'subscribeMyself' item true }} value={{t "subscribe-myself"}}>
@@ -12,8 +13,10 @@
               <input type="button" class='btn btn-default btn-block btn-flat' {{action 'subscribeMyself' item false }} value={{t 'subscribe-someone-else'}}>
             </div>
           {{/default-box}}
+
         {{else}}
           {{#if (and (eq item.creator false) (not-eq myselfSubscribed true) (eq items.length 1))}}
+
             {{#default-box title=(t 'information-principal-contact')}}
               <div class='col-md-12'>
                 {{em-input cid=(concat "contact" item.position "-first-name") model=item label=(t 'first-name') property="tutorFirstName"}}
@@ -24,6 +27,7 @@
                 {{em-text cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
               </div>
             {{/default-box}}
+
           {{/if}}
           {{#if (or (eq item.creator false) (eq item.creator true))}}
             {{#default-box title=(t 'member' fullname=item.fullname)}}
@@ -40,6 +44,7 @@
           {{/if}}
         {{/if}}
       {{else if (eq item.objectType 'contact')}}
+
         {{#default-box title=(t 'contact' fullname=item.fullname)}}
           <div class='col-md-12'>
             {{em-input cid=(concat "contact" item.position "-fullname") model=item label=(t 'fullname') property="fullname"}}
@@ -48,7 +53,6 @@
             {{em-text cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
           </div>
         {{/default-box}}
-
 
       {{/if}}
       </div>
@@ -84,6 +88,7 @@
         </div>
       {{/default-box}}
     {{/if}}
+
   </div>
   {{yield}}
 {{/em-form}}
