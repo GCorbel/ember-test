@@ -6,11 +6,14 @@ api:
     - ./api:/api
     - ./frontend:/frontend
   links:
+    - redis
     - postgres
   ports:
     - "5000:5000"
   environment:
     BUNDLE_JOBS: 20
+    SECRET_KEY: sk_test_GtRBEK1V5RwFJMiOgarfWny1
+    PUBLISHABLE_KEY: pk_test_sQlqVzfDGPAeGYhYcxWKga2D
 
 frontend:
   image: tiny_api
@@ -31,6 +34,7 @@ apiprod:
     - ./api:/api
     - ./frontend:/frontend
   links:
+    - redis
     - postgres
   ports:
     - "5001:5001"
@@ -39,6 +43,8 @@ apiprod:
     RAILS_ENV: production
     SECRET_KEY_BASE: 9df38b31acadc9c3cc97b338859068c36dc39038b3e6b087d196308fdc02a96b047997f44df11b1e14131d17f8dced71cf5a2576d089d700892bdde633885100
     RAILS_RELATIVE_URL_ROOT: '/api'
+    SECRET_KEY: sk_test_GtRBEK1V5RwFJMiOgarfWny1
+    PUBLISHABLE_KEY: pk_test_sQlqVzfDGPAeGYhYcxWKga2D
 
 frontendprod:
   image: tiny_api
@@ -78,3 +84,10 @@ postgres:
   image: postgres:9.5
   ports:
     - "5432"
+
+redis:
+  image: redis
+  volumes:
+    - ~/data/redis/t4b:/data
+  ports:
+    - "6379"

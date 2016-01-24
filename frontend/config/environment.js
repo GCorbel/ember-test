@@ -61,5 +61,9 @@ module.exports = function(environment) {
     key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D"
   };
 
+  ENV.i18n = {
+    defaultLocale: 'fr'
+  }
+
   return ENV;
 };

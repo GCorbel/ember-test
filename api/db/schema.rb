@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114012024) do
+ActiveRecord::Schema.define(version: 20160122131451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 20160114012024) do
     t.decimal  "price",      precision: 8, scale: 2
   end
 
+  create_table "payment_options", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "recurrencies"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "course_id"
     t.datetime "created_at"
@@ -56,7 +63,13 @@ ActiveRecord::Schema.define(version: 20160114012024) do
     t.text     "comments"
     t.string   "phone"
     t.string   "email"
+    t.string   "stripe_client_id"
+    t.integer  "due_amount"
+    t.integer  "paid_amount"
+    t.integer  "nb_recurrences"
+    t.integer  "payment_option_id"
     t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
+    t.index ["payment_option_id"], name: "index_subscriptions_on_payment_option_id", using: :btree
   end
 
   add_foreign_key "subscriptions", "courses"

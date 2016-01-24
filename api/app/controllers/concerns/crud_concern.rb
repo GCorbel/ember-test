@@ -13,9 +13,10 @@ module CrudConcern
 
   def create
     resource = klass.new(attributes)
-    if resource.save
+    if resource.valid?
+      yield(resource) if block_given?
+      resource.save
       render json: serialize(resource), root: resource_name
-
     else
       render json: ErrorSerializer.serialize(resource),
         status: :unprocessable_entity

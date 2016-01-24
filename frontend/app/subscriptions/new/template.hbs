@@ -1,18 +1,9 @@
 <div class="container">
-  <div class="login-logo">
-    <b>Admin</b>LTE
+  <div class="row">
+    {{#default-box title="Inscription" }}
+      Bienvenue, veuillez compléter les informations suivantes.
+    {{/default-box}}
   </div>
-  <div class="login-box-body">
-    <p class="login-box-msg">Complete the registration form and choose a course</p>
-    {{#subscription-form model=model}}
-      <div class="row">
-        <div class="col-xs-6">
-          <input disabled={{not model.isValid}} type="submit" class="btn btn-primary btn-block btn-flat" value="Submit and pay" {{action 'submit'}}>
-        </div>
-        <div class="col-xs-6">
-          <input disabled={{not model.isValid}} type="button" class="btn btn-default btn-block btn-flat" value="Submit and pay later" {{action 'payLater' }}>
-        </div>
-      </div>
-    {{/subscription-form}}
-  </div>
+  {{#subscription-form model=model}}
+  {{/subscription-form}}
 </div>

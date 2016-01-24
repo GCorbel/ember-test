@@ -1,12 +1,14 @@
 import DS from 'ember-data';
 import EmberValidations, { validator } from 'ember-validations';
+import Copyable from 'ember-cli-copyable';
 
-export default DS.Model.extend(EmberValidations, {
+export default DS.Model.extend(EmberValidations, Copyable, {
   courseId: DS.attr(),
   course: DS.belongsTo('course'),
+  paymentOption: DS.belongsTo('paymentOption'),
   email: DS.attr('string'),
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
+  firstName: DS.attr('string', { defaultValue: '' }),
+  lastName: DS.attr('string', { defaultValue: '' }),
   comments: DS.attr('string'),
   phone: DS.attr('string'),
   paid: DS.attr('boolean', { defaultValue: false }),
@@ -40,8 +42,14 @@ export default DS.Model.extend(EmberValidations, {
           email: this.get('email'),
           paid: this.get('paid'),
           contacts_attributes: contacts_json,
-          course_id: this.get('course.id')
+          course_id: this.get('course.id'),
+          payment_option_id: this.get('paymentOption.id')
         }
+      }
+
+      var stripeToken = this.get('stripeToken');
+      if(stripeToken != null) {
+        data.subscription['stripe_token'] = stripeToken;
       }
 
       var url;

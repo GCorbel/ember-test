@@ -115,13 +115,13 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 end
-
-Exhaust.run!
-at_exit { Exhaust.shutdown! }
-
-Capybara.configure do |config|
-  config.run_server = false
-  config.app_host = Exhaust.ember_host
-  config.default_driver = :poltergeist
-  config.default_max_wait_time = 5
-end
+#
+# Exhaust.run!
+# at_exit { Exhaust.shutdown! }
+#
+# Capybara.configure do |config|
+#   config.run_server = false
+#   config.app_host = Exhaust.ember_host
+#   config.default_driver = :poltergeist
+#   config.default_max_wait_time = 5
+# end

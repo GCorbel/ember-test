@@ -1,1 +1,6 @@
 AdminUser.create!(email: 'admin@optik360.com', password: '12341234', password_confirmation: '12341234')
+PaymentOption.create!(name: 'Payer maintenant', recurrencies: 1)
+PaymentOption.create!(name: 'Payer en 3 mois', recurrencies: 3)
+PaymentOption.create!(name: 'Payer en 6 mois', recurrencies: 6)
+PaymentOption.create!(name: 'Payer 1 ans', recurrencies: 12)
+PaymentOption.create!(name: 'Payer par chéque ou cash')
