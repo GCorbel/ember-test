@@ -1,28 +1,35 @@
 import DS from 'ember-data';
 import EmberValidations, { validator } from 'ember-validations';
 import Copyable from 'ember-cli-copyable';
+import VisibleErrors from '../mixins/visible-errors';
 
-export default DS.Model.extend(EmberValidations, Copyable, {
+export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
   courseId: DS.attr(),
   course: DS.belongsTo('course'),
   paymentOption: DS.belongsTo('paymentOption'),
   email: DS.attr('string'),
+  birthDate: DS.attr('date'),
   firstName: DS.attr('string', { defaultValue: '' }),
   lastName: DS.attr('string', { defaultValue: '' }),
   comments: DS.attr('string'),
   phone: DS.attr('string'),
   paid: DS.attr('boolean', { defaultValue: false }),
+  creator: DS.attr('boolean', { defaultValue: false }),
   contacts: DS.hasMany('contact'),
   fullname: Ember.computed('firstName', 'lastName', function() {
     return `${this.get('firstName')} ${this.get('lastName')}`;
   }),
   validations: {
+    'firstName': { presence: true },
+    'lastName': { presence: true },
+    'birthDate': { presence: true },
+    'email': { subscriptionEmail: true },
+    'phone': { subscriptionPhone: true },
     'course': validator(function() {
       if (Ember.isBlank(this.get('course.id'))) {
         return 'you have to choose a course';
       }
     }),
-    'email': { email: true }
   },
   saveWithContacts: function(callback) {
     this.get('contacts').then((contacts) => {

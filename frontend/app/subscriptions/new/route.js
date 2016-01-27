@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import arrayAllSucceeded from '../../utils/array_all_succeeded';
 
 export default Ember.Route.extend({
   model() {
@@ -31,34 +30,19 @@ export default Ember.Route.extend({
     this.controller.set('paymentOptions', options);
   },
   actions: {
-    submit: function() {
-      var subscription = this.controller.model
-      if(subscription.get('paymentOption.recurrencies') == null) {
-        this.controller.model.set('paid', false);
-        subscription.saveWithContacts((subscription) => {
-          localStorage.setItem('subscription', subscription.id);
-          this.transitionTo('subscriptions.success');
-        });
-      } else {
-        subscription.validate().then(() => {
-          var checkout = StripeCheckout.configure({
-            key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D",
-            locale: 'fr'
-          }).open({
-            email: subscription.get('email'),
-            description: subscription.course.name,
-            amount: subscription.course.price,
-            token: (result) => {
-              this.controller.model.set('paid', true);
-              subscription.set('stripeToken', result.id);
-              subscription.saveWithContacts((subscription) => {
-                localStorage.setItem('subscription', subscription.id);
-                this.transitionTo('subscriptions.success');
-              });
-            }
-          });
-        });
-      }
+    submit: function(subscriptions, contacts) {
+      var prices = subscriptions.mapBy('course.price');
+      var price = prices.reduce((a, b) => a + b, 0);
+      var checkout = StripeCheckout.configure({
+        key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D",
+        locale: 'fr'
+      }).open({
+        email: subscription.get('email'),
+        amount: price,
+        token: (result) => {
+          console.log("paid");
+        }
+      });
     },
   }
 });

@@ -3,7 +3,7 @@
     {{#each items as |item|}}
       <div id="item-{{item.position}}">
       {{#if (eq item.objectType 'subscription')}}
-        {{#if (and (not-eq item.creator false) (not-eq item.creator true)) class="choose-subscriber"}}
+        {{#if item.hasToChooseCreator }}
 
           {{#default-box title=(t 'who-do-you-subscribe') }}
             <div class="col-md-6">
@@ -19,12 +19,10 @@
 
             {{#default-box title=(t 'information-principal-contact')}}
               <div class='col-md-12'>
-                {{em-input cid=(concat "contact" item.position "-first-name") model=item label=(t 'first-name') property="tutorFirstName"}}
-                {{em-input cid=(concat "contact" item.position "-last-name") model=item label=(t 'last-name') property="tutorLastName"}}
-                {{em-input cid=(concat "contact" item.position "-birth-datn") model=item label=(t 'birth-date') property="birthDate" type="date"}}
-                {{em-input cid=(concat "contact" item.position "-phone") model=item label=(t 'phone') property="tutorPhone"}}
-                {{em-input cid=(concat "contact" item.position "-email") model=item label=(t 'email') property="tutorEmail"}}
-                {{em-text cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
+                {{em-input canShowErrors=owner.visibleErrors.fullname cid=(concat "contact" item.position "-owner-fullname") model=owner label=(t 'fullname') property="fullname"}}
+                {{em-input canShowErrors=owner.visibleErrors.phone cid=(concat "contact" item.position "-phone") model=owner label=(t 'phone') property="phone"}}
+                {{em-input canShowErrors=owner.visibleErrors.email cid=(concat "contact" item.position "-email") model=owner label=(t 'email') property="email"}}
+                {{em-text canShowErrors=owner.visibleErrors.comments cid=(concat "contact" item.position "-comments") model=owner label=(t 'comments') property="comments"}}
               </div>
             {{/default-box}}
 
@@ -32,13 +30,13 @@
           {{#if (or (eq item.creator false) (eq item.creator true))}}
             {{#default-box title=(t 'member' fullname=item.fullname)}}
               <div class='col-md-12'>
-                {{em-input cid=(concat "subscription" item.position "-first-name") model=item label=(t 'first-name') property="firstName"}}
-                {{em-input cid=(concat "subscription" item.position "-last-name") model=item label=(t 'last-name') property="lastName"}}
-                {{em-input cid=(concat "subscription" item.position "-birth-date") model=item label=(t 'birth-date') property="birthDate" type="date"}}
-                {{em-input cid=(concat "subscription" item.position "-phone") model=item label=(t 'phone') property="phone"}}
-                {{em-input cid=(concat "subscription" item.position "-email") model=item label=(t 'email') property="email"}}
-                {{em-select cid=(concat "subscription" item.position "-course") model=item label=(t 'course') property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
-                {{em-text cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') property="comments"}}
+                {{em-input canShowErrors=item.visibleErrors.firstName cid=(concat "subscription" item.position "-first-name") model=item label=(t 'first-name') property="firstName"}}
+                {{em-input canShowErrors=item.visibleErrors.lastName cid=(concat "subscription" item.position "-last-name") model=item label=(t 'last-name') property="lastName"}}
+                {{em-input canShowErrors=item.visibleErrors.birthDate cid=(concat "subscription" item.position "-birth-date") model=item label=(t 'birth-date') property="birthDate" type="date"}}
+                {{em-input canShowErrors=item.visibleErrors.phone cid=(concat "subscription" item.position "-phone") model=item label=(t 'phone') property="phone"}}
+                {{em-input canShowErrors=item.visibleErrors.email cid=(concat "subscription" item.position "-email") model=item label=(t 'email') property="email"}}
+                {{em-select canShowErrors=item.visibleErrors.course cid=(concat "subscription" item.position "-course") model=item label=(t 'course') property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+                {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') property="comments"}}
               </div>
             {{/default-box}}
           {{/if}}
@@ -47,10 +45,10 @@
 
         {{#default-box title=(t 'contact' fullname=item.fullname)}}
           <div class='col-md-12'>
-            {{em-input cid=(concat "contact" item.position "-fullname") model=item label=(t 'fullname') property="fullname"}}
-            {{em-input cid=(concat "contact" item.position "-phone") model=item label=(t 'phone') property="phone"}}
-            {{em-input cid=(concat "contact" item.position "-email") model=item label=(t 'email') property="email"}}
-            {{em-text cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
+            {{em-input canShowErrors=item.visibleErrors.fullname cid=(concat "contact" item.position "-fullname") model=item label=(t 'fullname') property="fullname"}}
+            {{em-input canShowErrors=item.visibleErrors.phone cid=(concat "contact" item.position "-phone") model=item label=(t 'phone') property="phone"}}
+            {{em-input canShowErrors=item.visibleErrors.email cid=(concat "contact" item.position "-email") model=item label=(t 'email') property="email"}}
+            {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
           </div>
         {{/default-box}}
 
@@ -78,10 +76,10 @@
           <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-later'}} {{action 'payLater' }}>
         </div>
         <div class="col-md-3">
-          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-three-times'}} {{action 'payLater' }}>
+          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-three-times'}} {{action 'submit' }}>
         </div>
         <div class="col-md-3">
-          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-six-times'}} {{action 'payLater' }}>
+          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-six-times'}} {{action 'submit' }}>
         </div>
         <div class="col-md-3">
           <input type="submit" class="btn btn-primary btn-block btn-flat" value={{t 'pay-now'}} {{action 'submit'}}>
