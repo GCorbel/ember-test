@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     this.set('subscriptions', [subscription]);
     this.set('contacts', []);
 
-    var options = this.get('store').findAll('paymentOption')
+    var options = this.get('store').findAll('paymentOption');
     this.controller.set('paymentOptions', options);
   }.on('init'),
   scrollTo: function(item) {
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
     });
   },
   validate: function(successCallback) {
-    var promises = this.get('items').map((item) => { return item.validate() });
+    var promises = this.get('items').map((item) => { return item.validate(); });
 
     Ember.RSVP.all(promises).then((values) => {
       successCallback();
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
     addSubscription: function() {
       this.validate(() => {
         var subscriptions = this.get('subscriptions');
-        var lastSubscription = subscriptions[subscriptions.length - 1]
+        var lastSubscription = subscriptions[subscriptions.length - 1];
 
         var subscription = this.createItem('subscription', lastSubscription.toJSON());
         subscription.set('birthDate', lastSubscription.get('birthDate'));
@@ -89,7 +89,7 @@ export default Ember.Component.extend({
         this.controller.set('showPaymentOptions', false);
 
         this.scrollTo(subscription);
-      })
+      });
     },
     doShowPaymentOptions: function() {
       this.validate(() => {

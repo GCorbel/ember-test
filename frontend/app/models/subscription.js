@@ -52,11 +52,11 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
           course_id: this.get('course.id'),
           payment_option_id: this.get('paymentOption.id')
         }
-      }
+      };
 
       var stripeToken = this.get('stripeToken');
-      if(stripeToken != null) {
-        data.subscription['stripe_token'] = stripeToken;
+      if(stripeToken !== null) {
+        data.subscription.stripe_token = stripeToken;
       }
 
       var url;
@@ -76,7 +76,7 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
         data: data
       }).then((data) => {
         this.set('contacts', []);
-        if (this.id == null) {
+        if (this.id === null) {
           this.set('id', data.subscription.id);
         }
         this.reload();

@@ -17,7 +17,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             sum += parseInt(subscription.get('course.price'));
           });
           resolve(sum);
-        })
+        });
       });
     });
   }

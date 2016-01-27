@@ -2,31 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    var sessionSubscriptionId = localStorage.getItem('subscription');
-    if (sessionSubscriptionId == undefined) {
-      return this.store.createRecord('subscription');
-    } else {
-      return new Ember.RSVP.Promise((resolve, reject) => {
-        this.store.findRecord('subscription', sessionSubscriptionId).then((subscription) => {
-          var copy = this.store.createRecord('subscription', subscription.toJSON());
-          copy.set('course', subscription.get('course'));
-          copy.set('paymentOption', subscription.get('paymentOption'));
-          copy.set('paid', null);
-          subscription.get('contacts').then((contacts) => {
-            contacts.forEach((contact) => {
-              var copyContact = this.store.createRecord('contact', contact.toJSON());
-              copyContact.set('subscription', copy);
-              copy.get('contacts').pushObject(copyContact);
-            });
-          });
-          resolve(copy);
-        });
-      });
-    }
+    return this.store.createRecord('subscription');
   },
   setupController: function(controller, model) {
     this._super(controller, model);
-    var options = this.store.findAll('paymentOption')
+    var options = this.store.findAll('paymentOption');
     this.controller.set('paymentOptions', options);
   },
   actions: {
