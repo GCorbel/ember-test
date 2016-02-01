@@ -15,7 +15,7 @@
           {{/default-box}}
 
         {{else}}
-          {{#if (and (eq item.creator false) (not-eq myselfSubscribed true) (eq items.length 1))}}
+          {{#if (and (eq item.creator false) (not-eq myselfSubscribed true) (eq item.position 0))}}
 
             {{#default-box title=(t 'information-principal-contact')}}
               <div class='col-md-12'>
@@ -38,6 +38,9 @@
                 {{em-select canShowErrors=item.visibleErrors.course cid=(concat "subscription" item.position "-course") model=item label=(t 'course') property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
                 {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') property="comments"}}
               </div>
+              <div class="col-md-2 pull-right">
+                <a {{action 'removeSubscription' item}}>Remove</a>
+              </div>
             {{/default-box}}
           {{/if}}
         {{/if}}
@@ -50,6 +53,9 @@
             {{em-input canShowErrors=item.visibleErrors.email cid=(concat "contact" item.position "-email") model=item label=(t 'email') property="email"}}
             {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
           </div>
+          <div class="col-md-2 pull-right">
+            <a {{action 'removeContact' item}}>Remove</a>
+          </div>
         {{/default-box}}
 
       {{/if}}
@@ -58,6 +64,13 @@
 
     {{#if showFinalOptions class="final-options"}}
       {{#default-box title=(t 'payment-options')}}
+        {{#if hasNoContacts }}
+          <div class="col-md-4 has-error">
+            <div class="help-block">
+              Vous devez avoir au moins un contact d'urgence.
+            </div>
+          </div>
+        {{/if}}
         <div class="col-md-4">
           <input type="submit" class="btn btn-default btn-block btn-flat" value={{t 'add-contact'}} {{action 'addContact'}}>
         </div>
@@ -72,17 +85,11 @@
 
     {{#if showPaymentOptions class="payment-options"}}
       {{#default-box title=(t 'payment-options')}}
-        <div class="col-md-3">
-          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-later'}} {{action 'payLater' }}>
+        <div class="col-md-12">
+          {{em-select model=owner cid="paymentOption" label=(t 'payment-options') property="paymentOption" content=paymentOptions propertyIsModel=true optionLabelPath="name"}}
         </div>
         <div class="col-md-3">
-          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-three-times'}} {{action 'submit' }}>
-        </div>
-        <div class="col-md-3">
-          <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'pay-in-six-times'}} {{action 'submit' }}>
-        </div>
-        <div class="col-md-3">
-          <input type="submit" class="btn btn-primary btn-block btn-flat" value={{t 'pay-now'}} {{action 'submit'}}>
+          <input type="submit" class="btn btn-primary btn-block btn-flat" value={{t 'finish'}} {{action 'submit'}}>
         </div>
       {{/default-box}}
     {{/if}}

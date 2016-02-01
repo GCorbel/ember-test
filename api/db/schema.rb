@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122131451) do
+ActiveRecord::Schema.define(version: 20160131171021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,9 @@ ActiveRecord::Schema.define(version: 20160122131451) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "subscription_id"
+    t.integer  "user_id"
     t.index ["subscription_id"], name: "index_contacts_on_subscription_id", using: :btree
+    t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
   end
 
   create_table "courses", force: :cascade do |t|
@@ -67,10 +69,26 @@ ActiveRecord::Schema.define(version: 20160122131451) do
     t.integer  "due_amount"
     t.integer  "paid_amount"
     t.integer  "nb_recurrences"
+    t.integer  "birth_date"
     t.integer  "payment_option_id"
+    t.integer  "user_id"
     t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
     t.index ["payment_option_id"], name: "index_subscriptions_on_payment_option_id", using: :btree
+    t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.decimal  "due_amount",        precision: 8, scale: 2, default: "0.0"
+    t.decimal  "paid_amount",       precision: 8, scale: 2, default: "0.0"
+    t.boolean  "paid"
+    t.integer  "payment_option_id"
+    t.string   "stripe_client_id"
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.index ["payment_option_id"], name: "index_users_on_payment_option_id", using: :btree
   end
 
   add_foreign_key "subscriptions", "courses"
+  add_foreign_key "users", "payment_options"
 end

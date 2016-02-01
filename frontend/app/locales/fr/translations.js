@@ -18,8 +18,4 @@ export default {
   "add-subscription": "Ajouter une inscription",
   "finish": "Terminer",
   "payment-options": "Options de paiement",
-  "pay-now": "Payer maintenant",
-  "pay-later": "Payer plus tard",
-  "pay-in-three-times": "Payer en trois fois",
-  "pay-in-six-times": "Payer en six fois"
 };

@@ -4,19 +4,25 @@ class SubscriptionsController < ApplicationController
   before_filter :require_login, except: [:create, :show, :update]
 
   def create
-    token = params[:subscription].delete(:stripe_token)
-    super do |subscription|
-      course = Course.find(params[:subscription][:course_id])
+    user = User.new user_attributes
+    token = params[:stripe_token]
+    customer = Stripe::Customer.create(source: token, description: 'Payment')
 
-      customer = Stripe::Customer.create(
-        source: token,
-        description: course.name
-      )
+    user.due_amount = due_amount(user)
+    user.payment_option_id = params[:payment_option]
+    user.stripe_client_id = customer.id
+    user.save!
 
-      subscription.stripe_client_id = customer.id
-      subscription.due_amount = course.price
-      subscription.nb_recurrences = 1
-      PaymentWorker.perform_async(subscription.id)
-    end
+    PaymentWorker.perform_async(user.id)
+  end
+
+  private
+
+  def user_attributes
+    params[:user].permit!
+  end
+
+  def due_amount(user)
+    @due_amount ||= DueAmountCalculator.new(user: user).call
   end
 end

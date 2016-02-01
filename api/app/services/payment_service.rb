@@ -1,28 +1,28 @@
 class PaymentService
-  attr_accessor :subscription
+  attr_accessor :user
 
-  def initialize(subscription:)
-    @subscription = subscription
+  def initialize(user:)
+    @user = user
   end
 
   def call
     Stripe::Charge.create(amount: amount, currency: 'cad',
-                          customer: subscription.stripe_client_id)
-    subscription.update_attributes(paid_amount: new_paid_amount, paid: paid?)
+                          customer: user.stripe_client_id)
+    user.update_attributes(paid_amount: new_paid_amount, paid: paid?)
   end
 
   private
 
   def paid?
-    subscription.due_amount == subscription.paid_amount + amount
+    user.due_amount == user.paid_amount + amount
   end
 
   def new_paid_amount
-    @new_amount ||= subscription.paid_amount + amount
+    @new_amount ||= user.paid_amount + amount
   end
 
   def amount
-    price_recurrence = subscription.due_amount / subscription.nb_recurrences
-    @amount ||= [price_recurrence, subscription.due_amount - subscription.paid_amount].min
+    price_recurrence = user.due_amount / user.payment_option.recurrencies
+    @amount ||= [price_recurrence, user.due_amount - user.paid_amount].min.to_i
   end
 end

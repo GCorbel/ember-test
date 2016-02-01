@@ -10,6 +10,7 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, {
   _destroy: DS.attr('boolean', { defaultValue: false }),
   validations: {
     fullname: { presence: true },
-    phone: { phone: true },
+    phone: { subscriptionPhone: true },
+    email: { subscriptionEmail: true },
   }
 });

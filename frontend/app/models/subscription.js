@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import EmberValidations, { validator } from 'ember-validations';
 import Copyable from 'ember-cli-copyable';
 import VisibleErrors from '../mixins/visible-errors';
+import moment from 'moment';
 
 export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
   courseId: DS.attr(),
@@ -14,7 +15,6 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
   comments: DS.attr('string'),
   phone: DS.attr('string'),
   paid: DS.attr('boolean', { defaultValue: false }),
-  creator: DS.attr('boolean', { defaultValue: false }),
   contacts: DS.hasMany('contact'),
   fullname: Ember.computed('firstName', 'lastName', function() {
     return `${this.get('firstName')} ${this.get('lastName')}`;
@@ -31,6 +31,9 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
       }
     }),
   },
+  isAdult: Ember.computed('birthDate', function() {
+    return moment(this.get('birthDate')) < moment().subtract(18, 'years');
+  }),
   saveWithContacts: function(callback) {
     this.get('contacts').then((contacts) => {
       var contacts_json = [];

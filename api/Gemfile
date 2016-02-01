@@ -30,6 +30,7 @@ gem 'active-model-adapter-source'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -39,6 +40,12 @@ group :development do
   # Loading the listen gem enables an evented file system monitor. Check
   # https://github.com/guard/listen#listen-adapters if on Windows or *BSD.
   # gem 'listen', '~> 3.0.4'
+  gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'factory_girl_rails', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
