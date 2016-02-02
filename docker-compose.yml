@@ -26,46 +26,6 @@ frontend:
     - "4200:4200"
     - "35729:35729"
 
-apiprod:
-  image: tiny_api
-  command: bin/rails s -p 5001 -b 0.0.0.0
-  working_dir: /api
-  volumes:
-    - ./api:/api
-    - ./frontend:/frontend
-  links:
-    - redis
-    - postgres
-  ports:
-    - "5001:5001"
-  environment:
-    BUNDLE_JOBS: 20
-    RAILS_ENV: production
-    SECRET_KEY_BASE: 9df38b31acadc9c3cc97b338859068c36dc39038b3e6b087d196308fdc02a96b047997f44df11b1e14131d17f8dced71cf5a2576d089d700892bdde633885100
-    RAILS_RELATIVE_URL_ROOT: '/api'
-    SECRET_KEY: sk_test_GtRBEK1V5RwFJMiOgarfWny1
-    PUBLISHABLE_KEY: pk_test_sQlqVzfDGPAeGYhYcxWKga2D
-
-frontendprod:
-  image: tiny_api
-  command: ./node_modules/ember-cli/bin/ember serve -p 9000 --environment production --live-reload false
-  working_dir: /frontend
-  volumes:
-    - ./api:/api
-    - ./frontend:/frontend
-  ports:
-    - "9000:9000"
-
-nginx:
-  image: nginx
-  volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf
-  links:
-    - frontendprod
-    - apiprod
-  ports:
-    - "80:80"
-
 tests:
   image: tiny_api
   command: rake
