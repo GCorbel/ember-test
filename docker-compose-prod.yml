@@ -1,6 +1,6 @@
 api:
   image: gcorbel/tiny
-  command: bin/rails s -p 5000 -b 0.0.0.0
+  command: rails s -p 5000 -b 0.0.0.0
   working_dir: /api
   links:
     - redis
@@ -15,7 +15,7 @@ api:
 
 frontend:
   image: gcorbel/tiny
-  command: ./node_modules/ember-cli/bin/ember serve -p 4200 --environment production --live-reload false
+  command: ember serve -p 4200 --environment production --live-reload false
   working_dir: /frontend
 
 nginx:
