@@ -2,13 +2,16 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   createSubscriptions: Ember.inject.service(),
-  model() {
-    return {};
-  },
   setupController: function(controller, model) {
     this._super(controller, model);
-    var options = this.store.findAll('paymentOption');
-    this.controller.set('paymentOptions', options);
+
+    var subscription = this.get('store').createRecord('subscription');
+    subscription.set('objectType', 'subscription');
+    subscription.set('position', 0);
+    subscription.set('hasToChooseCreator', true);
+    this.controller.set('items', [subscription]);
+    this.controller.set('subscriptions', [subscription]);
+    this.controller.set('contacts', []);
   },
   actions: {
     submit: function(subscriptions, contacts, owner) {

@@ -16,6 +16,7 @@
         {{#each columns as |column|}}
           {{em-input property=column.property
             type=column.type
+            canShowErrors=(get model.visibleErrors column.property)
             label=column.label}}
         {{/each}}
       {{/em-form}}

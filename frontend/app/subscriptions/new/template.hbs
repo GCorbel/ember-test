@@ -4,5 +4,6 @@
       Bienvenue, veuillez compléter les informations suivantes.
     {{/default-box}}
   </div>
-  {{subscription-form model=model submit="submit"}}
+  {{user-form items=items subscriptions=subscriptions contacts=contacts submit="submit"}}
 </div>
+<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>

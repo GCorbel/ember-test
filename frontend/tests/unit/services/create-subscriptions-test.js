@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { describeModule, it } from 'ember-mocha';
 import startApp from '../../helpers/start-app';
 import sinon from 'sinon';
+import Ember from 'ember';
 
 var app, container, store;
 
@@ -46,7 +47,6 @@ describeModule(
     it('saves items', function() {
       let service = this.subject();
       var mock = sinon.mock(Ember.$);
-      var ajaxParams;
 
       var user = store.createRecord('user', { email: 'bla@bla.com' });
       var course = store.createRecord('course', {id: 2});
@@ -69,7 +69,7 @@ describeModule(
       service.set('user', user);
       service.save(() => { flag = true; });
 
-      expect(flag).to.be.true
+      expect(flag).to.be.true;
     });
   }
 );

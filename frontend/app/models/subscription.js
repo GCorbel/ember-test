@@ -28,6 +28,8 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
     'course': validator(function() {
       if (Ember.isBlank(this.get('course.id'))) {
         return 'you have to choose a course';
+      } else if (this.get('course.subscriptions.length') > this.get('course.nbPlaces')) {
+        return 'Plus de places disponibles';
       }
     }),
   },

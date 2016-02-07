@@ -5,8 +5,7 @@ export default Base.extend({
   authorize(data, block) {
     var token = data.admin_user.access_token;
     if (!isEmpty(token)) {
-      const authData = `token="${token}"`;
-      block('Authorization', `Token ${authData}`);
+      block('Authorization', `Token token="${token}"`);
     }
   }
 });

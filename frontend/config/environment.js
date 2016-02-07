@@ -22,7 +22,7 @@ module.exports = function(environment) {
       'default-src': "'self' https://checkout.stripe.com",
       'script-src': "'self' https://cdn.mxpnl.com https://checkout.stripe.com", // Allow scripts from https://cdn.mxpnl.com
       'font-src': "'self' http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
-      'connect-src': "'self' http://localhost:3001 http://localhost:5000 http://192.203.9.104:5000", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
+      'connect-src': "'self' http://localhost:3001 http://localhost:5000 http://192.203.9.104:5000 https://checkout.stripe.com", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
       'img-src': "'self' https://q.stripe.com",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com
       'media-src': "'self'"

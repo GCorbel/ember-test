@@ -1,0 +1,15 @@
+.has-feedback label ~ .form-control-feedback {
+  top: 0px;
+}
+.header-panel {
+  background: #17577C; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #17577C, #5FB7CC); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #17577C, #5FB7CC); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #17577C, #5FB7CC); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #17577C, #5FB7CC); /* Standard syntax */
+  height: 200px;
+  position: relative;
+}
+.container {
+  margin-top: -100px;
+}

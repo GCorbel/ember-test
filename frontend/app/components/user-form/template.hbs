@@ -1,0 +1,107 @@
+{{#em-form submitButton=false}}
+  <div class="row">
+    {{#each items as |item|}}
+      <div id="item-{{item.position}}">
+      {{#if (eq item.objectType 'subscription')}}
+        {{#if item.hasToChooseCreator }}
+
+          {{#default-box title=(t 'who-do-you-subscribe') }}
+            <div class="col-md-6">
+              <input type="button" class='btn btn-default btn-block btn-flat' {{action 'subscribeMyself' item true }} value={{t "subscribe-myself"}}>
+            </div>
+            <div class="col-md-6">
+              <input type="button" class='btn btn-default btn-block btn-flat' {{action 'subscribeMyself' item false }} value={{t 'subscribe-someone-else'}}>
+            </div>
+          {{/default-box}}
+
+        {{else}}
+          {{#if (and (eq item.creator false) (not-eq myselfSubscribed true) (eq item.position 0))}}
+
+            {{#default-box title=(t 'information-principal-contact')}}
+              <div class='col-md-12'>
+                {{em-input canShowErrors=owner.visibleErrors.fullname cid=(concat "contact" item.position "-owner-fullname") model=owner label=(t 'fullname') property="fullname"}}
+                {{em-input canShowErrors=owner.visibleErrors.phone cid=(concat "contact" item.position "-phone") model=owner label=(t 'phone') property="phone"}}
+                {{em-input canShowErrors=owner.visibleErrors.email cid=(concat "contact" item.position "-email") model=owner label=(t 'email') property="email"}}
+                {{em-text canShowErrors=owner.visibleErrors.comments cid=(concat "contact" item.position "-comments") model=owner label=(t 'comments') property="comments"}}
+              </div>
+            {{/default-box}}
+
+          {{/if}}
+          {{#if (or (eq item.creator false) (eq item.creator true))}}
+            {{#default-box title=(t 'member' fullname=item.fullname)}}
+              <div class='col-md-12'>
+                {{em-input canShowErrors=item.visibleErrors.firstName cid=(concat "subscription" item.position "-first-name") model=item label=(t 'first-name') property="firstName"}}
+                {{em-input canShowErrors=item.visibleErrors.lastName cid=(concat "subscription" item.position "-last-name") model=item label=(t 'last-name') property="lastName"}}
+                {{em-input canShowErrors=item.visibleErrors.birthDate cid=(concat "subscription" item.position "-birth-date") model=item label=(t 'birth-date') property="birthDate" type="date"}}
+                {{em-input canShowErrors=item.visibleErrors.phone cid=(concat "subscription" item.position "-phone") model=item label=(t 'phone') property="phone"}}
+                {{em-input canShowErrors=item.visibleErrors.email cid=(concat "subscription" item.position "-email") model=item label=(t 'email') property="email"}}
+                {{em-select canShowErrors=item.visibleErrors.course cid=(concat "subscription" item.position "-course") model=item label=(t 'course') property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+                {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') property="comments"}}
+              </div>
+              <div class="col-md-2 pull-right">
+                <a {{action 'removeSubscription' item}}>Remove</a>
+              </div>
+            {{/default-box}}
+          {{/if}}
+        {{/if}}
+      {{else if (eq item.objectType 'contact')}}
+
+        {{#default-box title=(t 'contact' fullname=item.fullname)}}
+          <div class='col-md-12'>
+            {{em-input canShowErrors=item.visibleErrors.fullname cid=(concat "contact" item.position "-fullname") model=item label=(t 'fullname') property="fullname"}}
+            {{em-input canShowErrors=item.visibleErrors.phone cid=(concat "contact" item.position "-phone") model=item label=(t 'phone') property="phone"}}
+            {{em-input canShowErrors=item.visibleErrors.email cid=(concat "contact" item.position "-email") model=item label=(t 'email') property="email"}}
+            {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "contact" item.position "-comments") model=item label=(t 'comments') property="comments"}}
+          </div>
+          <div class="col-md-2 pull-right">
+            <a {{action 'removeContact' item}}>Remove</a>
+          </div>
+        {{/default-box}}
+
+      {{/if}}
+      </div>
+    {{/each}}
+
+    {{#if showFinalOptions class="final-options"}}
+      {{#default-box title=(t 'payment-options')}}
+        {{#if hasNoContacts }}
+          <div class="row">
+            <div class="col-md-4 has-error">
+              <div class="help-block">
+                Vous devez avoir au moins un contact d'urgence.
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        <div class="row">
+          <div class="col-md-4">
+            <input type="submit" class="btn btn-default btn-block btn-flat" value={{t 'add-contact'}} {{action 'addContact'}}>
+          </div>
+          <div class="col-md-4">
+            <input type="button" class="btn btn-default btn-block btn-flat" value={{t 'add-subscription'}} {{action 'addSubscription' }}>
+          </div>
+          <div class="col-md-4">
+            <input type="button" class="btn btn-primary btn-block btn-flat" value={{t 'finish'}} {{action 'doShowPaymentOptions' }}>
+          </div>
+        </div>
+      {{/default-box}}
+    {{/if}}
+
+    {{#if showPaymentOptions class="payment-options"}}
+      {{#default-box title=(t 'payment-options')}}
+        <div class="row">
+          <div class="col-md-12">
+            {{em-select model=owner cid="paymentOption" label=(t 'payment-options') property="paymentOption" content=paymentOptions propertyIsModel=true optionLabelPath="name"}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <input type="submit" class="btn btn-primary btn-block btn-flat" value={{t 'finish'}} {{action 'submit'}}>
+          </div>
+        </div>
+      {{/default-box}}
+    {{/if}}
+
+  </div>
+  {{yield}}
+{{/em-form}}

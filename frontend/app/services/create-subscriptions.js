@@ -21,7 +21,7 @@ export default Ember.Service.extend({
     return userJson;
   },
   save: function(callback) {
-    var url = `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/subscriptions/`;
+    var url = `${Tiny.API_HOST}${Tiny.API_NAMESPACE}/users/`;
     var type = 'POST';
     Ember.$.ajax({
       url: url,
