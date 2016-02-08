@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   resources :admin_users, defaults: { format: :json }
   resources :contacts, defaults: { format: :json }
   resources :payment_options, defaults: { format: :json }
+  resources :newsletters, defaults: { format: :json }
 end

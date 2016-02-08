@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    return this.store.createRecord('newsletter')
+    return this.store.createRecord('newsletter');
   },
   actions: {
     submit: function() {

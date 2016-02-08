@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_admin_user
-    @current_admin_user
+    @current_admin_user ||= token_authenticate
   end
 
   def require_login
@@ -22,4 +22,5 @@ class ApplicationController < ActionController::API
       head :unauthorized
     end
   end
+
 end

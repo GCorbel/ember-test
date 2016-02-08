@@ -1,6 +1,6 @@
 api:
   image: gcorbel/tiny
-  command: rails s -p 5000 -b 0.0.0.0
+  command: bin/rails s -p 5000 -b 0.0.0.0
   working_dir: /api
   links:
     - redis

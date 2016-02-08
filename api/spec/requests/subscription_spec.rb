@@ -15,7 +15,7 @@ describe "Subscriptions", type: :request do
     course = create(:course)
     payment_option = create(:payment_option)
 
-    post '/subscriptions', params: subscription_params(course, payment_option)
+    post '/users', params: subscription_params(course, payment_option)
 
     expect(User.first.payment_option).to eq payment_option
     expect(Subscription.count).to eq 1
@@ -29,14 +29,14 @@ describe "Subscriptions", type: :request do
 
     expect(Stripe::Customer).to receive(:create).with(source: 'token', description: 'Payment')
 
-    post '/subscriptions', params: subscription_params(course, payment_option)
+    post '/users', params: subscription_params(course, payment_option)
   end
 
   it 'creates a new user' do
     course = create(:course, price: 20)
     payment_option = create(:payment_option)
 
-    post '/subscriptions', params: subscription_params(course, payment_option)
+    post '/users', params: subscription_params(course, payment_option)
 
     expect(User.count).to eq 1
     expect(User.last.due_amount).to eq 20
@@ -47,7 +47,7 @@ describe "Subscriptions", type: :request do
     payment_option = create(:payment_option)
 
     expect(PaymentWorker).to receive(:perform_async)
-    post '/subscriptions', params: subscription_params(course, payment_option)
+    post '/users', params: subscription_params(course, payment_option)
   end
 
   it 'calls the amount calculator' do
@@ -58,7 +58,7 @@ describe "Subscriptions", type: :request do
     expect(due_amount_calculator).to receive(:call).and_return(20)
     expect(DueAmountCalculator).to receive(:new).and_return(due_amount_calculator)
 
-    post '/subscriptions', params: subscription_params(course, payment_option)
+    post '/users', params: subscription_params(course, payment_option)
     expect(User.last.due_amount).to eq 20
   end
 
