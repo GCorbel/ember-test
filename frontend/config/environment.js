@@ -17,12 +17,19 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+
+      plugins: [{
+        component: 'custom-fields-fields',
+        routes: [
+          { route: 'admin.custom_fields.edit', label: 'Changer le formulaire' }
+        ]
+      }]
     },
     contentSecurityPolicy: {
       'default-src': "'self' https://checkout.stripe.com",
       'script-src': "'self' https://cdn.mxpnl.com https://checkout.stripe.com", // Allow scripts from https://cdn.mxpnl.com
       'font-src': "'self' http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
-      'connect-src': "'self' http://localhost:3001 http://localhost:5000 http://192.203.9.104:5000 https://checkout.stripe.com", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
+      'connect-src': "'self' http://localhost:9001 http://localhost:3001 http://localhost:5000 http://192.203.9.104:5000 https://checkout.stripe.com", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
       'img-src': "'self' https://q.stripe.com",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com
       'media-src': "'self'"
@@ -31,7 +38,7 @@ module.exports = function(environment) {
 
   if (environment === 'development') {
     ENV.APP.API_HOST = (process.env.API_HOST || 'http://localhost:5000')
-    ENV.APP.API_NAMESPACE = '';
+      ENV.APP.API_NAMESPACE = '';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -54,7 +61,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     ENV.APP.API_NAMESPACE = 'api';
     ENV.APP.API_HOST = ('')
-    // ENV.APP.LOG_RESOLVER = true;
+      // ENV.APP.LOG_RESOLVER = true;
   }
 
   ENV.stripe = {

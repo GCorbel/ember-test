@@ -40,6 +40,12 @@
         <li>{{#link-to 'admin.courses'}}<i class="fa fa-link"></i> <span>Courses</span>{{/link-to}}</li>
         <li>{{#link-to 'admin.subscriptions'}}<i class="fa fa-link"></i> <span>Subscription</span>{{/link-to}}</li>
         <li>{{#link-to 'admin.newsletter'}}<i class="fa fa-link"></i> <span>Infolettre</span>{{/link-to}}</li>
+        {{#each env.APP.plugins as |plugin|}}
+          {{#each plugin.routes as |route|}}
+            <li>{{#link-to route.route}}<i class="fa fa-link"></i> <span>{{route.label}}</span>{{/link-to}}</li>
+          {{/each}}
+        {{/each}}
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>

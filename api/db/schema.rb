@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160204001407) do
+ActiveRecord::Schema.define(version: 20160213213556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,12 @@ ActiveRecord::Schema.define(version: 20160204001407) do
     t.integer  "nb_places"
   end
 
+  create_table "custom_fields", force: :cascade do |t|
+    t.jsonb    "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payment_options", force: :cascade do |t|
     t.string   "name"
     t.integer  "recurrencies"
@@ -73,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160204001407) do
     t.integer  "birth_date"
     t.integer  "payment_option_id"
     t.integer  "user_id"
+    t.jsonb    "custom_data"
     t.index ["course_id"], name: "index_subscriptions_on_course_id", using: :btree
     t.index ["payment_option_id"], name: "index_subscriptions_on_payment_option_id", using: :btree
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree

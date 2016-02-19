@@ -5,6 +5,7 @@ api:
   volumes:
     - ./api:/api
     - ./frontend:/frontend
+    - ./custom-fields:/custom-fields
   links:
     - redis
     - postgres
@@ -22,6 +23,7 @@ frontend:
   volumes:
     - ./api:/api
     - ./frontend:/frontend
+    - ./custom-fields:/custom-fields
   ports:
     - "4200:4200"
     - "35729:35729"

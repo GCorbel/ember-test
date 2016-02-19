@@ -53,6 +53,7 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, Copyable, {
           comments: this.get('comments'),
           email: this.get('email'),
           paid: this.get('paid'),
+          custom_data: this.get('customData'),
           contacts_attributes: contacts_json,
           course_id: this.get('course.id'),
           payment_option_id: this.get('paymentOption.id')

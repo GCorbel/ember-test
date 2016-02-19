@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   resources :contacts, defaults: { format: :json }
   resources :payment_options, defaults: { format: :json }
   resources :newsletters, defaults: { format: :json }
+  resources :custom_fields, defaults: { fomat: :json }
 end

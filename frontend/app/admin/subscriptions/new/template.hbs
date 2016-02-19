@@ -13,6 +13,11 @@
     </div>
     <div class="modal-body">
       {{#subscription-form model=model}}
+
+        {{#each env.APP.plugins as |plugin|}}
+          {{component plugin.component model=model}}
+        {{/each}}
+
         <div class="form-group">
           <label for="paid" class="control-label">Paid</label>
           <div>

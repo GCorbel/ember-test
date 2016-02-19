@@ -2,21 +2,26 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+
   owner: function() {
     var owner = this.get('store').createRecord('contact');
     owner.set('paymentOption', this.get('paymentOptions.firstObject'));
     return owner;
   }.property('owner'),
+
   paymentOptions: function() {
     return this.get('store').findAll('paymentOption');
   }.property('paymentOptions'),
+
   courses: function() {
     return this.get('store').findAll('course');
   }.property('courses'),
+
   setPaymentOptions: function() {
     var options = this.get('store').findAll('paymentOption');
     this.controller.set('paymentOptions', options);
   }.on('init'),
+
   scrollTo: function(item) {
     Ember.run.scheduleOnce('afterRender', () => {
       var position = item.get('position');
@@ -24,10 +29,12 @@ export default Ember.Component.extend({
       $("html, body").animate({ scrollTop: scrollTo }, 'slow');
     });
   },
+
   scrollToBottom: function() {
     var scrollTo = $(document).height();
     $("html, body").animate({ scrollTop: scrollTo }, 'slow');
   },
+
   scrollOnError: function() {
     Ember.run.scheduleOnce('afterRender', () => {
       if($('div.form-group.has-error').length > 0) {
@@ -36,6 +43,7 @@ export default Ember.Component.extend({
       }
     });
   },
+
   validate: function(successCallback) {
     var promises = this.get('items').map((item) => { return item.validate(); });
     promises.pushObject(this.get('owner').validate());
@@ -47,6 +55,7 @@ export default Ember.Component.extend({
       this.scrollOnError();
     });
   },
+
   validateContacts: function(successCallback, failCallback) {
     if(this.get('contacts.length') > 0) {
       this.set('hasNoContacts', false);
@@ -56,6 +65,7 @@ export default Ember.Component.extend({
       failCallback();
     }
   },
+
   createItem: function(type, values = {}) {
     var item = this.get('store').createRecord(type, values);
     item.set('objectType', type);
@@ -64,6 +74,7 @@ export default Ember.Component.extend({
     this.get(`${type}s`).pushObject(item);
     return item;
   },
+
   actions: {
     addContact: function() {
       this.validate(() => {
@@ -72,6 +83,7 @@ export default Ember.Component.extend({
         this.scrollTo(contact);
       });
     },
+
     subscribeMyself: function(subscription, value) {
       subscription.set('creator', value);
       subscription.set('hasToChooseCreator', false);
@@ -83,6 +95,7 @@ export default Ember.Component.extend({
       this.controller.set('showFinalOptions', true);
       this.scrollTo(subscription);
     },
+
     removeContact: function(contact) {
       this.get('items').removeObject(contact);
       this.get('contacts').removeObject(contact);
@@ -110,6 +123,7 @@ export default Ember.Component.extend({
         this.controller.set('showPaymentOptions', false);
       }
     },
+
     addSubscription: function() {
       this.validate(() => {
         var subscriptions = this.get('subscriptions');
@@ -131,6 +145,7 @@ export default Ember.Component.extend({
         this.scrollTo(subscription);
       });
     },
+
     doShowPaymentOptions: function() {
       this.validateContacts(() => {
         this.validate(() => {
@@ -139,11 +154,13 @@ export default Ember.Component.extend({
         });
       }, () => { this.validate(); } );
     },
+
     choosePaymentOption: function() {
       this.validate(() => {
         this.controller.set('showPaymentOptions', true);
       });
     },
+
     submit: function() {
       this.validateContacts(() => {
         this.validate(() => {
@@ -154,5 +171,6 @@ export default Ember.Component.extend({
         });
       }, () => { this.validate(); } );
     }
+
   }
 });

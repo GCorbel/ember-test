@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import config from './config/environment';
+import setupCustomFieldsRoutes from 'custom-fields/utils/route-setup';
 
 var Router = Ember.Router.extend({
   location: config.locationType
@@ -7,6 +8,7 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('admin', function() {
+    setupCustomFieldsRoutes(this);
     this.route('dashboard', { path: '/' });
     this.route('admin_users', function() {
       this.route('new');
