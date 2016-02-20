@@ -26,3 +26,14 @@
 /frontend/.bower_components-tmp
 /frontend/coverage
 /frontend/dist
+
+/custom-fields/dist
+/custom-fields/tmp
+/custom-fields/node_modules
+/custom-fields/bower_components
+/custom-fields/.sass-cache
+/custom-fields/connect.lock
+/custom-fields/coverage/*
+/custom-fields/libpeerconnection.log
+/custom-fieldsnpm-debug.log
+/custom-fieldstestem.log
