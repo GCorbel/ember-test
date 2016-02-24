@@ -1,3 +1,8 @@
 .git*
 **/.git*
 frontend/**/tmp/
+frontend/**/node_modules/
+frontend/**/bower_components/
+frontend/**/**/tmp/
+frontend/**/**/node_modules/
+frontend/**/**/bower_components/

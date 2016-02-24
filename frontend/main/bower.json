@@ -19,7 +19,8 @@
     "admin-lte": "~2.3.2",
     "font-awesome": "~4.4.0",
     "sinonjs": "~1.17.1",
-    "summernote": "~0.7.0"
+    "summernote": "~0.7.0",
+    "bootstrap-material-design": "^0.5.8"
   },
   "resolutions": {
     "ember": "~2.3.0",
