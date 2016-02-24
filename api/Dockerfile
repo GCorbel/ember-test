@@ -9,6 +9,8 @@ WORKDIR /api
 
 ADD ./Gemfile* /api/
 
+RUN bundle config build.nokogiri --use-system-libraries
+
 RUN bundle --jobs 20
 
 ADD . /api
