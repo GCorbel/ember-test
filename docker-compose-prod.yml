@@ -12,6 +12,7 @@ api:
     RAILS_RELATIVE_URL_ROOT: '/api'
     SECRET_KEY: sk_test_GtRBEK1V5RwFJMiOgarfWny1
     PUBLISHABLE_KEY: pk_test_sQlqVzfDGPAeGYhYcxWKga2D
+    API_DATABASE_USERNAME: postgres
   volumes:
     - ./api:/api
     - ./frontend/main:/frontend

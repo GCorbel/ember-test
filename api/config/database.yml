@@ -18,7 +18,7 @@ test:
 production:
   <<: *default
   database: api_production
-  username: postgres
+  username: <%= ENV['API_DATABASE_USERNAME'] %>
   password: <%= ENV['API_DATABASE_PASSWORD'] %>
   host: <%= ENV['POSTGRES_1_PORT_5432_TCP_ADDR'] %>
   port: <%= ENV['POSTGRES_1_PORT_5432_TCP_PORT'] %>
