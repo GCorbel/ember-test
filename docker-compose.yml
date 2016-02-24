@@ -6,9 +6,6 @@ api:
     - ./api:/api
     - ./frontend/main:/frontend
     - ./frontend/modules/custom-fields:/custom-fields
-
-  user:
-    docker
   links:
     - redis
     - postgres
