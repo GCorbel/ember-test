@@ -1,0 +1,124 @@
+{{#em-form submitButton=false}}
+  <div class="row">
+    {{#each items as |item|}}
+      <div id="item-{{item.position}}">
+      {{#if (eq item.objectType 'subscription')}}
+        {{#if item.hasToChooseCreator }}
+
+          {{#default-box title=(t 'who-do-you-subscribe') }}
+            <div class="col-md-6">
+              <a class='btn btn-raised btn-default btn-block' {{action 'subscribeMyself' item true }}>
+                {{t "subscribe-myself"}}
+              </a>
+            </div>
+            <div class="col-md-6">
+              <a class='btn btn-raised btn-default btn-block' {{action 'subscribeMyself' item false }}>
+                {{t 'subscribe-someone-else'}}
+              </a>
+            </div>
+          {{/default-box}}
+
+        {{else}}
+          {{#if (and (eq item.creator false) (not-eq myselfSubscribed true) (eq item.position 0))}}
+
+            {{#default-box title=(t 'information-principal-contact')}}
+              <div class='col-md-12'>
+                {{user-form-input property='fullname' item=item}}
+                {{user-form-input property='phone' item=item}}
+                {{user-form-input property='email' item=item}}
+                {{user-form-input property='comments' item=item}}
+              </div>
+            {{/default-box}}
+
+          {{/if}}
+          {{#if (or (eq item.creator false) (eq item.creator true))}}
+            {{#default-box title=(t 'member' fullname=item.fullname)}}
+              <div class='col-md-12'>
+                {{user-form-input property='firstName' item=item}}
+                {{user-form-input property='lastName' item=item}}
+                {{user-form-input property='birthDate' extraClass='date' item=item}}
+                {{user-form-input property='phone' item=item}}
+                {{user-form-input property='email' item=item}}
+                {{em-select canShowErrors=item.visibleErrors.course cid=(concat "subscription" item.position "-course") model=item label=(t 'course') class='form-group label-floating is-empty' property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+                {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') class='form-group label-floating' property="comments"}}
+
+                {{#each env.APP.plugins as |plugin|}}
+                  {{component plugin.component model=item}}
+                {{/each}}
+
+              </div>
+              <div class="col-md-2 pull-right">
+                <a class='btn' {{action 'removeSubscription' item}}>Supprimer</a>
+              </div>
+            {{/default-box}}
+          {{/if}}
+        {{/if}}
+      {{else if (eq item.objectType 'contact')}}
+
+        {{#default-box title=(t 'contact' fullname=item.fullname)}}
+          <div class='col-md-12'>
+            {{user-form-input property='fullname' item=item}}
+            {{user-form-input property='phone' item=item}}
+            {{user-form-input property='email' item=item}}
+            {{user-form-input property='comments' item=item}}
+          </div>
+          <div class="col-md-2 pull-right">
+            <a {{action 'removeContact' item}}>Remove</a>
+          </div>
+        {{/default-box}}
+
+      {{/if}}
+      </div>
+    {{/each}}
+
+    {{#if showFinalOptions class="final-options"}}
+      {{#default-box title=''}}
+        {{#if hasNoContacts }}
+          <div class="row">
+            <div class="col-md-4 has-error">
+              <div class="help-block">
+                Vous devez avoir au moins un contact d'urgence.
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        <div class="row">
+          <div class="col-md-4">
+            <a class="btn btn-raised btn-default btn-block btn-flat" {{action 'addContact'}}>
+              {{t 'add-contact'}}
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a class="btn btn-raised btn-default btn-block btn-flat" {{action 'addSubscription' }}>
+              {{t 'add-subscription'}}
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a class="btn btn-raised btn-primary btn-block btn-flat" {{action 'doShowPaymentOptions' }}>
+              {{t 'finish'}}
+            </a>
+          </div>
+        </div>
+      {{/default-box}}
+    {{/if}}
+
+    {{#if showPaymentOptions class="payment-options"}}
+      {{#default-box title=(t 'payment-options')}}
+        <div class="row">
+          <div class="col-md-12">
+            {{em-select model=owner cid="paymentOption" label=(t 'payment-options') class='form-group label-floating' property="paymentOption" content=paymentOptions propertyIsModel=true optionLabelPath="name"}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <a class="btn btn-raised btn-primary btn-block btn-flat" {{action 'submit'}}>
+              {{t 'finish'}}
+            </a>
+          </div>
+        </div>
+      {{/default-box}}
+    {{/if}}
+
+  </div>
+  {{yield}}
+{{/em-form}}

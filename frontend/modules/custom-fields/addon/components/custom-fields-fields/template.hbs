@@ -1,0 +1,5 @@
+{{#each customFields as |customField|}}
+  {{ component (concat 'em-' customField.type) label=customField.label
+    content=customField.content optionValuePath='value' optionLabelPath='value'
+    model=model property=(concat 'customData.' customField.property) }}
+{{/each}}

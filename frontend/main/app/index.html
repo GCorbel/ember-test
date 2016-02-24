@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tiny</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{content-for 'head'}}
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/tiny.css">
+
+    {{content-for 'head-footer'}}
+    <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+  </head>
+  <body class="skin-red sidebar-mini">
+    <div class="header-panel"></div>
+      {{content-for 'body'}}
+
+    <script src="assets/vendor.js"></script>
+    <script src="assets/tiny.js"></script>
+
+    {{content-for 'body-footer'}}
+  </body>
+</html>

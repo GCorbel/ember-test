@@ -1,0 +1,24 @@
+{{#em-form}}
+  {{#each model as |customField|}}
+    {{#if (eq customField._destroy false)}}
+      <div class="row">
+        <div class="col-sm-4">
+          {{em-input model=customField property='label' label='Label'}}
+        </div>
+        <div class="col-sm-4">
+          {{em-select model=customField property='type' label='Type'
+            content=typeOptions optionValuePath="id" optionLabelPath="name"}}
+        </div>
+        {{#if (eq customField.type 'select')}}
+          <div class="col-sm-4">
+            {{em-input model=customField property='options' label='Options'}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="row">
+        <a {{action 'delete' customField}}>Supprimer</a>
+      </div>
+    {{/if}}
+  {{/each}}
+  <a {{action 'add'}}>Ajouter</a>
+{{/em-form}}

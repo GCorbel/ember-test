@@ -1,0 +1,1 @@
+export { default } from 'custom-fields/components/custom-fields-fields/component';

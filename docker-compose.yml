@@ -1,11 +1,14 @@
 api:
-  build: .
+  build: ./api
   command: bin/rails s -p 5000 -b 0.0.0.0
   working_dir: /api
   volumes:
     - ./api:/api
-    - ./frontend:/frontend
-    - ./custom-fields:/custom-fields
+    - ./frontend/main:/frontend
+    - ./frontend/modules/custom-fields:/custom-fields
+
+  user:
+    docker
   links:
     - redis
     - postgres
@@ -17,13 +20,15 @@ api:
     PUBLISHABLE_KEY: pk_test_sQlqVzfDGPAeGYhYcxWKga2D
 
 frontend:
-  image: tiny_api
+  build: ./frontend
   command: ./node_modules/ember-cli/bin/ember serve -p 4200 --live-reload-port 35729
   working_dir: /frontend
   volumes:
     - ./api:/api
-    - ./frontend:/frontend
-    - ./custom-fields:/custom-fields
+    - ./frontend/main:/frontend
+    - ./frontend/modules/custom-fields:/custom-fields
+  links:
+    - api
   ports:
     - "4200:4200"
     - "35729:35729"

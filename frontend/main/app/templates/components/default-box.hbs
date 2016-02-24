@@ -1,0 +1,19 @@
+<div class="box well bs-component">
+  {{#if (not-eq title '') }}
+    <div class="box-header">
+      <h3 class="box-title">{{title}}</h3>
+    </div>
+  {{/if}}
+  <!-- /.box-header -->
+  <div class="box-body">
+    <div class="dt-bootstrap">
+      <div class="row">
+        <div class="col-md-12">
+          {{yield}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.box-body -->
+</div>
+<!-- /.box -->
