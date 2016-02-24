@@ -16,7 +16,9 @@ RUN \
 	make install
 
 RUN mkdir /frontend
+ADD ./main /frontend
 RUN mkdir /custom-fields
+ADD ./modules/custom-fields /custom-fields
 
 RUN apt-get install wget && wget https://github.com/GCorbel/dotfiles/raw/master/development_docker_install.sh -O - | sh
 
