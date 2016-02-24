@@ -15,10 +15,10 @@ RUN \
 	make &&\
 	make install
 
+RUN mkdir /frontend
+ADD ./main /frontend
+RUN mkdir /custom-fields
 ADD ./modules/custom-fields /custom-fields
-ADD ./main/package.json /frontend/package.json
-ADD ./main/bower.json /frontend/bower.json
-ADD ./modules/custom-fields/package.json /custom-fields/package.json
 
 RUN npm link ../custom-fields
 
