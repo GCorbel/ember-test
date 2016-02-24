@@ -18,8 +18,6 @@ RUN \
 ADD ./modules/custom-fields /custom-fields
 ADD ./main/package.json /frontend/package.json
 ADD ./main/bower.json /frontend/bower.json
-
-RUN mkdir /custom-fields
 ADD ./modules/custom-fields/package.json /custom-fields/package.json
 
 RUN npm link ../custom-fields
