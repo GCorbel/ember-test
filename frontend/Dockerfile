@@ -16,20 +16,7 @@ RUN \
 	make install
 
 RUN mkdir /frontend
-WORKDIR /frontend
-
-ADD ./main/package.json /frontend/package.json
-ADD ./main/bower.json /frontend/bower.json
-ADD ./main/node_modules /frontend/node_modules/
-ADD ./main/bower_components /frontend/bower_components/
-
 RUN mkdir /custom-fields
-ADD ./modules/custom-fields/package.json /custom-fields/package.json
-ADD ./modules/custom-fields /custom-fields
-
-RUN npm link ../custom-fields
-
-ADD ./main /frontend
 
 RUN apt-get install wget && wget https://github.com/GCorbel/dotfiles/raw/master/development_docker_install.sh -O - | sh
 
