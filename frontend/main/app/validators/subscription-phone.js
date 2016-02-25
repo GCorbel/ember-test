@@ -12,10 +12,10 @@ export default Base.extend({
     var phone = this.get('phone');
     if(Ember.isBlank(phone)) {
       if (Ember.isBlank(this.get('email'))) {
-        this.errors.pushObject("must have an email address or a phone number");
+        this.errors.pushObject("doit inclure un numéro de téléphone");
       }
     } else if(!phone.match(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)){
-      this.errors.pushObject("must be formatted like a phone number ( 418 123 1234 )");
+      this.errors.pushObject("doit être formaté comme un numéro de téléphone ( 418 123 1234 )");
     }
   }
 });

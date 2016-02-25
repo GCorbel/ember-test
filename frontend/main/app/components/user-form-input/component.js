@@ -4,10 +4,22 @@ export default Ember.Component.extend({
   property: null,
   item: null,
   extraClass: null,
+  content: null,
+  prompt: ' ',
+  propertyIsModel: true,
+  optionLabelPath: 'name',
+  type: 'em-input',
   checkEmptiness: function() {
     var klass = 'form-group label-floating ' + this.extraClass;
-    if(Ember.isEmpty(this.item.get(this.property))) {
-      klass += ' is-empty';
+
+    if(this.type == 'em-select') {
+      if(Ember.isEmpty(this.item.get(this.property).get(this.optionLabelPath))) {
+        klass += ' is-empty';
+      }
+    } else {
+      if(Ember.isEmpty(this.item.get(this.property))) {
+        klass += ' is-empty';
+      }
     }
     this.set('class', klass);
   },

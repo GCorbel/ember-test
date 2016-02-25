@@ -4,8 +4,7 @@ var Funnel = require('broccoli-funnel');
 // var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
-  });
+  var app = new EmberApp(defaults, {});
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 

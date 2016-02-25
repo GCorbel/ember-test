@@ -39,8 +39,9 @@
                 {{user-form-input property='birthDate' extraClass='date' item=item}}
                 {{user-form-input property='phone' item=item}}
                 {{user-form-input property='email' item=item}}
-                {{em-select canShowErrors=item.visibleErrors.course cid=(concat "subscription" item.position "-course") model=item label=(t 'course') class='form-group label-floating is-empty' property="course" content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
-                {{em-text canShowErrors=item.visibleErrors.comments cid=(concat "subscription" item.position "-comments") model=item label=(t 'comments') class='form-group label-floating' property="comments"}}
+                {{user-form-input type='em-select' property='course' item=item
+                  content=courses prompt=" " propertyIsModel=true optionLabelPath="name"}}
+                {{user-form-input type='em-text' property='comments' item=item}}
 
                 {{#each env.APP.plugins as |plugin|}}
                   {{component plugin.component model=item}}
@@ -63,7 +64,7 @@
             {{user-form-input property='comments' item=item}}
           </div>
           <div class="col-md-2 pull-right">
-            <a {{action 'removeContact' item}}>Remove</a>
+            <a class='btn' {{action 'removeContact' item}}>Supprimer</a>
           </div>
         {{/default-box}}
 
@@ -102,7 +103,7 @@
       {{/default-box}}
     {{/if}}
 
-    {{#if showPaymentOptions class="payment-options"}}
+    {{#if showPaymentOptions class=""}}
       {{#default-box title=(t 'payment-options')}}
         <div class="row">
           <div class="col-md-12">

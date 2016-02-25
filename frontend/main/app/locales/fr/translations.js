@@ -18,4 +18,28 @@ export default {
   "add-subscription": "Ajouter une inscription",
   "finish": "Terminer",
   "payment-options": "Options de paiement",
+  errors: {
+    inclusion: "ne figure pas dans la liste",
+    exclusion: "est réservé",
+    invalid: "est invalide",
+    confirmation: "ne correspond pas à {{attribut}}",
+    accepted: "doit être acceptée",
+    empty: "ne peut pas être vide",
+    blank: "ne peut pas être vide",
+    present: "doit être vide",
+    toolong: "est trop long (maximum est {{count}} caractères)",
+    tooshort: "est trop court (minimum est {{count}} caractères)",
+    wrongLength: "est la bonne longueur (devrait être {{count}} caractères)",
+    notANumber: "est pas un nombre",
+    notAnInteger: "doit être un entier",
+    greaterThan: "doit être supérieur à {{count}}",
+    greaterThanOrEqualTo: "doit être supérieur ou égal à {{count}}",
+    equalTo: "doit être égale à {{count}}",
+    lessThan: "doit être inférieure à {{count}}",
+    lessThanOrEqualTo: "doit être inférieure ou égale à {{count}}",
+    otherThan: "doit être autre que {{count}}",
+    odd: "doit être impair",
+    even: "doit être paire",
+    url: "est pas une URL valide"
+  }
 };

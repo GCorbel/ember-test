@@ -72,5 +72,9 @@ module.exports = function(environment) {
     defaultLocale: 'fr'
   }
 
+  ENV.moment = {
+    includeLocales: ['fr-ca']
+  }
+
   return ENV;
 };

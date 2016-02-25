@@ -1,4 +1,11 @@
-{{em-input model=item label=(t dashProperty) property=property
+{{component type
+  model=item
+  label=(t dashProperty)
+  property=property
   canShowErrors=(get item.visibleErrors property)
   cid=(concat "subscription" item.position "-" dashProperty)
-  class=class}}
+  class=class
+  optionLabelPath=optionLabelPath
+  propertyIsModel=propertyIsModel
+  prompt=prompt
+  content=content}}

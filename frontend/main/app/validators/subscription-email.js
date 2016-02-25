@@ -12,14 +12,14 @@ export default Base.extend({
     var email = this.get('email');
     if(Ember.isBlank(email)) {
       if(this.get('creator')) {
-        this.errors.pushObject("must have an email address");
+        this.errors.pushObject("doit avoir un email");
       } else {
         if (Ember.isBlank(this.get('phone'))) {
-          this.errors.pushObject("must have an email address or a phone number");
+          this.errors.pushObject("doit inclure un numéro de téléphone");
         }
       }
     } else if(!email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)){
-      this.errors.pushObject("must be formatted like an email address");
+      this.errors.pushObject("doit être formatté comme un email");
     }
   }
 });

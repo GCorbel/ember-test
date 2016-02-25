@@ -41,6 +41,7 @@ export default Ember.Route.extend({
     },
     didTransition: function() {
       Ember.run.scheduleOnce('afterRender', this, function(){
+        Ember.$.getScript('https://checkout.stripe.com/checkout.js');
         $.material.init({validate: false})
       });
     }
