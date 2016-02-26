@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  toast: Ember.inject.service(),
   store: Ember.inject.service(),
 
   owner: function() {
@@ -41,11 +42,19 @@ export default Ember.Component.extend({
     $("html, body").animate({ scrollTop: scrollTo }, 'slow');
   },
 
+  focusOnError: function() {
+    Ember.run.scheduleOnce('afterRender', () => {
+      if($('div.form-group.has-error').length > 0) {
+        $('div.form-group.has-error:first input').focus();
+      }
+    });
+  },
+
   scrollOnError: function() {
     Ember.run.scheduleOnce('afterRender', () => {
       if($('div.form-group.has-error').length > 0) {
         var scrollTo = $('div.form-group.has-error:first').offset().top;
-        $("html, body").animate({ scrollTop: scrollTo }, 'slow');
+        $("html, body").animate({ scrollTop: scrollTo - 100 }, 'slow');
       }
     });
   },
@@ -59,6 +68,8 @@ export default Ember.Component.extend({
     }).catch(() => {
       this.get('items').forEach((item) => { item.showErrors(); });
       this.scrollOnError();
+      this.focusOnError();
+      this.get('toast').error('Le formulaire contient des données invalides');
     });
   },
 

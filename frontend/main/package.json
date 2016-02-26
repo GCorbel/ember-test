@@ -26,6 +26,7 @@
     "broccoli-asset-rev": "^2.1.2",
     "broccoli-funnel": "^1.0.1",
     "browserify": "^13.0.0",
+    "custom-fields": "*",
     "ember-cli": "1.13.8",
     "ember-cli-app-version": "0.5.0",
     "ember-cli-babel": "^5.1.3",
@@ -53,12 +54,12 @@
     "ember-rapid-forms": "piceaTech/ember-rapid-forms#master",
     "ember-simple-auth": "1.0.1",
     "ember-sinon": "0.3.0",
+    "ember-toastr": "1.4.0",
     "ember-truth-helpers": "1.2.0",
     "ember-validations": "2.0.0-alpha.4",
     "liquid-fire": "0.23.0",
     "mocha": "^2.3.3",
     "moment": "2.11.1",
-    "moment-timezone": "0.5.0",
-    "custom-fields": "*"
+    "moment-timezone": "0.5.0"
   }
 }
