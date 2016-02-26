@@ -12,7 +12,7 @@ export default Base.extend({
     var phone = this.get('phone');
     if(Ember.isBlank(phone)) {
       if (Ember.isBlank(this.get('email'))) {
-        this.errors.pushObject("doit inclure un numéro de téléphone");
+        this.errors.pushObject("doit inclure un numéro de téléphone ou une adresse de courriel");
       }
     } else if(!phone.match(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)){
       this.errors.pushObject("doit être formaté comme un numéro de téléphone ( 418 123 1234 )");
