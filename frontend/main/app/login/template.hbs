@@ -3,28 +3,30 @@
     <b>Admin</b>LTE
   </div>
   <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">Vous devez vous connecter pour gérer votre association</p>
+    {{#default-box title=''}}
+        <p class="login-box-msg">Vous devez vous connecter pour gérer votre association</p>
 
-    {{#em-form model=model submitButton=false}}
-      {{#if model.errors.length}}
-        {{#each model.errors as |error|}}
-          {{error}}
-        {{/each}}
-      {{/if}}
-      {{em-input label="Email" cid="email" property="email"}}
-      {{em-input model=model label="Mot de passe" cid="password" property="password" type="password"}}
-      <div class="row">
-        <div class="col-xs-8">
-          {{#link-to 'reset_password'}}Mot de passe oublié{{/link-to}}
-        </div>
-        <div class="col-xs-4 pull-right">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Se connecter</button>
-        </div>
-      </div>
-    {{/em-form}}
+        {{#em-form model=model submitButton=false}}
+          {{#if model.errors.length}}
+            {{#each model.errors as |error|}}
+              {{error}}
+            {{/each}}
+          {{/if}}
+          {{em-input label="Email" cid="email" property="email"}}
+          {{em-input model=model label="Mot de passe" cid="password" property="password" type="password"}}
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-block btn-primary btn-raised">Se connecter</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              {{#link-to 'reset_password' class="btn btn-block btn-default btn-raised"}}Mot de passe oublié{{/link-to}}
+            </div>
+          </div>
+        {{/em-form}}
 
+    {{/default-box}}
 
-  </div>
   <!-- /.login-box-body -->
 </div>
