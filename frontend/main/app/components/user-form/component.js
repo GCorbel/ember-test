@@ -67,6 +67,7 @@ export default Ember.Component.extend({
       successCallback();
     }).catch(() => {
       this.get('items').forEach((item) => { item.showErrors(); });
+      this.get('owner').showErrors();
       this.scrollOnError();
       this.focusOnError();
       this.get('toast').error('Le formulaire contient des données invalides');
