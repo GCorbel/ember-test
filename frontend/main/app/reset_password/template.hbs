@@ -4,7 +4,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Vous devez vous connecter pour gérer votre association</p>
 
     {{#em-form model=model submitButton=false}}
       {{#if model.errors.length}}
@@ -15,10 +15,10 @@
       {{em-input model=model label="Email" property="email"}}
       <div class="row">
         <div class="col-xs-6">
-          {{#link-to 'login'}}Sign in{{/link-to}}
+          {{#link-to 'login'}}Se connecter{{/link-to}}
         </div>
         <div class="col-xs-6 pull-right">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Reset Password</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Changer de mot de passe</button>
         </div>
       </div>
     {{/em-form}}

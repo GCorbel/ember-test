@@ -21,7 +21,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li>
-            <a href='#' data-toggle="control-sidebar" {{action 'invalidateSession'}}>Logout</a>
+            <a href='#' data-toggle="control-sidebar" {{action 'invalidateSession'}}>Deconnexion</a>
           </li>
         </ul>
       </div>
@@ -35,14 +35,14 @@
     <section class="sidebar">
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li>{{#link-to 'admin.dashboard'}}<i class="fa fa-link"></i> <span>Dashboard</span>{{/link-to}}</li>
-        <li>{{#link-to 'admin.admin_users'}}<i class="fa fa-link"></i> <span>Administrators</span>{{/link-to}}</li>
-        <li>{{#link-to 'admin.courses'}}<i class="fa fa-link"></i> <span>Courses</span>{{/link-to}}</li>
-        <li>{{#link-to 'admin.subscriptions'}}<i class="fa fa-link"></i> <span>Subscription</span>{{/link-to}}</li>
-        <li>{{#link-to 'admin.newsletter'}}<i class="fa fa-link"></i> <span>Infolettre</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.dashboard'}}<i class="fa fa-tachometer"></i> <span>Tableau de bord</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.admin_users'}}<i class="fa fa-user-secret"></i> <span>Administrateurs</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.courses'}}<i class="fa fa-graduation-cap"></i> <span>Cours</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.subscriptions'}}<i class="fa fa-users"></i> <span>Inscriptions</span>{{/link-to}}</li>
+        <li>{{#link-to 'admin.newsletter'}}<i class="fa fa-envelope"></i> <span>Infolettre</span>{{/link-to}}</li>
         {{#each env.APP.plugins as |plugin|}}
           {{#each plugin.routes as |route|}}
-            <li>{{#link-to route.route}}<i class="fa fa-link"></i> <span>{{route.label}}</span>{{/link-to}}</li>
+            <li>{{#link-to route.route}}<i class="fa fa-plus"></i> <span>{{route.label}}</span>{{/link-to}}</li>
           {{/each}}
         {{/each}}
 
@@ -67,12 +67,8 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <!-- To the right -->
-    <div class="pull-right hidden-xs">
-      Anything you want
-    </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2015 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright © 2016 Epoksy.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

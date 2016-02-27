@@ -4,7 +4,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Connecter vous pour gerer votre association</p>
 
     {{#em-form model=model submitButton=false}}
       {{#if model.errors.length}}
@@ -12,14 +12,14 @@
           {{error}}
         {{/each}}
       {{/if}}
-      {{em-input model=model label="Password" property="password" type="password"}}
+      {{em-input model=model label="Mote de passe" property="password" type="password"}}
       {{em-input model=model label="Confirmation" property="password_confirmation" type="password"}}
       <div class="row">
         <div class="col-xs-6">
-          {{#link-to 'login'}}Sign in{{/link-to}}
+          {{#link-to 'login'}}Se connecter{{/link-to}}
         </div>
         <div class="col-xs-6 pull-right">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Change Password</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Changer de mot de passe</button>
         </div>
       </div>
     {{/em-form}}

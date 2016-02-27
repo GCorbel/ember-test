@@ -1,64 +1,48 @@
 {{#default-box title=model.fullname}}
   <div class="form-group">
-    <label class="control-label">Phone</label>
-    <div>{{model.phone}}</div>
+    <label class="control-label">Nom</label>
+    <div>{{model.fullname}}</div>
   </div>
   <div class="form-group">
     <label class="control-label">Email</label>
     <div>{{model.email}}</div>
   </div>
   <div class="form-group">
-    <label class="control-label">Phone</label>
+    <label class="control-label">Téléphone</label>
     <div>{{model.phone}}</div>
   </div>
   <div class="form-group">
-    <label class="control-label">Paid</label>
-    <div>{{model.paid}}</div>
-  </div>
-  <div class="form-group">
-    <label class="control-label">Comments</label>
+    <label class="control-label">Commentaires</label>
     <div>{{model.comments}}</div>
   </div>
+{{/default-box}}
+{{#default-box title='Contacts'}}
   <table class="table table-bordered table-hover" role="grid">
     <thead>
       <tr role="row">
-        <th>Id</th>
-        <th>Fullname</th>
-        <th>Phone</th>
+        <th>Nom</th>
         <th>Email</th>
+        <th>Téléphone</th>
+        <th>Commentaires</th>
       </tr>
     </thead>
     <tbody>
-      {{#each model.contacts as |contact|}}
-        <tr role="row">
+      {{#each model.contacts as |contact i|}}
+        <tr>
           <td>
-            {{record.id}}
+            {{contact.fullname}}
           </td>
           <td>
-            {{record.fullname}}
+            {{contact.email}}
           </td>
           <td>
-            {{record.phone}}
+            {{contact.phone}}
           </td>
           <td>
-            {{record.email}}
-          </td>
-        </tr>
-      {{else}}
-        <tr role="row">
-          <td colspan=4>
-            No contacts
+            {{contact.comments}}
           </td>
         </tr>
       {{/each}}
     </tbody>
-    <tfoot>
-      <tr>
-        <th>Id</th>
-        <th>Fullname</th>
-        <th>Phone</th>
-        <th>Email</th>
-      </tr>
-    </tfoot>
   </table>
 {{/default-box}}

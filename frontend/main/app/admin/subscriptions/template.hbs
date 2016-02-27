@@ -5,7 +5,7 @@
   <thead>
     <tr role="row">
       <th>Id</th>
-      <th>Course</th>
+      <th>Cours</th>
       <th>Email</th>
       <th>Actions</th>
     </tr>
@@ -39,19 +39,11 @@
       {{/unless}}
     {{/each}}
   </tbody>
-  <tfoot>
-    <tr>
-      <th>Id</th>
-      <th>Course</th>
-      <th>Email</th>
-      <th>Actions</th>
-    </tr>
-  </tfoot>
 </table>
 {{/default-box}}
 </div>
 </div>
 {{#link-to 'admin.subscriptions.new' class="btn btn-success"}}
-  <span class="glyphicon glyphicon-plus"/> Create new subscription
+  <span class="glyphicon glyphicon-plus"/> Ajouter une inscription
 {{/link-to}}
 {{outlet}}

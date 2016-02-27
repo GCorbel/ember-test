@@ -1,15 +1,14 @@
 <h1>
   {{model.name}}
 </h1>
-{{#default-box title="Subscription"}}
+{{#default-box title="Inscription"}}
 <table class="table table-bordered table-hover" role="grid">
   <thead>
     <tr role="row">
       <th>Id</th>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Prénom</th>
+      <th>Nom</th>
       <th>Email</th>
-      <th>Paid</th>
     </tr>
   </thead>
   <tbody>
@@ -33,20 +32,8 @@
             {{subscription.email}}
           {{/link-to}}
         </td>
-        <td>
-          {{subscription.paid}}
-        </td>
       </tr>
     {{/each}}
   </tbody>
-  <tfoot>
-    <tr>
-      <th>Id</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Paid</th>
-    </tr>
-  </tfoot>
 </table>
 {{/default-box}}

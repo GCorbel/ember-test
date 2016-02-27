@@ -1,11 +1,13 @@
-{{#em-form model=model}}
-  {{em-input property='title' label='Titre'}}
-  {{#em-custom-input label='Courses' property='courses'}}
-    {{#power-select-multiple options=courses selected=selectedCourses onchange=(action (mut model.selectedCourses)) as |selectedCourse|}}
-      {{selectedCourse.name}}
-    {{/power-select-multiple}}
-  {{/em-custom-input}}
-  {{#em-custom-input label='Message' property='body'}}
-    {{summer-note content=model.body btnSize=bs-sm airMode=false }}
-  {{/em-custom-input}}
-{{/em-form}}
+{{#default-box title='Infolettre'}}
+  {{#em-form model=model}}
+    {{em-input property='title' label='Titre'}}
+    {{#em-custom-input label='Cours' property='courses'}}
+      {{#power-select-multiple options=courses selected=selectedCourses onchange=(action (mut model.selectedCourses)) as |selectedCourse|}}
+        {{selectedCourse.name}}
+      {{/power-select-multiple}}
+    {{/em-custom-input}}
+    {{#em-custom-input label='Message' property='body'}}
+      {{summer-note content=model.body btnSize=bs-sm airMode=false }}
+    {{/em-custom-input}}
+  {{/em-form}}
+{{/default-box}}

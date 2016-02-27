@@ -1,24 +1,38 @@
-{{#em-form}}
-  {{#each model as |customField|}}
-    {{#if (eq customField._destroy false)}}
-      <div class="row">
-        <div class="col-sm-4">
-          {{em-input model=customField property='label' label='Label'}}
-        </div>
-        <div class="col-sm-4">
-          {{em-select model=customField property='type' label='Type'
-            content=typeOptions optionValuePath="id" optionLabelPath="name"}}
-        </div>
-        {{#if (eq customField.type 'select')}}
-          <div class="col-sm-4">
-            {{em-input model=customField property='options' label='Options'}}
+{{#default-box title='Personalisation des informations des membres'}}
+  {{#em-form submitButton=false}}
+    {{#each model as |customField index|}}
+      {{#if (eq customField._destroy false)}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            {{if customField.label customField.label 'Champs Sans nom'}}
+            ( <a {{action 'delete' customField}} >Supprimer</a> )
           </div>
-        {{/if}}
+          <div class="panel-body">
+            <div class="col-sm-4">
+              {{em-input model=customField property='label' label='Label'}}
+            </div>
+            <div class="col-sm-4">
+              {{em-select model=customField property='type' label='Type'
+              content=typeOptions optionValuePath="id" optionLabelPath="name"}}
+            </div>
+            {{#if (eq customField.type 'select')}}
+              <div class="col-sm-4">
+                {{em-input model=customField property='options' label='Options'}}
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      {{/if}}
+    {{/each}}
+    <div class="row">
+      <div class="col-md-12">
+        <a {{action 'add'}}>Ajouter un champ</a>
       </div>
-      <div class="row">
-        <a {{action 'delete' customField}}>Supprimer</a>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <a {{action 'submit'}} class='btn btn-raised btn-primary'>Valider</a>
       </div>
-    {{/if}}
-  {{/each}}
-  <a {{action 'add'}}>Ajouter</a>
-{{/em-form}}
+    </div>
+  {{/em-form}}
+{{/default-box}}
