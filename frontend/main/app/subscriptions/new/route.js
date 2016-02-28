@@ -15,7 +15,7 @@ export default Ember.Route.extend({
   },
   actions: {
     submit: function(subscriptions, contacts, owner) {
-      var prices = subscriptions.mapBy('course.price');
+      var prices = subscriptions.mapBy('course.priceInCents');
       var price = prices.reduce((a, b) => a + b, 0);
       var checkout = StripeCheckout.configure({
         key: "pk_test_sQlqVzfDGPAeGYhYcxWKga2D",

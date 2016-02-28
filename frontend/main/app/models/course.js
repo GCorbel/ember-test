@@ -4,6 +4,9 @@ import VisibleErrors from '../mixins/visible-errors';
 
 export default DS.Model.extend(EmberValidations, VisibleErrors, {
   name: DS.attr(),
+  priceInCents: Ember.computed('price', function() {
+    return this.get('price') * 100;
+  }),
   price: DS.attr('number'),
   nbPlaces: DS.attr('number'),
   subscriptions: DS.hasMany('subscription'),
