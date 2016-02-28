@@ -21,7 +21,8 @@
     "sinonjs": "~1.17.1",
     "summernote": "~0.7.0",
     "bootstrap-material-design": "^0.5.8",
-    "toastr": "~2.1.2"
+    "toastr": "~2.1.2",
+    "bootstrap-datepicker": "~1.6.0"
   },
   "resolutions": {
     "ember": "~2.3.0",

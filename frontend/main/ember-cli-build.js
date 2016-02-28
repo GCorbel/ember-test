@@ -29,9 +29,9 @@ module.exports = function(defaults) {
   app.import('./bower_components/bootstrap-material-design/dist/js/material.js')
   app.import('./bower_components/bootstrap-material-design/dist/js/ripples.js')
 
-  app.import('./vendor/js/bootstrap-material-datetimepicker.js')
-  app.import('./vendor/css/bootstrap-material-datetimepicker.css')
-  app.import('./vendor/font/Material-Design-Icons.eot')
+  app.import('./vendor/js/bootstrap-datepicker.js')
+  app.import('./vendor/js/bootstrap-datepicker.fr.min.js')
+  app.import('./vendor/css/bootstrap-datepicker.css')
 
   return app.toTree();
 };

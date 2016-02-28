@@ -25,7 +25,7 @@ export default Ember.Component.extend({
 
   addDatePicker: function() {
     Ember.run.scheduleOnce('afterRender', () => {
-      $('.date input').bootstrapMaterialDatePicker({ weekStart : 0, time: false, format: 'DD-MM-YYYY', lang: 'fr-ca'});
+      $('.date input').datepicker({weekStart:0, language: 'fr'});
     });
   },
 
