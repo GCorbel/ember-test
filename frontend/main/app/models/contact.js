@@ -11,7 +11,9 @@ export default DS.Model.extend(EmberValidations, VisibleErrors, {
   _destroy: DS.attr('boolean', { defaultValue: false }),
   validations: {
     fullname: { presence: true },
-    phone: { subscriptionPhone: true },
-    email: { subscriptionEmail: true },
+    phone: {
+      presence: true,
+      format: { with: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/, allowBlank: false, message: 'doit être formaté comme un numéro de téléphone ( 418 123 1234 )'  }
+    },
   }
 });
