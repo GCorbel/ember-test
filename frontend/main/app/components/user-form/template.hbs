@@ -27,6 +27,14 @@
                 {{user-form-input property='phone' item=owner}}
                 {{user-form-input property='email' item=owner}}
                 {{user-form-input property='comments' item=owner}}
+                <div class="form-group">
+                  <div class="checkbox">
+                    <label>
+                      {{input type='checkbox' checked=owner.isEmergency}}
+                      <span class="checkbox-material"><span class="check"></span></span> Je suis un contact d'urgence
+                    </label>
+                  </div>
+                </div>
               </div>
             {{/default-box}}
 

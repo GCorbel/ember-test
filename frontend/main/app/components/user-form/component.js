@@ -7,6 +7,14 @@ export default Ember.Component.extend({
   owner: function() {
     var owner = this.get('store').createRecord('contact');
     owner.set('paymentOption', this.get('paymentOptions.firstObject'));
+    owner.set('isEmergency', false);
+    owner.addObserver('isEmergency', () => {
+      if(owner.get('isEmergency')) {
+        this.get('contacts').pushObject(owner);
+      } else {
+        this.get('contacts').removeObject(owner);
+      }
+    });
     return owner;
   }.property('owner'),
 
